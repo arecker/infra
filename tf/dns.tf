@@ -522,6 +522,135 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_soa" {
   ]
 }
 
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_mx" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "tranquilitydesignsmn.com"
+  type    = "MX"
+  ttl     = "3600"
+  records = [
+    "10 mx1.privateemail.com",
+    "10 mx2.privateemail.com"
+
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_txt" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "tranquilitydesignsmn.com"
+  type    = "TXT"
+  ttl     = "3600"
+  records = [
+    "v=spf1 include:spf.privateemail.com ~all",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_mail" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "mail.tranquilitydesignsmn.com"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "privateemail.com",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_autodiscover" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "autodiscover.tranquilitydesignsmn.com"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "privateemail.com",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_autoconfig" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "autoconfig.tranquilitydesignsmn.com"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "privateemail.com",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_srv" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "_autodiscover._tcp.tranquilitydesignsmn.com"
+  type    = "SRV"
+  ttl     = "60"
+  records = [
+    "0 0 443 privateemail.com",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_ssl0" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "_558238ef010d11dbe632d392943988d5.tranquilitydesignsmn.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_7316d0699714bf38571ab2e0610cd2f8.acm-validations.aws.",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_ssl1" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "_e1bf33ddf9b6f9d90fd6812be7437d9e.www.tranquilitydesignsmn.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_66f1c0e425905e885823c1bfa6b38783.acm-validations.aws.",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_ssl2" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "_5bfba514fa57efad86cc0f606c890464.api.tranquilitydesignsmn.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_e8fb87937c1cf4f5a6fa7dd3097368c3.acm-validations.aws.",
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_www" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "www.tranquilitydesignsmn.com."
+  type    = "A"
+  
+  alias {
+    name		   = "d2yuq653oms14x.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "api.tranquilitydesignsmn.com."
+  type    = "A"
+  
+  alias {
+    name		   = "dyjobn5aj21lk.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_a" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "tranquilitydesignsmn.com."
+  type    = "A"
+  
+  alias {
+    name		   = "dg1hw91licdcu.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+
 ###################
 # sarahrecker.com #
 ###################
@@ -552,3 +681,23 @@ resource "aws_route53_record" "sarahrecker_dot_com_soa" {
     "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
 }
+
+resource "aws_route53_record" "sarahrecker_dot_com_www" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "sarahrecker.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+resource "aws_route53_record" "sarahrecker_dot_com_www" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "sarahrecker.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
