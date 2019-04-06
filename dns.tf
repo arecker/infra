@@ -2,6 +2,10 @@
 # alexandmarissa.com #
 ######################
 
+resource "aws_route53_zone" "alexandmarissa_dot_com" {
+  name = "alexandmarissa.com."
+}
+
 resource "aws_route53_record" "alexandmarissa_dot_com_ns" {
   zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
   name    = "alexandmarissa.com"
@@ -134,6 +138,10 @@ resource "aws_route53_record" "alexandmarissa_dot_com_www" {
 # astuaryart.com #
 ##################
 
+resource "aws_route53_zone" "astuaryart_dot_com" {
+  name = "astuaryart.com."
+}
+
 resource "aws_route53_record" "astuaryart_dot_com_ns" {
   zone_id = "${aws_route53_zone.astuaryart_dot_com.zone_id}"
   name    = "astuaryart.com"
@@ -193,6 +201,10 @@ resource "aws_route53_record" "astuaryart_dot_com_www" {
 ##################
 # alexrecker.com #
 ##################
+
+resource "aws_route53_zone" "alexrecker_dot_com" {
+  name = "alexrecker.com."
+}
 
 resource "aws_route53_record" "alexrecker_dot_com_ns" {
   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
@@ -287,6 +299,10 @@ resource "aws_route53_record" "alexrecker_dot_com_ssl3" {
 # bobrosssearch.com #
 #####################
 
+resource "aws_route53_zone" "bobrosssearch_dot_com" {
+  name = "bobrosssearch.com."
+}
+
 resource "aws_route53_record" "bobrosssearch_dot_com_ns" {
   zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
   name    = "bobrosssearch.com"
@@ -357,6 +373,9 @@ resource "aws_route53_record" "bobrosssearch_dot_com_ssl1" {
 ####################
 # reckerfamily.com #
 ####################
+resource "aws_route53_zone" "reckerfamily_dot_com" {
+  name = "reckerfamily.com."
+}
 
 resource "aws_route53_record" "reckerfamily_dot_com_ns" {
   zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
@@ -392,5 +411,98 @@ resource "aws_route53_record" "reckerfamily_dot_com_mx" {
     "10 ALT3.ASPMX.L.GOOGLE.COM.",
     "5 ALT1.ASPMX.L.GOOGLE.COM.",
     "1 ASPMX.L.GOOGLE.COM."
+  ]
+}
+
+#######################
+# fromdirktolight.com #
+#######################
+
+resource "aws_route53_zone" "fromdirktolight_dot_com" {
+  name = "fromdirktolight.com."
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_ns" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "fromdirktolight.com"
+  type    = "NS"
+  ttl     = "172800"
+  records = [
+    "ns-1231.awsdns-25.org.",
+    "ns-62.awsdns-07.com.",
+    "ns-1004.awsdns-61.net.",
+    "ns-1742.awsdns-25.co.uk."
+  ]
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "fromdirktolight.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-1004.awsdns-61.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+############################
+# tranquilitydesignsmn.com #
+############################
+
+resource "aws_route53_zone" "tranquilitydesignsmn_dot_com" {
+  name = "tranquilitydesignsmn.com."
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_ns" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "tranquilitydesignsmn.com"
+  type    = "NS"
+  ttl     = "172800"
+  records = [
+    "ns-1990.awsdns-56.co.uk.",
+    "ns-39.awsdns-04.com.",
+    "ns-769.awsdns-32.net.",
+    "ns-1227.awsdns-25.org."
+  ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_soa" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "tranquilitydesignsmn.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-1990.awsdns-56.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+###################
+# sarahrecker.com #
+###################
+
+resource "aws_route53_zone" "sarahrecker_dot_com" {
+  name = "sarahrecker.com."
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_ns" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "sarahrecker.com"
+  type    = "NS"
+  ttl     = "172800"
+  records = [
+    "ns-632.awsdns-15.net.",
+    "ns-1949.awsdns-51.co.uk.",
+    "ns-209.awsdns-26.com.",
+    "ns-1153.awsdns-16.org."
+  ]
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_soa" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "sarahrecker.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
 }
