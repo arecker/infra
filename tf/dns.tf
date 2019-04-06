@@ -684,20 +684,110 @@ resource "aws_route53_record" "sarahrecker_dot_com_soa" {
 
 resource "aws_route53_record" "sarahrecker_dot_com_www" {
   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "sarahrecker.com"
-  type    = "SOA"
-  ttl     = "900"
-  records = [
-    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-  ]
+  name    = "www.sarahrecker.com"
+  type    = "A"
+
+  alias {
+    name		   = "d4xdd2h2u5l7f.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
 }
-resource "aws_route53_record" "sarahrecker_dot_com_www" {
+
+resource "aws_route53_record" "sarahrecker_dot_com_a" {
   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
   name    = "sarahrecker.com"
-  type    = "SOA"
-  ttl     = "900"
+  type    = "A"
+  
+  alias {
+    name		   = "d1f8nrarxovqty.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_scrabble" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "scrabble.sarahrecker.com"
+  type    = "A"
+  
+  alias {
+    name		   = "difhkd31sdw77.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_blog" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "blog.sarahrecker.com"
+  type    = "A"
+  
+  alias {
+    name		   = "d23ncahpyaiu9j.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_api" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "api.sarahrecker.com"
+  type    = "A"
+  
+  alias {
+    name		   = "d3izg8jazddalu.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_ssl0" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "_a904d2f1c37e9ed523909903104e2f4f.sarahrecker.com."
+  type    = "CNAME"
+  ttl     = "60"
   records = [
-    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+    "_c55fcb6d34cbd7fae0fd2dd3ebe57349.acm-validations.aws."
   ]
 }
 
+resource "aws_route53_record" "sarahrecker_dot_com_ssl1" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "_65aa3f939c04fc0ba16c47b7f32380bc.api.sarahrecker.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_4c3d9f0d2edd74694cdcc7c3026ea0c8.acm-validations.aws."
+  ]
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_ssl2" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "_8a25dcb0990177b5dc4abc65c00d4aad.blog.sarahrecker.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_0d9318ed6bee8625c5ccf4fc53a77e87.acm-validations.aws."
+  ]
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_ssl3" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "_ef5a516a3c3d85fbef582251d326ab25.scrabble.sarahrecker.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_347230f0b7e6715ad4114a103a51ef5b.acm-validations.aws."
+  ]
+}
+
+resource "aws_route53_record" "sarahrecker_dot_com_ssl4" {
+  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+  name    = "_85dbd81e1ba1f2f4787472ded24d2579.www.sarahrecker.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_e971b76034430720efb59876fa9dffb7.acm-validations.aws."
+  ]
+}
