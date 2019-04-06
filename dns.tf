@@ -353,3 +353,44 @@ resource "aws_route53_record" "bobrosssearch_dot_com_ssl1" {
     "_6568253aebf6762a52c4a3aff694cdfa.acm-validations.aws."
   ]
 }
+
+####################
+# reckerfamily.com #
+####################
+
+resource "aws_route53_record" "reckerfamily_dot_com_ns" {
+  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
+  name    = "reckerfamily.com"
+  type    = "NS"
+  ttl     = "172800"
+  records = [
+    "ns-215.awsdns-26.com.",
+    "ns-760.awsdns-31.net.",
+    "ns-1593.awsdns-07.co.uk.",
+    "ns-1173.awsdns-18.org."
+  ]
+}
+
+resource "aws_route53_record" "reckerfamily_dot_com_soa" {
+  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
+  name    = "reckerfamily.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-215.awsdns-26.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+resource "aws_route53_record" "reckerfamily_dot_com_mx" {
+  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
+  name    = "reckerfamily.com"
+  type    = "MX"
+  ttl     = "3600"
+  records = [
+    "5 ALT2.ASPMX.L.GOOGLE.COM.",
+    "10 ALT4.ASPMX.L.GOOGLE.COM.",
+    "10 ALT3.ASPMX.L.GOOGLE.COM.",
+    "5 ALT1.ASPMX.L.GOOGLE.COM.",
+    "1 ASPMX.L.GOOGLE.COM."
+  ]
+}
