@@ -445,6 +445,52 @@ resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
   ]
 }
 
+resource "aws_route53_record" "fromdirktolight_dot_com_a" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "fromdirktolight.com."
+  type    = "A"
+  
+  alias {
+    name		   = "d10wa54uok5gih.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_www" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "www.fromdirktolight.com."
+  type    = "A"
+  
+  alias {
+    name		   = "d9c0iecujw0rs.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_ssl0" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "_e06a65824a8d684f9400acb0a4c1aff3.fromdirktolight.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_8b600fdb543c05bf2002a0037ef80f0e.acm-validations.aws."
+  ]
+}
+
+
+resource "aws_route53_record" "fromdirktolight_dot_com_ssl1" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "_e979a33ba9a26bb4378b1ed420c9b574.www.fromdirktolight.com"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_b354d4481e1216fd9cf6a283a4d5d8ef.acm-validations.aws."
+  ]
+}
+
+
 ############################
 # tranquilitydesignsmn.com #
 ############################
