@@ -282,3 +282,74 @@ resource "aws_route53_record" "alexrecker_dot_com_ssl3" {
     "_e27ab6998cc5d6cfbf6cdd97f8b1f03b.acm-validations.aws."
   ]
 }
+
+#####################
+# bobrosssearch.com #
+#####################
+
+resource "aws_route53_record" "bobrosssearch_dot_com_ns" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "bobrosssearch.com"
+  type    = "NS"
+  ttl     = "172800"
+  records = [
+    "ns-1700.awsdns-20.co.uk.",
+    "ns-601.awsdns-11.net.",
+    "ns-405.awsdns-50.com.",
+    "ns-1249.awsdns-28.org."
+  ]
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_soa" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "bobrosssearch.com"
+  type    = "SOA"
+  ttl     = "900"
+  records = [
+    "ns-405.awsdns-50.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_a" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "bobrosssearch.com."
+  type    = "A"
+  
+  alias {
+    name		   = "d1a95v21kdxtjw.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_www" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "www.bobrosssearch.com."
+  type    = "A"
+  
+  alias {
+    name		   = "d3snz2qkf290ka.cloudfront.net."
+    zone_id		   = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_ssl0" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "_73a1a2bde3ada19783c8874703f40178.bobrosssearch.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_ecb5d704f17adb5734597fc095a0f621.acm-validations.aws."
+  ]
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_ssl1" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "_4c1fa76ab065386305f88408b1c5a110.www.bobrosssearch.com."
+  type    = "CNAME"
+  ttl     = "60"
+  records = [
+    "_6568253aebf6762a52c4a3aff694cdfa.acm-validations.aws."
+  ]
+}
