@@ -16,3 +16,8 @@ resource "aws_route53_record" "cert" {
   records = ["${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)}"]
   ttl     = 60
 }
+
+resource "aws_acm_certificate_validation" "cert" {
+  certificate_arn         = "${aws_acm_certificate.cert.arn}"
+  validation_record_fqdns = "${aws_route53_record.cert.*.fqdn}"
+}
