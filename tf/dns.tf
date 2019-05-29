@@ -199,34 +199,23 @@ resource "aws_route53_record" "alexrecker_dot_com_demo" {
   }
 }
 
-resource "aws_route53_record" "alexrecker_dot_com_ssl0" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "_1ec36ef1d8d85f92e9b8e6fba66407d7.alexrecker.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "_64b801e8f440524c6bfb33589ce46672.acm-validations.aws."
-  ]
+module "alexrecker_dot_com_cert" {
+  source      = "./modules/cert"
+  zone_name   = "alexrecker.com."
+  domain_name = "alexrecker.com."
+  alts	      = ["www.alexrecker.com."]
+  providers   = {
+    aws = "aws.virginia"
+  }
 }
 
-resource "aws_route53_record" "alexrecker_dot_com_ssl1" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "_6d3bd331262ba8fa1942cb67364a1c0a.www.alexrecker.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "_d6c6054ce0d03e793a4f0b1d59a25eda.acm-validations.aws."
-  ]
-}
-
-resource "aws_route53_record" "alexrecker_dot_com_ssl3" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "_51f80347a1363e6bb9cbf7747e20c100.demo.alexrecker.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "_e27ab6998cc5d6cfbf6cdd97f8b1f03b.acm-validations.aws."
-  ]
+module "alexrecker_dot_com_demo_cert" {
+  source      = "./modules/cert"
+  zone_name   = "alexrecker.com."
+  domain_name = "demo.alexrecker.com."
+  providers   = {
+    aws = "aws.virginia"
+  }
 }
 
 #####################
