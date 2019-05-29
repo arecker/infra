@@ -1,0 +1,24 @@
+resource "aws_s3_bucket" "bucket" {
+  bucket_prefix = "${var.prefix}"
+
+  website {
+    index_document = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = "${aws_s3_bucket.bucket.id}"
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Effect": "Allow",
+      "Resource": "${aws_s3_bucket.bucket.arn}/*"
+    }
+  ]
+}
+POLICY
+}
