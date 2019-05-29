@@ -286,6 +286,7 @@ module "bobrosssearch_dot_com_cert" {
 ####################
 # reckerfamily.com #
 ####################
+
 resource "aws_route53_zone" "reckerfamily_dot_com" {
   name = "reckerfamily.com."
 }
