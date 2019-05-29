@@ -29,25 +29,9 @@ resource "aws_route53_record" "alexandmarissa_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "alexandmarissa_dot_com_txt" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com"
-  type    = "TXT"
-  ttl     = "3600"
-  records = [
-    "v=spf1 include:spf.privateemail.com ~all"
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_mx" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com"
-  type    = "MX"
-  ttl     = "3600"
-  records = [
-    "10 mx1.privateemail.com",
-    "10 mx2.privateemail.com"
-  ]
+module "alexandmarissa_dot_com_privateemail" {
+  source = "./modules/privateemail"
+  zone_name = "alexandmarissa.com."
 }
 
 resource "aws_route53_record" "alexandmarissa_dot_com_ssl0" {
@@ -67,46 +51,6 @@ resource "aws_route53_record" "alexandmarissa_dot_com_ssl1" {
   ttl     = "60"
   records = [
     "_abbebe22d46fd26c148e84464fd92d94.acm-validations.aws."
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_srv" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "_autodiscover._tcp.alexandmarissa.com."
-  type    = "SRV"
-  ttl     = "60"
-  records = [
-    "0 0 443 privateemail.com"
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_autoconfig" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "autoconfig.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com"
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_autodiscover" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "autodiscover.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com"
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_mail" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "mail.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com"
   ]
 }
 
@@ -522,66 +466,9 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_mx" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "tranquilitydesignsmn.com"
-  type    = "MX"
-  ttl     = "3600"
-  records = [
-    "10 mx1.privateemail.com",
-    "10 mx2.privateemail.com"
-
-  ]
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_txt" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "tranquilitydesignsmn.com"
-  type    = "TXT"
-  ttl     = "3600"
-  records = [
-    "v=spf1 include:spf.privateemail.com ~all",
-  ]
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_mail" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "mail.tranquilitydesignsmn.com"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com",
-  ]
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_autodiscover" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "autodiscover.tranquilitydesignsmn.com"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com",
-  ]
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_autoconfig" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "autoconfig.tranquilitydesignsmn.com"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "privateemail.com",
-  ]
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_srv" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "_autodiscover._tcp.tranquilitydesignsmn.com"
-  type    = "SRV"
-  ttl     = "60"
-  records = [
-    "0 0 443 privateemail.com",
-  ]
+module "tranquilitydesignsmn_dot_com_privateemail" {
+  source = "./modules/privateemail"
+  zone_name = "tranquilitydesignsmn.com."
 }
 
 resource "aws_route53_record" "tranquilitydesignsmn_dot_com_ssl0" {
