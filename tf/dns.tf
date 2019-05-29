@@ -344,18 +344,9 @@ resource "aws_route53_record" "reckerfamily_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "reckerfamily_dot_com_mx" {
-  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
-  name    = "reckerfamily.com"
-  type    = "MX"
-  ttl     = "3600"
-  records = [
-    "5 ALT2.ASPMX.L.GOOGLE.COM.",
-    "10 ALT4.ASPMX.L.GOOGLE.COM.",
-    "10 ALT3.ASPMX.L.GOOGLE.COM.",
-    "5 ALT1.ASPMX.L.GOOGLE.COM.",
-    "1 ASPMX.L.GOOGLE.COM."
-  ]
+module "reckerfamily_dot_com_gmail" {
+  source = "./modules/gmail"
+  zone_name = "reckerfamily.com."
 }
 
 #######################
