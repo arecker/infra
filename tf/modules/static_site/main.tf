@@ -1,8 +1,10 @@
 resource "aws_s3_bucket" "bucket" {
+  acl	        = ""
   bucket_prefix = "${var.prefix}"
 
   website {
     index_document = "index.html"
+    routing_rules  = "${var.routing_rules}"
   }
 }
 

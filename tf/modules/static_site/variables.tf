@@ -14,3 +14,8 @@ variable "domain_name" {
 variable "redirect_domain_names" {
   default = []
 }
+
+variable "routing_rules" {
+  type = string
+  default = ""
+}
