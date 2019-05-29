@@ -34,24 +34,14 @@ module "alexandmarissa_dot_com_privateemail" {
   zone_name = "alexandmarissa.com."
 }
 
-resource "aws_route53_record" "alexandmarissa_dot_com_ssl0" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "_9b6c62a54140cc353201d576344dc5e9.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "_63370ee7158160fd2dad2102d377c786.acm-validations.aws."
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_ssl1" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "_8975bb72445a03cb2eac785db02df900.www.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "60"
-  records = [
-    "_abbebe22d46fd26c148e84464fd92d94.acm-validations.aws."
-  ]
+module "alexandmarissa_dot_com_cert" {
+  source      = "./modules/cert"
+  zone_name   = "alexandmarissa.com."
+  domain_name = "www.alexandmarissa.com."
+  alts	      = ["alexandmarissa.com."]
+  providers   = {
+    aws = "aws.virginia"
+  }
 }
 
 resource "aws_route53_record" "alexandmarissa_dot_com_a" {
