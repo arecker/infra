@@ -24,3 +24,12 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 }
 POLICY
 }
+
+resource "aws_s3_bucket" "redirect" {
+  count = "${length(var.redirect_domain_names)}"
+  acl   = ""
+
+  website {
+    redirect_all_requests_to = "https://${var.domain_name}"
+  }
+}
