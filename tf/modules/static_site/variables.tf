@@ -11,6 +11,10 @@ variable "domain_name" {
   type = string
 }
 
+variable "cert_arn" {
+  type = string
+}
+
 variable "redirect_domain_names" {
   default = []
 }

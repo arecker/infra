@@ -163,30 +163,6 @@ resource "aws_route53_record" "alexrecker_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "alexrecker_dot_com_a" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "alexrecker.com."
-  type    = "A"
-  
-  alias {
-    name		   = "d1bfi2q3w1ea6p.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "alexrecker_dot_com_www" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "www.alexrecker.com."
-  type    = "A"
-  
-  alias {
-    name		   = "d379b797q706o3.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
 resource "aws_route53_record" "alexrecker_dot_com_demo" {
   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
   name    = "demo.alexrecker.com."
