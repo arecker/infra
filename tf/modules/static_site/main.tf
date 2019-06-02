@@ -84,6 +84,7 @@ resource "aws_route53_record" "record" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
   name    = "${var.domain_name}."
   type    = "A"
+  allow_overwrite = true
   
   alias {
     name		   = "${aws_cloudfront_distribution.distribution.domain_name}"
@@ -158,7 +159,7 @@ resource "aws_route53_record" "redirect_record" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
   name    = "${element(var.redirect_domain_names, count.index)}."
   type    = "A"
-  
+  allow_overwrite = true
   alias {
     name		   = "${element(aws_cloudfront_distribution.redirect_distribution.*.domain_name, count.index)}"
     zone_id		   = "Z2FDTNDATAQYW2"

@@ -34,39 +34,29 @@ module "alexandmarissa_dot_com_privateemail" {
   zone_name = "alexandmarissa.com."
 }
 
-module "alexandmarissa_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "alexandmarissa.com."
-  domain_name = "www.alexandmarissa.com."
-  alts	      = ["alexandmarissa.com."]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_a" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com."
-  type    = "A"
+# resource "aws_route53_record" "alexandmarissa_dot_com_a" {
+#   zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
+#   name    = "alexandmarissa.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d3btgoohyfvuql.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d3btgoohyfvuql.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "alexandmarissa_dot_com_www" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "www.alexandmarissa.com."
-  type    = "A"
+# resource "aws_route53_record" "alexandmarissa_dot_com_www" {
+#   zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
+#   name    = "www.alexandmarissa.com."
+#   type    = "A"
   
-  alias {
-    name		   = "du1wn5e8ke9q8.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "du1wn5e8ke9q8.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 ##################
 # astuaryart.com #
@@ -163,36 +153,17 @@ resource "aws_route53_record" "alexrecker_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "alexrecker_dot_com_demo" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "demo.alexrecker.com."
-  type    = "A"
+# resource "aws_route53_record" "alexrecker_dot_com_demo" {
+#   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+#   name    = "demo.alexrecker.com."
+#   type    = "A"
   
-  alias {
-    name		   = "do8xdzpkvvnsu.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
-module "alexrecker_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "alexrecker.com."
-  domain_name = "alexrecker.com."
-  alts	      = ["www.alexrecker.com."]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
-module "alexrecker_dot_com_demo_cert" {
-  source      = "./modules/cert"
-  zone_name   = "alexrecker.com."
-  domain_name = "demo.alexrecker.com."
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
+#   alias {
+#     name		   = "do8xdzpkvvnsu.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 #####################
 # bobrosssearch.com #
@@ -225,39 +196,29 @@ resource "aws_route53_record" "bobrosssearch_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "bobrosssearch_dot_com_a" {
-  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
-  name    = "bobrosssearch.com."
-  type    = "A"
+# resource "aws_route53_record" "bobrosssearch_dot_com_a" {
+#   zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+#   name    = "bobrosssearch.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d1a95v21kdxtjw.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d1a95v21kdxtjw.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "bobrosssearch_dot_com_www" {
-  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
-  name    = "www.bobrosssearch.com."
-  type    = "A"
+# resource "aws_route53_record" "bobrosssearch_dot_com_www" {
+#   zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+#   name    = "www.bobrosssearch.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d3snz2qkf290ka.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
-module "bobrosssearch_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "bobrosssearch.com."
-  domain_name = "www.bobrosssearch.com."
-  alts	      = ["bobrosssearch.com."]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
+#   alias {
+#     name		   = "d3snz2qkf290ka.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 ####################
 # reckerfamily.com #
@@ -326,39 +287,29 @@ resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "fromdirktolight_dot_com_a" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "fromdirktolight.com."
-  type    = "A"
+# resource "aws_route53_record" "fromdirktolight_dot_com_a" {
+#   zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+#   name    = "fromdirktolight.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d10wa54uok5gih.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d10wa54uok5gih.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "fromdirktolight_dot_com_www" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "www.fromdirktolight.com."
-  type    = "A"
+# resource "aws_route53_record" "fromdirktolight_dot_com_www" {
+#   zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+#   name    = "www.fromdirktolight.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d9c0iecujw0rs.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
-module "fromdirktolight_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "fromdirktolight.com."
-  domain_name = "www.fromdirktolight.com."
-  alts	      = ["fromdirktolight.com."]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
+#   alias {
+#     name		   = "d9c0iecujw0rs.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 ############################
 # tranquilitydesignsmn.com #
@@ -396,27 +347,17 @@ module "tranquilitydesignsmn_dot_com_privateemail" {
   zone_name = "tranquilitydesignsmn.com."
 }
 
-module "tranquilitydesignsmn_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "tranquilitydesignsmn.com."
-  domain_name = "tranquilitydesignsmn.com."
-  alts	      = ["www.tranquilitydesignsmn.com", "api.tranquilitydesignsmn.com"]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_www" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "www.tranquilitydesignsmn.com."
-  type    = "A"
+# resource "aws_route53_record" "tranquilitydesignsmn_dot_com_www" {
+#   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+#   name    = "www.tranquilitydesignsmn.com."
+#   type    = "A"
   
-  alias {
-    name		   = "d2yuq653oms14x.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d2yuq653oms14x.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
@@ -430,17 +371,17 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
   }
 }
 
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_a" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "tranquilitydesignsmn.com."
-  type    = "A"
+# resource "aws_route53_record" "tranquilitydesignsmn_dot_com_a" {
+#   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+#   name    = "tranquilitydesignsmn.com."
+#   type    = "A"
   
-  alias {
-    name		   = "dg1hw91licdcu.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "dg1hw91licdcu.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 
 ###################
@@ -474,81 +415,53 @@ resource "aws_route53_record" "sarahrecker_dot_com_soa" {
   ]
 }
 
-resource "aws_route53_record" "sarahrecker_dot_com_www" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "www.sarahrecker.com"
-  type    = "A"
+# resource "aws_route53_record" "sarahrecker_dot_com_www" {
+#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+#   name    = "www.sarahrecker.com"
+#   type    = "A"
 
-  alias {
-    name		   = "d4xdd2h2u5l7f.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d4xdd2h2u5l7f.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "sarahrecker_dot_com_a" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "sarahrecker.com"
-  type    = "A"
+# resource "aws_route53_record" "sarahrecker_dot_com_a" {
+#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+#   name    = "sarahrecker.com"
+#   type    = "A"
   
-  alias {
-    name		   = "d1f8nrarxovqty.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "d1f8nrarxovqty.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "sarahrecker_dot_com_scrabble" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "scrabble.sarahrecker.com"
-  type    = "A"
+# resource "aws_route53_record" "sarahrecker_dot_com_scrabble" {
+#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+#   name    = "scrabble.sarahrecker.com"
+#   type    = "A"
   
-  alias {
-    name		   = "difhkd31sdw77.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
+#   alias {
+#     name		   = "difhkd31sdw77.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
-resource "aws_route53_record" "sarahrecker_dot_com_blog" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "blog.sarahrecker.com"
-  type    = "A"
+# resource "aws_route53_record" "sarahrecker_dot_com_blog" {
+#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
+#   name    = "blog.sarahrecker.com"
+#   type    = "A"
   
-  alias {
-    name		   = "d23ncahpyaiu9j.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
-module "sarahrecker_dot_com_cert" {
-  source      = "./modules/cert"
-  zone_name   = "sarahrecker.com."
-  domain_name = "www.sarahrecker.com."
-  alts	      = ["sarahrecker.com."]
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
-module "sarahrecker_dot_com_blog_cert" {
-  source      = "./modules/cert"
-  zone_name   = "sarahrecker.com."
-  domain_name = "blog.sarahrecker.com."
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
-module "sarahrecker_dot_com_api_cert" {
-  source      = "./modules/cert"
-  zone_name   = "sarahrecker.com."
-  domain_name = "api.sarahrecker.com."
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
+#   alias {
+#     name		   = "d23ncahpyaiu9j.cloudfront.net."
+#     zone_id		   = "Z2FDTNDATAQYW2"
+#     evaluate_target_health = false
+#   }
+# }
 
 resource "aws_route53_record" "sarahrecker_dot_com_api" {
   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
