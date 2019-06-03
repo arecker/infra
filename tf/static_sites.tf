@@ -79,6 +79,7 @@ module "tranquility_static_site" {
   domain_name	        = "www.tranquilitydesignsmn.com"
   redirect_domain_names = ["tranquilitydesignsmn.com"]
   cert_arn	        = "${module.tranquilitydesignsmn_dot_com_cert.arn}"
+  error_document        = "/error/index.html"
   providers   = {
     aws = "aws.oregon"
   }

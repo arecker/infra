@@ -8,6 +8,7 @@ resource "aws_s3_bucket" "bucket" {
 
   website {
     index_document = "index.html"
+    error_document  = "${var.error_document}"
     routing_rules  = "${var.routing_rules}"
   }
 }
@@ -84,7 +85,6 @@ resource "aws_route53_record" "record" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
   name    = "${var.domain_name}."
   type    = "A"
-  allow_overwrite = true
   
   alias {
     name		   = "${aws_cloudfront_distribution.distribution.domain_name}"

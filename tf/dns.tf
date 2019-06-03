@@ -34,30 +34,6 @@ module "alexandmarissa_dot_com_privateemail" {
   zone_name = "alexandmarissa.com."
 }
 
-# resource "aws_route53_record" "alexandmarissa_dot_com_a" {
-#   zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-#   name    = "alexandmarissa.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d3btgoohyfvuql.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "alexandmarissa_dot_com_www" {
-#   zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-#   name    = "www.alexandmarissa.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "du1wn5e8ke9q8.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
 ##################
 # astuaryart.com #
 ##################
@@ -153,18 +129,6 @@ resource "aws_route53_record" "alexrecker_dot_com_soa" {
   ]
 }
 
-# resource "aws_route53_record" "alexrecker_dot_com_demo" {
-#   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-#   name    = "demo.alexrecker.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "do8xdzpkvvnsu.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
 #####################
 # bobrosssearch.com #
 #####################
@@ -195,30 +159,6 @@ resource "aws_route53_record" "bobrosssearch_dot_com_soa" {
     "ns-405.awsdns-50.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
 }
-
-# resource "aws_route53_record" "bobrosssearch_dot_com_a" {
-#   zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
-#   name    = "bobrosssearch.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d1a95v21kdxtjw.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "bobrosssearch_dot_com_www" {
-#   zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
-#   name    = "www.bobrosssearch.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d3snz2qkf290ka.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
 
 ####################
 # reckerfamily.com #
@@ -287,30 +227,6 @@ resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
   ]
 }
 
-# resource "aws_route53_record" "fromdirktolight_dot_com_a" {
-#   zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-#   name    = "fromdirktolight.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d10wa54uok5gih.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "fromdirktolight_dot_com_www" {
-#   zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-#   name    = "www.fromdirktolight.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d9c0iecujw0rs.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
 ############################
 # tranquilitydesignsmn.com #
 ############################
@@ -347,18 +263,6 @@ module "tranquilitydesignsmn_dot_com_privateemail" {
   zone_name = "tranquilitydesignsmn.com."
 }
 
-# resource "aws_route53_record" "tranquilitydesignsmn_dot_com_www" {
-#   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-#   name    = "www.tranquilitydesignsmn.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d2yuq653oms14x.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
 resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
   name    = "api.tranquilitydesignsmn.com."
@@ -370,19 +274,6 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
     evaluate_target_health = false
   }
 }
-
-# resource "aws_route53_record" "tranquilitydesignsmn_dot_com_a" {
-#   zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-#   name    = "tranquilitydesignsmn.com."
-#   type    = "A"
-  
-#   alias {
-#     name		   = "dg1hw91licdcu.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
 
 ###################
 # sarahrecker.com #
@@ -414,54 +305,6 @@ resource "aws_route53_record" "sarahrecker_dot_com_soa" {
     "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
 }
-
-# resource "aws_route53_record" "sarahrecker_dot_com_www" {
-#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-#   name    = "www.sarahrecker.com"
-#   type    = "A"
-
-#   alias {
-#     name		   = "d4xdd2h2u5l7f.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "sarahrecker_dot_com_a" {
-#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-#   name    = "sarahrecker.com"
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d1f8nrarxovqty.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "sarahrecker_dot_com_scrabble" {
-#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-#   name    = "scrabble.sarahrecker.com"
-#   type    = "A"
-  
-#   alias {
-#     name		   = "difhkd31sdw77.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
-
-# resource "aws_route53_record" "sarahrecker_dot_com_blog" {
-#   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-#   name    = "blog.sarahrecker.com"
-#   type    = "A"
-  
-#   alias {
-#     name		   = "d23ncahpyaiu9j.cloudfront.net."
-#     zone_id		   = "Z2FDTNDATAQYW2"
-#     evaluate_target_health = false
-#   }
-# }
 
 resource "aws_route53_record" "sarahrecker_dot_com_api" {
   zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"

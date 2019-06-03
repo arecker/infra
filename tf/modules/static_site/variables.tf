@@ -1,5 +1,5 @@
 variable "prefix" {
-  type = string
+  type	  = string
   default = ""
 }
 
@@ -20,6 +20,11 @@ variable "redirect_domain_names" {
 }
 
 variable "routing_rules" {
-  type = string
+  type	  = string
+  default = ""
+}
+
+variable "error_document" {
+  type	  = string
   default = ""
 }
