@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+
+  terraform:
+    image: arecker/terraform:latest
+    build:
+      context: terraform
