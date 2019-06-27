@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "lambda_bucket" {
 
 resource "aws_s3_bucket_object" "contact" {
   bucket = "${aws_s3_bucket.lambda_bucket.id}"
-  key    = "contact.py"
+  key    = "contact/${filemd5("lambdas/contact.py")}"
   source = "lambdas/contact.py"
   etag	 = "${filemd5("lambdas/contact.py")}"
 }
