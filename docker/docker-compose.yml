@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+  awscli:
+    image: arecker/awscli:latest
+    build:
+      context: awscli
 
   terraform:
     image: arecker/terraform:latest
