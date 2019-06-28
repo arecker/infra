@@ -263,18 +263,6 @@ module "tranquilitydesignsmn_dot_com_privateemail" {
   zone_name = "tranquilitydesignsmn.com."
 }
 
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "api.tranquilitydesignsmn.com."
-  type    = "A"
-  
-  alias {
-    name		   = "dyjobn5aj21lk.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
-}
-
 ###################
 # sarahrecker.com #
 ###################
@@ -304,16 +292,4 @@ resource "aws_route53_record" "sarahrecker_dot_com_soa" {
   records = [
     "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
-}
-
-resource "aws_route53_record" "sarahrecker_dot_com_api" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "api.sarahrecker.com"
-  type    = "A"
-  
-  alias {
-    name		   = "d3izg8jazddalu.cloudfront.net."
-    zone_id		   = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
 }
