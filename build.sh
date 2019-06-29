@@ -25,6 +25,8 @@ case "$1" in
 	_cd "docker"
 	log "running docker-compose build"
 	docker-compose build
+	log "logging into docker"
+	echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 	log "running docker-compose push"
 	docker-compose push
 	;;

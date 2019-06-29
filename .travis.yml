@@ -1,5 +1,8 @@
 language: bash
 
+services:
+  - docker
+
 env:
   global:
     - PATH=$HOME/.local/bin:$PATH
@@ -9,5 +12,6 @@ before_install:
 
 env:
   - JOB="terraform"
+  - JOB="docker"
 
 script: build.sh "$JOB"
