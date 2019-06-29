@@ -37,6 +37,7 @@ case "$1" in
 	URL="$URL_BASE/terraform/${TF_VERSION}/terraform_{$TF_VERSION}_linux_amd64.zip"
 	log "downloading $URL"
 	curl -sLo /tmp/terraform.zip "$URL"
+	log "unpacking $HOME/.local/bin/terraform"
 	unzip /tmp/terraform.zip -d ~/.local/bin/
 	;;
     *)
