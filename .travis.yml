@@ -12,7 +12,7 @@ before_install:
   - build.sh install-terraform
 
 env:
-  - JOB="terraform"
   - JOB="docker"
+  - JOB="terraform"
 
 script: build.sh "$JOB"
