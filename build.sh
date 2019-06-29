@@ -29,6 +29,7 @@ case "$1" in
 	docker-compose push
 	;;
     "install-terraform")
+	log "installing terraform"
 	log "creating local bin"
 	mkdir -p ~/.local/bin
 	TF_VERSION="$(cat ./terraform/.terraform-version)"
