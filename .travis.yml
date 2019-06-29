@@ -1,0 +1,9 @@
+language: bash
+
+env:
+  global:
+    - PATH=$HOME/.local/bin:$PATH
+
+before_install: scripts/before_install.sh
+
+script: "echo HELLO"
