@@ -12,7 +12,19 @@ module "alexrecker_dot_com_cert" {
   source      = "./modules/cert"
   zone_name   = "alexrecker.com."
   domain_name = "alexrecker.com."
-  alts	      = ["www.alexrecker.com."]
+  alts	      = [
+    "www.alexrecker.com."
+  ]
+  providers   = {
+    aws = "aws.virginia"
+  }
+}
+
+module "alexrecker_dot_com_archive_cert" {
+  source      = "./modules/cert"
+  zone_name   = "alexrecker.com."
+  domain_name = "archive.alexrecker.com."
+  alts	      = []
   providers   = {
     aws = "aws.virginia"
   }

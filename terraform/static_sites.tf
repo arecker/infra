@@ -1,3 +1,16 @@
+data "local_file" "blog_redirects" {
+    filename = "${path.module}/redirects/blog.json"
+}
+
+module "archive_static_site" {
+  source	        = "./modules/static_site"
+  prefix	        = "archive-"
+  hosted_zone_name      = "alexrecker.com."
+  domain_name	        = "archive.alexrecker.com"
+  redirect_domain_names = []
+  cert_arn	        = "${module.alexrecker_dot_com_archive_cert.arn}"
+}
+
 module "bob_static_site" {
   source	        = "./modules/static_site"
   hosted_zone_name      = "bobrosssearch.com."
@@ -12,28 +25,7 @@ module "blog_static_site" {
   domain_name	        = "www.alexrecker.com"
   redirect_domain_names = ["alexrecker.com"]
   cert_arn	        = "${module.alexrecker_dot_com_cert.arn}"
-  routing_rules	        = <<RULES
-[{
-    "Condition": {
-	"KeyPrefixEquals": "our-new-sid-meiers-civilization-inspired-budget/"
-    },
-    "Redirect": {
-	"HostName": "www.alexrecker.com",
-	"Protocol": "https",
-	"ReplaceKeyWith": "civ-budget.html"
-    }
-},
-{
-    "Condition": {
-	"KeyPrefixEquals": "using-selenium-buy-bus-pass/"
-    },
-    "Redirect": {
-	"HostName": "www.alexrecker.com",
-	"Protocol": "https",
-	"ReplaceKeyWith": "selenium-bus-pass.html"
-    }
-}]
-RULES
+  routing_rules	        = "${data.local_file.blog_redirects.content}"
 }
 
 module "demo_static_site" {
