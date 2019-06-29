@@ -1,1 +1,3 @@
 #+TITLE: Infrastructure
+
+[[https://travis-ci.org/arecker/infra][file:https://travis-ci.org/arecker/infra.svg?branch=master]]
