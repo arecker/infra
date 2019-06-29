@@ -31,7 +31,7 @@ case "$1" in
     "install-terraform")
 	log "creating local bin"
 	mkdir -p ~/.local/bin
-	TF_VERSION="$(cat ../terraform/.terraform-version)"
+	TF_VERSION="$(cat ./terraform/.terraform-version)"
 	log "using terraform version $TF_VERSION"
 	URL_BASE="https://releases.hashicorp.com"
 	URL="$URL_BASE/terraform/${TF_VERSION}/terraform_{$TF_VERSION}_linux_amd64.zip"
