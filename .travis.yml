@@ -13,7 +13,7 @@ env:
   - JOB="docker"
   - JOB="terraform"
 
-script: build.sh "$JOB"
+script: $TRAVIS_BUILD_DIR/build.sh "$JOB"
 
 notifications:
   email: false
