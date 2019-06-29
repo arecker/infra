@@ -16,3 +16,6 @@ env:
   - JOB="terraform"
 
 script: build.sh "$JOB"
+
+notifications:
+  email: false
