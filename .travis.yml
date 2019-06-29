@@ -8,7 +8,7 @@ env:
     - PATH=$HOME/.local/bin:$PATH
 
 before_install:
-  - cp build.sh $HOME/.local/bin
+  - cp $TRAVIS_BUILD_DIR/build.sh $HOME/.local/bin
   - build.sh install-terraform
 
 env:
