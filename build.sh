@@ -40,7 +40,7 @@ case "$1" in
 	log "running docker-compose build"
 	docker-compose build
 	log "logging into docker"
-	echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+	echo "$DOCKER_PASSWORD" | docker login -u "arecker" --password-stdin
 	log "running docker-compose push"
 	docker-compose push
 	;;
