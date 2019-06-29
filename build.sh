@@ -12,6 +12,20 @@ _cd() {
 }
 
 case "$1" in
+    "before-install")
+	log "running before install"
+	log "installing terraform"
+	log "creating local bin"
+	mkdir -p ~/.local/bin
+	TF_VERSION="$(cat ./terraform/.terraform-version)"
+	log "using terraform version $TF_VERSION"
+	URL_BASE="https://releases.hashicorp.com"
+	URL="$URL_BASE/terraform/${TF_VERSION}/terraform_{$TF_VERSION}_linux_amd64.zip"
+	log "downloading $URL"
+	curl -sLo /tmp/terraform.zip "$URL"
+	log "unpacking $HOME/.local/bin/terraform"
+	unzip /tmp/terraform.zip -d ~/.local/bin/
+	;;
     "terraform")
 	log "building terraform"
 	_cd "terraform"
@@ -29,19 +43,6 @@ case "$1" in
 	echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 	log "running docker-compose push"
 	docker-compose push
-	;;
-    "install-terraform")
-	log "installing terraform"
-	log "creating local bin"
-	mkdir -p ~/.local/bin
-	TF_VERSION="$(cat ./terraform/.terraform-version)"
-	log "using terraform version $TF_VERSION"
-	URL_BASE="https://releases.hashicorp.com"
-	URL="$URL_BASE/terraform/${TF_VERSION}/terraform_{$TF_VERSION}_linux_amd64.zip"
-	log "downloading $URL"
-	curl -sLo /tmp/terraform.zip "$URL"
-	log "unpacking $HOME/.local/bin/terraform"
-	unzip /tmp/terraform.zip -d ~/.local/bin/
 	;;
     *)
 	log "command $1 not known!"
