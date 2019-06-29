@@ -8,6 +8,7 @@ env:
     - PATH=$HOME/.local/bin:$PATH
 
 before_install:
+  - cp build.sh ~/.local/bin
   - build.sh install-terraform
 
 env:
