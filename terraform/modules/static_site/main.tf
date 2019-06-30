@@ -11,6 +11,10 @@ resource "aws_s3_bucket" "bucket" {
     error_document  = "${var.error_document}"
     routing_rules  = "${var.routing_rules}"
   }
+
+  tags = {
+    Site = "${var.domain_name}"
+  }
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
@@ -78,6 +82,10 @@ resource "aws_cloudfront_distribution" "distribution" {
   viewer_certificate {
     acm_certificate_arn = "${var.cert_arn}"
     ssl_support_method = "sni-only"
+  }
+
+  tags = {
+    Site = "${var.domain_name}"
   }
 }
 

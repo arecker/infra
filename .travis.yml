@@ -15,5 +15,9 @@ env:
 
 script: $TRAVIS_BUILD_DIR/build.sh "$JOB"
 
+branches:
+  only:
+    - master
+
 notifications:
   email: false
