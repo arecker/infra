@@ -3,7 +3,7 @@ data "aws_route53_zone" "zone" {
 }
 
 resource "aws_s3_bucket" "bucket" {
-  acl	        = "public"
+  acl	        = "public-read"
   bucket_prefix = "${var.prefix}"
 
   website {
@@ -103,7 +103,7 @@ resource "aws_route53_record" "record" {
 
 resource "aws_s3_bucket" "redirect" {
   count = "${length(var.redirect_domain_names)}"
-  acl   = "public"
+  acl   = "public-read"
 
   website {
     redirect_all_requests_to = "https://${var.domain_name}"
