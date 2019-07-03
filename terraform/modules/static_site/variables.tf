@@ -28,3 +28,8 @@ variable "error_document" {
   type	  = string
   default = ""
 }
+
+variable "default_ttl" {
+  type = string
+  default = "86400"
+}

@@ -26,6 +26,7 @@ module "blog_static_site" {
   redirect_domain_names = ["alexrecker.com"]
   cert_arn	        = "${module.alexrecker_dot_com_cert.arn}"
   routing_rules	        = "${data.local_file.blog_redirects.content}"
+  default_ttl	        = "3600"
 }
 
 module "demo_static_site" {

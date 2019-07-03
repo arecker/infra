@@ -46,6 +46,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     cached_methods	   = ["HEAD", "GET"]
     target_origin_id	   = "bucket"
     viewer_protocol_policy = "redirect-to-https"
+    default_ttl		   = "${var.default_ttl}"
     
     forwarded_values {
       query_string = true
