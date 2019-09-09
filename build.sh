@@ -11,22 +11,23 @@ _cd() {
     log "cd $(pwd)"
 }
 
+install_terraform() {
+    log "installing terraform"
+    log "creating local bin"
+    mkdir -p ~/.local/bin
+    TF_VERSION="$(cat ./terraform/.terraform-version)"
+    log "using terraform version $TF_VERSION"
+    URL_BASE="https://releases.hashicorp.com"
+    URL="$URL_BASE/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
+    log "downloading $URL"
+    curl -sLo /tmp/terraform.zip "$URL"
+    log "unpacking $HOME/.local/bin/terraform"
+    unzip /tmp/terraform.zip -d ~/.local/bin/
+}
+
 case "$1" in
-    "before-install")
-	log "running before install"
-	log "installing terraform"
-	log "creating local bin"
-	mkdir -p ~/.local/bin
-	TF_VERSION="$(cat ./terraform/.terraform-version)"
-	log "using terraform version $TF_VERSION"
-	URL_BASE="https://releases.hashicorp.com"
-	URL="$URL_BASE/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-	log "downloading $URL"
-	curl -sLo /tmp/terraform.zip "$URL"
-	log "unpacking $HOME/.local/bin/terraform"
-	unzip /tmp/terraform.zip -d ~/.local/bin/
-	;;
     "terraform")
+	install_terraform
 	log "building terraform"
 	_cd "terraform"
 	log "running terraform init"
