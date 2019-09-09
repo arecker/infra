@@ -9,15 +9,16 @@ env:
 
 before_install: $TRAVIS_BUILD_DIR/build.sh before-install
 
-env:
-  - JOB="docker"
-  - JOB="terraform"
+stages:
+  - build
+  - deploy
 
 jobs:
   include:
     - stage: build
       script: $TRAVIS_BUILD_DIR/build.sh docker
-    - script: $TRAVIS_BUILD_DIR/build.sh packer
+    - stage: build
+      script: $TRAVIS_BUILD_DIR/build.sh packer
     - stage: deploy
       script: $TRAVIS_BUILD_DIR/build.sh terraform
 
