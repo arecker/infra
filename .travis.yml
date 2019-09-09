@@ -15,8 +15,6 @@ jobs:
   include:
     - stage: build
       script: $TRAVIS_BUILD_DIR/build.sh docker
-    - stage: build
-      script: $TRAVIS_BUILD_DIR/build.sh packer
     - stage: deploy
       script: $TRAVIS_BUILD_DIR/build.sh terraform
 
