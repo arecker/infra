@@ -1,0 +1,12 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "infra-252416",
+      "account_file": "./.creds.json",
+      "source_image": "debian-10-buster-v20190813",
+      "ssh_username": "packer",
+      "zone": "us-central1-a"
+    }
+  ]
+}
