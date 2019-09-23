@@ -6,6 +6,11 @@ services:
     build:
       context: awscli
 
+  proxy:
+    image: arecker/proxy:latest
+    build:
+      context: proxy
+
   terraform:
     image: arecker/terraform:latest
     build:
