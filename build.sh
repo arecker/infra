@@ -43,7 +43,7 @@ case "$1" in
 	log "logging into docker"
 	echo "$DOCKER_PASSWORD" | docker login -u "arecker" --password-stdin
 	log "running docker-compose push"
-	docker-compose push
+	# docker-compose push # TODO: arm?
 	;;
     "packer")
 	log "building packer"
