@@ -44,28 +44,6 @@ module "fdtl_static_site" {
   cert_arn	        = "${module.fromdirktolight_dot_com_cert.arn}"
 }
 
-module "sarah_static_site" {
-  source	        = "./modules/static_site"
-  hosted_zone_name      = "sarahrecker.com."
-  domain_name	        = "www.sarahrecker.com"
-  redirect_domain_names = ["sarahrecker.com"]
-  cert_arn	        = "${module.sarahrecker_dot_com_cert.arn}"
-}
-
-module "scrabble_static_site" {
-  source	   = "./modules/static_site"
-  hosted_zone_name = "sarahrecker.com."
-  domain_name	   = "scrabble.sarahrecker.com"
-  cert_arn	   = "${module.sarahrecker_dot_com_scrabble_cert.arn}"
-}
-
-module "sarah_blog_static_site" {
-  source	   = "./modules/static_site"
-  hosted_zone_name = "sarahrecker.com."
-  domain_name	   = "blog.sarahrecker.com"
-  cert_arn	   = "${module.sarahrecker_dot_com_blog_cert.arn}"
-}
-
 module "tranquility_static_site" {
   source	        = "./modules/static_site"
   hosted_zone_name      = "tranquilitydesignsmn.com."
