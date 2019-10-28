@@ -262,34 +262,3 @@ module "tranquilitydesignsmn_dot_com_privateemail" {
   source = "./modules/privateemail"
   zone_name = "tranquilitydesignsmn.com."
 }
-
-###################
-# sarahrecker.com #
-###################
-
-resource "aws_route53_zone" "sarahrecker_dot_com" {
-  name = "sarahrecker.com."
-}
-
-resource "aws_route53_record" "sarahrecker_dot_com_ns" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "sarahrecker.com"
-  type    = "NS"
-  ttl     = "172800"
-  records = [
-    "ns-632.awsdns-15.net.",
-    "ns-1949.awsdns-51.co.uk.",
-    "ns-209.awsdns-26.com.",
-    "ns-1153.awsdns-16.org."
-  ]
-}
-
-resource "aws_route53_record" "sarahrecker_dot_com_soa" {
-  zone_id = "${aws_route53_zone.sarahrecker_dot_com.zone_id}"
-  name    = "sarahrecker.com"
-  type    = "SOA"
-  ttl     = "900"
-  records = [
-    "ns-632.awsdns-15.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-  ]
-}
