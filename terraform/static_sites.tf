@@ -29,13 +29,6 @@ module "blog_static_site" {
   default_ttl	        = "3600"
 }
 
-module "demo_static_site" {
-  source	   = "./modules/static_site"
-  hosted_zone_name = "alexrecker.com."
-  domain_name	   = "demo.alexrecker.com"
-  cert_arn	   = "${module.alexrecker_dot_com_demo_cert.arn}"
-}
-
 module "fdtl_static_site" {
   source	        = "./modules/static_site"
   hosted_zone_name      = "fromdirktolight.com."

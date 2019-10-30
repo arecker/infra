@@ -30,15 +30,6 @@ module "alexrecker_dot_com_archive_cert" {
   }
 }
 
-module "alexrecker_dot_com_demo_cert" {
-  source      = "./modules/cert"
-  zone_name   = "alexrecker.com."
-  domain_name = "demo.alexrecker.com."
-  providers   = {
-    aws = "aws.virginia"
-  }
-}
-
 module "bobrosssearch_dot_com_cert" {
   source      = "./modules/cert"
   zone_name   = "bobrosssearch.com."

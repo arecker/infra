@@ -129,6 +129,16 @@ resource "aws_route53_record" "alexrecker_dot_com_soa" {
   ]
 }
 
+resource "aws_route53_record" "alexrecker_dot_com_demo_cname" {
+  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+  name    = "demo.alexrecker.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+}
+
 #####################
 # bobrosssearch.com #
 #####################
