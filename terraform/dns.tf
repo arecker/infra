@@ -208,6 +208,7 @@ resource "aws_route53_record" "bobrosssearch_dot_com_cname" {
   name    = "www.bobrosssearch.com."
   type    = "CNAME"
   ttl     = "300"
+  allow_overwrite = true
   records = [
     "arecker.github.io."
   ]
@@ -218,6 +219,7 @@ resource "aws_route53_record" "bobrosssearch_dot_com_apex" {
   name    = "bobrosssearch.com."
   type    = "A"
   ttl     = "300"
+  allow_overwrite = true
   records = [
     "185.199.108.153",
     "185.199.109.153",
@@ -298,6 +300,7 @@ resource "aws_route53_record" "fromdirktolight_dot_com_cname" {
   name    = "www.fromdirktolight.com."
   type    = "CNAME"
   ttl     = "300"
+  allow_overwrite = true
   records = [
     "arecker.github.io."
   ]
@@ -308,6 +311,7 @@ resource "aws_route53_record" "fromdirktolight_dot_com_apex" {
   name    = "fromdirktolight.com."
   type    = "A"
   ttl     = "300"
+  allow_overwrite = true
   records = [
     "185.199.108.153",
     "185.199.109.153",
