@@ -11,8 +11,3 @@ provider "aws" {
   region = "us-west-2"
   alias  = "oregon"
 }
-
-provider "google" {
-  project = "infra-252416"
-  region  = "us-central-1"
-}

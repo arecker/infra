@@ -34,6 +34,29 @@ module "alexandmarissa_dot_com_privateemail" {
   zone_name = "alexandmarissa.com."
 }
 
+resource "aws_route53_record" "alexandmarissa_dot_com_cname" {
+  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
+  name    = "www.alexandmarissa.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+}
+
+resource "aws_route53_record" "alexandmarissa_dot_com_apex" {
+  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
+  name    = "alexandmarissa.com."
+  type    = "A"
+  ttl     = "300"
+  records = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+  ]
+}
+
 ##################
 # astuaryart.com #
 ##################
@@ -139,6 +162,16 @@ resource "aws_route53_record" "alexrecker_dot_com_demo_cname" {
   ]
 }
 
+resource "aws_route53_record" "alexrecker_dot_com_archive_cname" {
+  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+  name    = "archive.alexrecker.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+}
+
 #####################
 # bobrosssearch.com #
 #####################
@@ -167,6 +200,29 @@ resource "aws_route53_record" "bobrosssearch_dot_com_soa" {
   ttl     = "900"
   records = [
     "ns-405.awsdns-50.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_cname" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "www.bobrosssearch.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+}
+
+resource "aws_route53_record" "bobrosssearch_dot_com_apex" {
+  zone_id = "${aws_route53_zone.bobrosssearch_dot_com.zone_id}"
+  name    = "bobrosssearch.com."
+  type    = "A"
+  ttl     = "300"
+  records = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
   ]
 }
 
@@ -234,6 +290,29 @@ resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
   ttl     = "900"
   records = [
     "ns-1004.awsdns-61.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+  ]
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_cname" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "www.fromdirktolight.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+}
+
+resource "aws_route53_record" "fromdirktolight_dot_com_apex" {
+  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
+  name    = "fromdirktolight.com."
+  type    = "A"
+  ttl     = "300"
+  records = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
   ]
 }
 
