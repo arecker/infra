@@ -11,6 +11,11 @@ services:
     build:
       context: jenkins
 
+  slave:
+    image: arecker/slave:latest
+    build:
+      context: slave
+
   proxy:
     image: arecker/proxy:latest
     build:
