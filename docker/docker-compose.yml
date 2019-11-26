@@ -6,6 +6,11 @@ services:
     build:
       context: awscli
 
+  jenkins:
+    image: arecker/jenkins:latest
+    build:
+      context: jenkins
+
   proxy:
     image: arecker/proxy:latest
     build:

@@ -43,8 +43,7 @@ spec:
     spec:
       containers:
         - name: jenkins
-          image: kodbasen/jenkins-arm:2.190.3  # TODO: image is too old
-          imagePullPolicy: IfNotPresent
+          image: arecker/jenkins:latest
           ports:
             - name: http-port
               containerPort: 8080
