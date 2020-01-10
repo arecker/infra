@@ -156,6 +156,26 @@ resource "aws_route53_record" "alexrecker_dot_com_soa" {
   ]
 }
 
+resource "aws_route53_record" "alexrecker_dot_com_cname" {
+  zone_id	  = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+  name		  = "www.alexrecker.com."
+  type		  = "CNAME"
+  ttl		  = "300"
+  records	  = [
+    "arecker.github.io."
+  ]
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "alexrecker_dot_com_apex" {
+  zone_id	  = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+  name		  = "alexrecker.com."
+  type		  = "A"
+  ttl		  = "300"
+  records	  = local.github_ips
+  allow_overwrite = true
+}
+
 resource "aws_route53_record" "alexrecker_dot_com_demo_cname" {
   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
   name    = "demo.alexrecker.com."
@@ -339,6 +359,26 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_soa" {
   records = [
     "ns-1990.awsdns-56.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
   ]
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_apex" {
+  zone_id	  = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name		  = "tranquilitydesignsmn.com."
+  type		  = "A"
+  ttl		  = "300"
+  records	  = local.github_ips
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "tranquilitydesignsmn_dot_com_cname" {
+  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name    = "www.tranquilitydesignsmn.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "arecker.github.io."
+  ]
+  allow_overwrite = true
 }
 
 module "tranquilitydesignsmn_dot_com_privateemail" {
