@@ -45,25 +45,6 @@ case "$1" in
 	log "running docker-compose push"
 	# docker-compose push # TODO: arm?
 	;;
-    "packer")
-	log "building packer"
-	_cd "packer"
-	if [ -z "$GOOGLE_CREDENTIALS" ]; then
-	    log "GOOGLE_CREDENTIALS is not set, exiting."
-	    exit 1
-	else
-	    log "writing credentials"
-	    echo "${GOOGLE_CREDENTIALS}" > .creds.json
-	fi
-	for file in *.json; do
-	    echo "validating $file"
-	    packer validate "$file"
-	done
-	for file in *.json; do
-	    echo "building $file"
-	    packer build "$file"
-	done
-	;;
     *)
 	log "command $1 not known!"
 	exit 1
