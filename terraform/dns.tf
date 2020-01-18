@@ -276,6 +276,16 @@ resource "aws_route53_record" "reckerfamily_dot_com_soa" {
   ]
 }
 
+resource "aws_route53_record" "reckerfamily_dot_com_cookbook_cname" {
+  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
+  name    = "cookbook.reckerfamily.com."
+  type    = "CNAME"
+  ttl     = "300"
+  records = [
+    "readthedocs.io."
+  ]
+}
+
 module "reckerfamily_dot_com_gmail" {
   source = "./modules/gmail"
   zone_name = "reckerfamily.com."
