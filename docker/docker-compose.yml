@@ -6,6 +6,11 @@ services:
     build:
       context: awscli
 
+  chorebot:
+    image: arecker/chorebot:latest
+    build:
+      context: chorebot
+
   jenkins:
     image: arecker/jenkins:latest
     build:
