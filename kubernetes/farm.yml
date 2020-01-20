@@ -10,9 +10,3 @@ spec:
       - backend:
           serviceName: hub-proxy
           servicePort: 80
-  - host: jenkins.local
-    http:
-      paths:
-      - backend:
-          serviceName: jenkins
-          servicePort: 80
