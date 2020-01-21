@@ -62,7 +62,7 @@ def main():
     chores = [Chore(d) for d in requests.get(f'{hub_url}/api/chores/').json()]
     log('fetched {} chores', len(chores))
 
-    webhook = read_secret('chorebot', 'webhook.txt')
+    webhook = read_secret('chorebot', 'webhook.txt').strip()
 
     for user in USERS.values():
         mine = list(filter(lambda c: c.assignee == user, chores))
