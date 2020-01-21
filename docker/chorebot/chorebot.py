@@ -1,5 +1,5 @@
-import collections
 import datetime
+import json
 import os
 
 import requests
@@ -62,7 +62,7 @@ def main():
     chores = [Chore(d) for d in requests.get(f'{hub_url}/api/chores/').json()]
     log('fetched {} chores', len(chores))
 
-    # webhook = read_secret('chorebot', 'webhook.txt')
+    webhook = read_secret('chorebot', 'webhook.txt')
 
     for user in USERS.values():
         mine = list(filter(lambda c: c.assignee == user, chores))
@@ -71,6 +71,10 @@ def main():
         log('found {} chores for {} due today', len(today), user)
         overdue = list(filter(lambda c: c.overdue, mine))
         log('found {} chores for {} overdue', len(overdue), user)
+
+        if not any([today, overdue]):
+            log('no chores due today or overdue for {}, skipping', user)
+            continue
 
         message = 'Greetings!\n'
 
@@ -86,15 +90,21 @@ The following chores are overdue:
 {format_chore_list(overdue)}
             '''
 
-        if not any([today, overdue]):
-            message += '''
-No chores to do!
-            '''
-
         message += '''
 Have a wonderful day.'''
-        print(message)
-    
+
+        log('sending slack reminder to {}', user)
+        response = requests.post(
+            webhook,
+            headers={'Content-Type': 'application/json'},
+            data=json.dumps({
+                'text': message,
+                'channel': user,
+                'username': 'reckerbot',
+                'icon_emoji': ':reckerbot:'
+            })
+        )
+        response.raise_for_status()
 
 
 if __name__ == '__main__':

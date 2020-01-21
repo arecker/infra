@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: chorebot
+spec:
+  schedule: "0 10 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: script
+            image: arecker/chorebot:latest
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountPath: /run/secrets/chorebot/
+              name: chorebot-secrets
+              readOnly: true
+          volumes:
+            - name: chorebot-secrets
+              secret:
+                secretName: chorebot
