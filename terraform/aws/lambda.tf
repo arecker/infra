@@ -1,5 +1,5 @@
 module "contact_tranquility" {
-  source     = "./modules/contact"
+  source     = "../modules/contact"
   identifier = "contact-tranquility"
   sender_address = "reckeropsmailer@gmail.com"
   recipient_address = "renee@tranquilitydesignsmn.com"

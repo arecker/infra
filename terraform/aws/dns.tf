@@ -39,7 +39,7 @@ resource "aws_route53_record" "alexandmarissa_dot_com_soa" {
 }
 
 module "alexandmarissa_dot_com_privateemail" {
-  source = "./modules/privateemail"
+  source = "../modules/privateemail"
   zone_name = "alexandmarissa.com."
 }
 
@@ -287,7 +287,7 @@ resource "aws_route53_record" "reckerfamily_dot_com_cookbook_cname" {
 }
 
 module "reckerfamily_dot_com_gmail" {
-  source = "./modules/gmail"
+  source = "../modules/gmail"
   zone_name = "reckerfamily.com."
 }
 
@@ -392,6 +392,6 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_cname" {
 }
 
 module "tranquilitydesignsmn_dot_com_privateemail" {
-  source = "./modules/privateemail"
+  source = "../modules/privateemail"
   zone_name = "tranquilitydesignsmn.com."
 }
