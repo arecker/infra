@@ -26,11 +26,6 @@ spec:
   jobTemplate:
     spec:
       template:
-        metadata:
-          annotations:
-            vault.hashicorp.com/agent-inject: "true"
-            vault.hashicorp.com/agent-inject-secret-webhook: "secrets/helloworld"
-            vault.hashicorp.com/role: "chorebot"
         spec:
           restartPolicy: OnFailure
           containers:
