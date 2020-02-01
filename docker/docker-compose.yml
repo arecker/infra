@@ -30,3 +30,8 @@ services:
     image: arecker/terraform:latest
     build:
       context: terraform
+
+  vault:
+    image: arecker/vault:latest
+    build:
+      context: vault

@@ -1,0 +1,84 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: vault-volume
+  labels:
+    app: vault
+spec:
+  storageClassName: generic
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: archive.local
+    path: /mnt/scratch/farm/vault
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: vault-volume-claim
+  labels:
+    app: vault
+spec:
+  storageClassName: generic
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: vault-app
+  labels:
+    app: vault
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vault
+        service: vault
+    spec:
+      # initContainers:
+        # - name: vault-data-permissions
+        #   image: busybox
+        #   imagePullPolicy: Always
+        #   command: ["/bin/chown", "-R", "1001:1001", "/vault/file"]
+        #   volumeMounts:
+        #     - name: vault-data
+        #       mountPath: /vault/file
+      containers:
+        - name: vault-app
+          image: arecker/vault:latest
+          imagePullPolicy: Always
+          command: ["vault", "server", "-config=/vault/config/vault.hcl"]
+          securityContext:
+            runAsUser: 1001
+          ports:
+            - containerPort: 8200
+          volumeMounts:
+            - mountPath: /vault/file
+              name: vault-data
+      volumes:
+        - name: vault-data
+          persistentVolumeClaim:
+            claimName: vault-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+  labels:
+    app: vault
+spec:
+  ports:
+  - port: 8200
+    protocol: TCP
+  selector:
+    service: vault
+
