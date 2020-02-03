@@ -162,7 +162,7 @@ resource "aws_route53_record" "alexrecker_dot_com_cname" {
   type		  = "CNAME"
   ttl		  = "300"
   records	  = [
-    "arecker.github.io."
+    "arecker-blog.netlify.com."
   ]
   allow_overwrite = true
 }
@@ -172,7 +172,7 @@ resource "aws_route53_record" "alexrecker_dot_com_apex" {
   name		  = "alexrecker.com."
   type		  = "A"
   ttl		  = "300"
-  records	  = local.github_ips
+  records	  = ["104.198.14.52"]
   allow_overwrite = true
 }
 
