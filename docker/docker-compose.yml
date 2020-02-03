@@ -1,35 +1,15 @@
 version: '3'
 
 services:
-  awscli:
-    image: arecker/awscli:latest
-    build:
-      context: awscli
-
   chorebot:
     image: arecker/chorebot:latest
     build:
       context: chorebot
 
-  jenkins:
-    image: arecker/jenkins:latest
+  secretboi:
+    image: arecker/secretboi:latest
     build:
-      context: jenkins
-
-  slave:
-    image: arecker/slave:latest
-    build:
-      context: slave
-
-  proxy:
-    image: arecker/proxy:latest
-    build:
-      context: proxy
-
-  terraform:
-    image: arecker/terraform:latest
-    build:
-      context: terraform
+      context: secretboi
 
   vault:
     image: arecker/vault:latest
