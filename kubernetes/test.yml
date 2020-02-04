@@ -10,13 +10,20 @@ spec:
   containers:
   - name: secrets
     image: arecker/secretboi:latest
+    imagePullPolicy: Always
+    env:
+      - name: VAULT_ADDR
+        value: "http://vault.local"
+      - name: VAULT_ROLE
+        value: chorebot
     volumeMounts:
-    - name: secrets
+    - name: shared
       mountPath: /secretboi
-  - name: 
+  - name: dummy
     image: debian
+    imagePullPolicy: Always
     command: [ "/bin/bash", "-c", "--" ]
     args: [ "while true; do sleep 5; echo \"Running...\"; done;" ]
     volumeMounts:
-    - name: vault
+    - name: shared
       mountPath: /vault
