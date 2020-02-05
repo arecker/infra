@@ -28,15 +28,29 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          volumes:
+            - name: secrets
+              emptyDir: {}
           containers:
+          - name: secrets
+            image: arecker/secretboi:latest
+            imagePullPolicy: Always
+            env:
+              - name: VAULT_ADDR
+                value: "http://vault.local"
+              - name: VAULT_ROLE
+                value: chorebot
+              - name: ONLY_RUN_ONCE
+                value: "true"
+              - name: SECRET_WEBHOOK
+                value: /slack/reckerfamily/webhook
+            volumeMounts:
+              - name: secrets
+                mountPath: /secrets
           - name: script
             image: arecker/chorebot:latest
             imagePullPolicy: Always
             volumeMounts:
-            - mountPath: /run/secrets/chorebot/
-              name: chorebot-secrets
-              readOnly: true
-          volumes:
-            - name: chorebot-secrets
-              secret:
-                secretName: chorebot
+              - name: secrets
+                mountPath: /secrets
+                readOnly: true

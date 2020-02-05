@@ -1,6 +1,8 @@
 import datetime
 import json
 import os
+import time
+import sys
 
 import requests
 
@@ -10,11 +12,24 @@ USERS = {
 }
 
 
-def read_secret(secret_name, file_name):
-    target = os.path.join('/run/secrets/', secret_name, file_name)
+def read_secret_webhook():
+    target = os.path.join('/secrets/WEBHOOK')
+
+    tries = 0
+    while not os.path.isfile(target):
+        log('waiting for {}', target)
+        tries += 1
+
+        if tries > 5:
+            log('timed out waiting for secrets!')
+            sys.exit(1)
+
+        time.sleep(5)
+
     log('reading secret from {}', target)
     with open(target) as f:
-        return f.read()
+        data = json.load(f)
+        return data['data']['data']['url']
 
 
 class Chore(object):
@@ -62,7 +77,7 @@ def main():
     chores = [Chore(d) for d in requests.get(f'{hub_url}/api/chores/').json()]
     log('fetched {} chores', len(chores))
 
-    webhook = read_secret('chorebot', 'webhook.txt').strip()
+    webhook = read_secret_webhook()
 
     for user in USERS.values():
         mine = list(filter(lambda c: c.assignee == user, chores))
