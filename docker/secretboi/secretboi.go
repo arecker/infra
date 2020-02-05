@@ -31,6 +31,12 @@ type VaultLoginResponse struct {
 	} `json:"auth"`
 }
 
+type Secret struct {
+	Data struct {
+		Data map[string]interface{} `json:data"`
+	} `json:data"`
+}
+
 func preFlight() bool {
 	log.Printf("performing pre-flight check")
 	ok := true
@@ -181,6 +187,13 @@ func writeSecrets() bool {
 		}
 		defer resp.Body.Close()
 		log.Printf("parsing response body into JSON")
+		var secret = Secret{}
+		json.Unmarshal([]byte(body), &secret)
+		output, err := json.Marshal(secret.Data.Data)
+		if err != nil {
+			log.Printf("error parsing body into JSON: %s", err)
+			return false
+		}
 
 		log.Printf("writing response to %s", fileTarget)
 		target, err := os.OpenFile(fileTarget, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
@@ -188,7 +201,7 @@ func writeSecrets() bool {
 			log.Printf("error creating %s: %s", fileTarget, err)
 			return false
 		}
-		_, err = target.WriteString(string(body))
+		_, err = target.WriteString(string(output))
 		if err != nil {
 			log.Printf("error writing token to %s: %s", fileTarget, err)
 			return false

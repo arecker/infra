@@ -29,7 +29,7 @@ def read_secret_webhook():
     log('reading secret from {}', target)
     with open(target) as f:
         data = json.load(f)
-        return data['data']['data']['url']
+        return data['url']
 
 
 class Chore(object):
