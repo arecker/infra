@@ -44,7 +44,6 @@ local metadata = {
           secrets: '/secrets',
         }
       ),
-
     ]
   ),
 ]
