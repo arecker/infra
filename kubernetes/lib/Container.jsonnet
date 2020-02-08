@@ -23,4 +23,4 @@ local new(name='', image='', env={}, volumes={}, roVolumes={}) = (
   }
 );
 
-{ new: new }
+{ new:: new }

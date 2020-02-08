@@ -31,6 +31,19 @@ local metadata = {
           secrets: '/secrets',
         }
       ),
+      Container.new(
+        name='secrets',
+        image='arecker/secretboi:latest',
+        env={
+          VAULT_ADDR: 'http://vault.local',
+          VAULT_ROLE: 'chorebot',
+          ONLY_RUN_ONCE: 'true',
+          SECRET_WEBHOOK: '/slack/reckerfamily/webhook',
+        },
+        volumes={
+          secrets: '/secrets',
+        }
+      ),
 
     ]
   ),
