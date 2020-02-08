@@ -15,6 +15,7 @@ local metadata = {
       { serviceName: 'vault', servicePort: 8200 },
     ],
   ),
+
   Cron.new(
     name='chorebot',
     metadata=metadata,
