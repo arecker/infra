@@ -6,11 +6,6 @@ services:
     build:
       context: chorebot
 
-  secretboi:
-    image: arecker/secretboi:latest
-    build:
-      context: secretboi
-
   vault:
     image: arecker/vault:latest
     build:
