@@ -22,7 +22,7 @@ path "secret/data/slack/reckerfamily/webhook" {
 EOT
 }
 
-resource "vault_kubernetes_auth_backend_role" "example" {
+resource "vault_kubernetes_auth_backend_role" "chorebot" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "chorebot"
   bound_service_account_names      = ["default"]
