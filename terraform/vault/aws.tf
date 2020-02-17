@@ -1,8 +1,10 @@
 data "aws_caller_identity" "current" {}
 
 locals {
+  account_id        = data.aws_caller_identity.current.account_id
   access_key_path   = "${path.root}/secrets/aws-access-key"
   secret_key_path   = "${path.root}/secrets/aws-secret-key"
+  vault_user_arn    = "arn:aws:iam::${local.account_id}:user/vault"
   assume_from_vault = <<EOF
 {
   "Version": "2012-10-17",
@@ -10,7 +12,7 @@ locals {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-        "AWS": "${aws_iam_user.vault.arn}"
+        "AWS": "${local.vault_user_arn}"
       },
       "Effect": "Allow"
     }
@@ -28,13 +30,9 @@ resource "vault_aws_secret_backend" "aws" {
   secret_key = chomp(file(local.secret_key_path))
 }
 
-resource "aws_iam_user" "vault" {
-  name = "vault"
-}
-
 resource "aws_iam_user_policy" "vault" {
   name	 = "vault-policy"
-  user	 = "${aws_iam_user.vault.name}"
+  user	 = "vault"
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -43,7 +41,7 @@ resource "aws_iam_user_policy" "vault" {
     "Action": [
       "sts:AssumeRole"
     ],
-    "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vault/*"
+    "Resource": "arn:aws:iam::${local.account_id}:role/vault/*"
   }
 }
 EOF
