@@ -3,10 +3,17 @@
 set -e
 
 ZONEID="ZONEID123"
+"${ZONEID:?ZONEID not set or empty}"
+
 RECORDSET="something.com"
-TTL=300
+"${RECORDSET:?RECORDSET not set or empty}"
+
+TTL="${TTL:=300}"
+TYPE="${TYPE:=A}"
+
 COMMENT="ddns @ `date`"
-TYPE="A"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+IPFILE="$DIR/update-route53.ip"
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 
 log() {
@@ -29,30 +36,24 @@ valid_ip() {
     return $stat
 }
 
-# Get current dir
-# (from http://stackoverflow.com/a/246128/920350)
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-IPFILE="$DIR/update-route53.ip"
-
 if ! valid_ip $IP; then
     log "Invalid IP address: $IP"
     exit 1
+else
+    log "IP address $IP valid"
 fi
 
-# Check if the IP has changed
-if [ ! -f "$IPFILE" ]
-    then
+if [ ! -f "$IPFILE" ]; then
+    log "Creating $IPFILE"
     touch "$IPFILE"
 fi
 
 if grep -Fxq "$IP" "$IPFILE"; then
-    # code if found
     log "IP is still $IP. Exiting"
     exit 0
 else
     log "IP has changed to $IP"
-    # Fill a temp file with valid JSON
-    TMPFILE=$(mktemp ddns-tmp.XXXXXXXX)
+    TMPFILE="$(mktemp ${DIR}/ddns-tmp.XXXXXXXX)"
     cat > ${TMPFILE} << EOF
     {
       "Comment":"$COMMENT",
@@ -74,15 +75,14 @@ else
     }
 EOF
 
-    # Update the Hosted Zone record
     aws route53 change-resource-record-sets \
-        --hosted-zone-id $ZONEID \
-        --change-batch file://"$TMPFILE" >> "$LOGFILE"
+        --hosted-zone-id "$ZONEID" \
+        --change-batch file://"$TMPFILE"
     log "IP Changed in Route53"
 
-    # Clean up
+    log "Removing $TMPFILE"
     rm $TMPFILE
 fi
 
-# All Done - cache the IP address for next time
+log "Caching IP in $IPFILE"
 echo "$IP" > "$IPFILE"
