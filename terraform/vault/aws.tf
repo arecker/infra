@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 locals {
   access_key_path   = "${path.root}/secrets/aws-access-key"
   secret_key_path   = "${path.root}/secrets/aws-secret-key"
@@ -22,8 +24,8 @@ resource "vault_auth_backend" "aws" {
 }
 
 resource "vault_aws_secret_backend" "aws" {
-  access_key = file(local.access_key_path)
-  secret_key = file(local.secret_key_path)
+  access_key = chomp(file(local.access_key_path))
+  secret_key = chomp(file(local.secret_key_path))
 }
 
 resource "aws_iam_user" "vault" {
@@ -39,10 +41,9 @@ resource "aws_iam_user_policy" "vault" {
   "Statement": {
     "Effect": "Allow",
     "Action": [
-      "ec2:*",
-      "sts:GetFederationToken"
+      "sts:AssumeRole"
     ],
-    "Resource": "*"
+    "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vault/*"
   }
 }
 EOF
@@ -50,6 +51,7 @@ EOF
 
 resource "aws_iam_role" "ddns" {
   name		     = "ddns"
+  path		     = "/vault/"
   assume_role_policy = local.assume_from_vault
 }
 
@@ -70,4 +72,11 @@ resource "aws_iam_role_policy" "ddns" {
   ]
 }
   EOF
+}
+
+resource "vault_aws_secret_backend_role" "ddns" {
+  backend	  = vault_aws_secret_backend.aws.path
+  name		  = "ddns"
+  credential_type = "assumed_role"
+  role_arns	  = [aws_iam_role.ddns.arn]
 }
