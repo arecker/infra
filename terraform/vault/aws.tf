@@ -1,6 +1,20 @@
 locals {
-  access_key_path = "${path.root}/secrets/aws-access-key"
-  secret_key_path = "${path.root}/secrets/aws-secret-key"
+  access_key_path   = "${path.root}/secrets/aws-access-key"
+  secret_key_path   = "${path.root}/secrets/aws-secret-key"
+  assume_from_vault = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "AWS": "${aws_iam_user.vault.arn}"
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
 }
 
 resource "vault_auth_backend" "aws" {
@@ -16,19 +30,20 @@ resource "aws_iam_user" "vault" {
   name = "vault"
 }
 
-locals {
-  assume_from_vault = <<EOF
+resource "aws_iam_user_policy" "vault" {
+  name	 = "vault-policy"
+  user	 = "${aws_iam_user.vault.name}"
+  policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "AWS": "${aws_iam_user.vault.arn}"
-      },
-      "Effect": "Allow"
-    }
-  ]
+  "Statement": {
+    "Effect": "Allow",
+    "Action": [
+      "ec2:*",
+      "sts:GetFederationToken"
+    ],
+    "Resource": "*"
+  }
 }
 EOF
 }
