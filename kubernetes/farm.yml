@@ -1,0 +1,59 @@
+---
+"apiVersion": "networking.k8s.io/v1beta1"
+"kind": "Ingress"
+"metadata":
+  "name": "farm"
+"spec":
+  "rules":
+  - "host": "hub.local"
+    "http":
+      "paths":
+      - "backend":
+          "serviceName": "hub"
+          "servicePort": 80
+  - "host": "vault.local"
+    "http":
+      "paths":
+      - "backend":
+          "serviceName": "vault"
+          "servicePort": 8200
+---
+"apiVersion": "batch/v1beta1"
+"kind": "CronJob"
+"metadata": {}
+"spec":
+  "jobTemplate":
+    "spec":
+      "template":
+        "spec":
+          "containers":
+          - "env": []
+            "image": "arecker/chorebot:latest"
+            "imagePullPolicy": "Always"
+            "name": "chorebot"
+            "volumeMounts":
+            - "mountPath": "/secrets"
+              "name": "secrets"
+              "readOnly": true
+          - "env":
+            - "name": "ONLY_RUN_ONCE"
+              "value": "true"
+            - "name": "SECRET_WEBHOOK"
+              "value": "/slack/reckerfamily/webhook"
+            - "name": "VAULT_ADDR"
+              "value": "http://vault.local"
+            - "name": "VAULT_ROLE"
+              "value": "chorebot"
+            "image": "arecker/secretboi:latest"
+            "imagePullPolicy": "Always"
+            "name": "secretboi"
+            "volumeMounts":
+            - "mountPath": "/secrets"
+              "name": "secrets"
+          "restartPolicy": "OnFailure"
+          "volumes":
+            "secrets":
+              "emptyDir": {}
+  "schedule": "0 10 * * *"
+...
+
