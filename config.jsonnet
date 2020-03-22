@@ -31,16 +31,12 @@ local travis = {
   jobs: {
     include: [
       {
-        stage: 'docker login',
-        script: docker.login(),
-      },
-      {
-        stage: 'docker build',
-        script: compose('build --parallel'),
-      },
-      {
-        stage: 'docker push',
-        script: compose('push'),
+        stage: 'docker',
+        script: [
+          docker.login(),
+          compose('build --parallel'),
+          compose('push'),
+        ],
       },
     ],
   },

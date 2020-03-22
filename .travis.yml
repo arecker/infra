@@ -5,12 +5,11 @@
   - "master"
 "jobs":
   "include":
-  - "script": "echo \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
-    "stage": "docker login"
-  - "script": "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml build --parallel"
-    "stage": "docker build"
-  - "script": "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml push"
-    "stage": "docker push"
+  - "script":
+    - "echo \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
+    - "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml build --parallel"
+    - "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml push"
+    "stage": "docker"
 "language": "bash"
 "notifications":
   "email": false
