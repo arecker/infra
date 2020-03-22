@@ -133,7 +133,7 @@ local kubernetes = {
       }
     );
     podTemplate {
-      volumes: podTemplate.volumes + [{ secrets: { emptyDir: {} } }],
+      volumes: podTemplate.volumes + [{ name: 'secrets', emptyDir: {} }],
       containers: std.map(addSecretMount, podTemplate.containers) + [container],
     }
   ),
