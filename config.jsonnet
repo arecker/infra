@@ -27,26 +27,28 @@ local docker = (
 );
 
 local travis = {
-  language: 'bash',
-  arch: ['arm64'],
-  services: ['docker'],
-  branches: { only: ['master'] },
-  notifications: { email: false },
-  jobs: {
-    include: [
-      {
-        stage: 'docker',
-        script: [
-          docker.login(),
-          docker.compose('build --parallel'),
-          docker.compose('push'),
-        ],
-      },
-    ],
+  asTravisFile():: {
+    language: 'bash',
+    arch: ['arm64'],
+    services: ['docker'],
+    branches: { only: ['master'] },
+    notifications: { email: false },
+    jobs: {
+      include: [
+        {
+          stage: 'docker',
+          script: [
+            docker.login(),
+            docker.compose('build --parallel'),
+            docker.compose('push'),
+          ],
+        },
+      ],
+    },
   },
 };
 
 {
-  '.travis.yml': std.manifestYamlDoc(travis),
+  '.travis.yml': std.manifestYamlDoc(travis.asTravisFile()),
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
 }
