@@ -58,8 +58,9 @@ spec:
               name: vault-data
       volumes:
         - name: vault-data
-          persistentVolumeClaim:
-            claimName: vault-volume-claim
+          nfs:
+            server: archive.local
+            path: /mnt/scratch/farm/vault
 ---
 apiVersion: v1
 kind: Service

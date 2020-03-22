@@ -184,8 +184,15 @@ local farm = {
   ],
 };
 
+local vault = {
+  asKubeConfig():: [
+
+  ],
+};
+
 {
   '.travis.yml': std.manifestYamlDoc(travis.asTravisFile()),
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
   'kubernetes/farm.yml': std.manifestYamlStream(farm.asKubeConfig()),
+  // 'kubernetes/vault.yml': std.manifestYamlStream(vault.asKubeConfig()),
 }
