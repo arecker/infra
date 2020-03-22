@@ -154,7 +154,7 @@ local kubernetes = {
         schedule: info.schedule,
         jobTemplate: { spec: { template: { spec: podTemplate } } },
       },
-    } + { metadata: metadata }
+    } + { metadata+: { name: info.name } }
   ),
 };
 

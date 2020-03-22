@@ -21,7 +21,7 @@
 "apiVersion": "batch/v1beta1"
 "kind": "CronJob"
 "metadata":
-  "name": "farm"
+  "name": "chorebot"
 "spec":
   "jobTemplate":
     "spec":
