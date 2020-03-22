@@ -8,7 +8,6 @@
   - "script":
     - "echo \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
     - "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml build --parallel"
-    - "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml push"
     "stage": "docker"
 "language": "bash"
 "notifications":

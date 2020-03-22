@@ -44,7 +44,7 @@ local travis = {
           script: [
             docker.login(),
             docker.compose('build --parallel'),
-            docker.compose('push'),
+            // docker.compose('push'),
           ],
         },
       ],
