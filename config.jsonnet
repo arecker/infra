@@ -1,25 +1,30 @@
-local docker = {
-  login():: (
-    'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-  ),
-  compose(cmd):: (
-    'docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml %s' % cmd
-  ),
-};
-
-local dockerCompose = {
-  version: '3',
-  services: {
-    [image]: {
-      image: 'arecker/%s:latest' % image,
-      build: { context: image },
-    }
-    for image in [
-      'chorebot',
-      'vault',
-    ]
-  },
-};
+local docker = (
+  local projects = [
+    'chorebot',
+    'vault',
+  ];
+  {
+    projects: projects,
+    login():: (
+      'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+    ),
+    compose(cmd):: (
+      'docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml %s' % cmd
+    ),
+    asComposeFile():: (
+      {
+        version: '3',
+        services: {
+          [project]: {
+            image: 'arecker/%s:latest' % project,
+            build: { context: project },
+          }
+          for project in projects
+        },
+      }
+    ),
+  }
+);
 
 local travis = {
   language: 'bash',
@@ -43,5 +48,5 @@ local travis = {
 
 {
   '.travis.yml': std.manifestYamlDoc(travis),
-  'docker/docker-compose.yml': std.manifestYamlDoc(dockerCompose),
+  'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
 }
