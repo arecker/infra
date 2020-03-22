@@ -52,7 +52,7 @@
               "name": "secrets"
           "restartPolicy": "OnFailure"
           "volumes":
-            "secrets":
+          - "secrets":
               "emptyDir": {}
   "schedule": "0 10 * * *"
 ...

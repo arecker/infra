@@ -133,7 +133,7 @@ local kubernetes = {
       }
     );
     podTemplate {
-      volumes: podTemplate.volumes { secrets: { emptyDir: {} } },
+      volumes: podTemplate.volumes + [{ secrets: { emptyDir: {} } }],
       containers: std.map(addSecretMount, podTemplate.containers) + [container],
     }
   ),
@@ -172,7 +172,7 @@ local farm = {
       name: 'chorebot',
       schedule: '0 10 * * *',
       image: docker.images.chorebot,
-      volumes: {},
+      volumes: [],
       secrets: {
         role: 'chorebot',
         once: true,
