@@ -38,6 +38,10 @@ local travis = {
         stage: 'docker build',
         script: compose('build --parallel'),
       },
+      {
+        stage: 'docker push',
+        script: compose('push'),
+      },
     ],
   },
 };

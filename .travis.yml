@@ -9,6 +9,8 @@
     "stage": "docker login"
   - "script": "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml build --parallel"
     "stage": "docker build"
+  - "script": "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml push"
+    "stage": "docker push"
 "language": "bash"
 "notifications":
   "email": false
