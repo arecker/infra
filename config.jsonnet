@@ -180,7 +180,7 @@ local farm = {
           WEBHOOK: '/slack/reckerfamily/webhook',
         },
       },
-    }),
+    }, metadata=self.metadata),
   ],
 };
 

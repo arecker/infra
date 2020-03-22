@@ -20,7 +20,8 @@
 ---
 "apiVersion": "batch/v1beta1"
 "kind": "CronJob"
-"metadata": {}
+"metadata":
+  "name": "farm"
 "spec":
   "jobTemplate":
     "spec":
