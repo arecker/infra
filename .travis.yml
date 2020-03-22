@@ -1,3 +1,5 @@
+"arch":
+- "arm64"
 "branches":
   "only":
   - "master"

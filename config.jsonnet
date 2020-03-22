@@ -24,6 +24,7 @@ local dockerCompose = {
 
 local travis = {
   language: 'bash',
+  arch: ['arm64'],
   services: ['docker'],
   branches: { only: ['master'] },
   notifications: { email: false },
