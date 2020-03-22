@@ -1,26 +1,14 @@
-language: bash
-
-services:
-  - docker
-
-env:
-  global:
-    - PATH=$HOME/.local/bin:$PATH
-
-stages:
-  - build
-  - deploy
-
-jobs:
-  include:
-    - stage: build
-      script: $TRAVIS_BUILD_DIR/build.sh docker
-    - stage: deploy
-      script: $TRAVIS_BUILD_DIR/build.sh terraform
-
-branches:
-  only:
-    - master
-
-notifications:
-  email: false
+"branches":
+  "only":
+  - "master"
+"jobs":
+  "include":
+  - "script": "echo \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
+    "stage": "docker login"
+  - "script": "docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml build --parallel"
+    "stage": "docker build"
+"language": "bash"
+"notifications":
+  "email": false
+"services":
+- "docker"

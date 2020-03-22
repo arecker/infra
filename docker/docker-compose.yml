@@ -1,12 +1,10 @@
-version: '3'
-
-services:
-  chorebot:
-    image: arecker/chorebot:latest
-    build:
-      context: chorebot
-
-  vault:
-    image: arecker/vault:latest
-    build:
-      context: vault
+"services":
+  "chorebot":
+    "build":
+      "context": "chorebot"
+    "image": "arecker/chorebot:latest"
+  "vault":
+    "build":
+      "context": "vault"
+    "image": "arecker/vault:latest"
+"version": "3"
