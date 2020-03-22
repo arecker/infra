@@ -1,10 +1,9 @@
-local compose(cmd) = (
-  'docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml %s' % cmd
-);
-
 local docker = {
   login():: (
     'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+  ),
+  compose(cmd):: (
+    'docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml %s' % cmd
   ),
 };
 
@@ -34,8 +33,8 @@ local travis = {
         stage: 'docker',
         script: [
           docker.login(),
-          compose('build --parallel'),
-          compose('push'),
+          docker.compose('build --parallel'),
+          docker.compose('push'),
         ],
       },
     ],
