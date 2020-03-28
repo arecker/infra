@@ -400,9 +400,7 @@ local kubeApplyScript = {
     'chorebot',
   ],
   asScript():: (
-    local sheBang = '#!/usr/bin/env sh\n';
-    local body = std.join('\n', ['kubectl apply -f kubernetes/%s.yml' % file for file in self.autoApply]);
-    sheBang + body
+    std.join('\n', ['kubectl apply -f kubernetes/%s.yml' % file for file in self.autoApply])
   ),
 };
 
