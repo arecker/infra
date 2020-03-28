@@ -1,6 +1,9 @@
+local BUILD = importstr 'BUILD';
+
 local docker = (
   local projects = [
     'chorebot',
+    'jenkins',
     'vault',
   ];
   {
@@ -9,7 +12,7 @@ local docker = (
       'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
     ),
     compose(cmd):: (
-      'docker-compose -f $TRAVIS_BUILD_DIR/docker/docker-compose.yml %s' % cmd
+      'docker-compose -f docker/docker-compose.yml %s' % cmd
     ),
     images: {
       [project]: 'arecker/%s:latest' % project
@@ -44,7 +47,7 @@ local travis = {
           script: [
             docker.login(),
             docker.compose('build --parallel'),
-            // docker.compose('push'),
+            docker.compose('push'),
           ],
         },
       ],
@@ -111,7 +114,7 @@ local kubernetes = {
       ],
     }
   ),
-  addSecretboiInit(info, podTemplate):: (
+  addSecretboiInit(role='', once=false, paths={}, podTemplate={}):: (
     local addSecretMount(container) = (
       local mount = { name: 'secrets', mountPath: '/secrets', readOnly: true };
       container {
@@ -119,34 +122,68 @@ local kubernetes = {
       }
     );
 
+    local secretNames = std.objectFields(paths);
+
     local container = self.container(
       name='secretboi',
       image='arecker/secretboi:latest',
       volumes={ secrets: '/secrets' },
       env={
         VAULT_ADDR: 'http://vault.local',
-        VAULT_ROLE: info.role,
-        ONLY_RUN_ONCE: '%s' % info.once,
+        VAULT_ROLE: role,
+        ONLY_RUN_ONCE: '%s' % once,
       } + {
-        ['SECRET_%s' % k]: info.paths[k]
-        for k in std.objectFields(info.paths)
+        ['SECRET_%s' % k]: paths[k]
+        for k in secretNames
       }
     );
+
     podTemplate {
       volumes: podTemplate.volumes + [{ name: 'secrets', emptyDir: {} }],
       containers: std.map(addSecretMount, podTemplate.containers) + [container],
     }
   ),
-  podTemplate(info, metadata={}):: (
-    local containers = [self.container(info.name, info.image)];
-    self.addSecretboiInit(info.secrets, {
+  podTemplate(info, containers, secrets={}, metadata={}):: (
+    local data = {
+      metadata: metadata,
       restartPolicy: 'OnFailure',
-      containers: containers,
       volumes: info.volumes,
-    })
+      containers: containers,
+    };
+
+    local podSecrets = {
+      paths: {},
+      once: false,
+      role: '',
+    } + secrets;
+
+    if std.length(std.objectFields(podSecrets.paths)) == 0 then
+      data
+    else
+      self.addSecretboiInit(
+        podTemplate=data,
+        role=podSecrets.role,
+        once=podSecrets.once,
+        paths=podSecrets.paths
+      )
   ),
-  cron(info, metadata={}):: (
-    local podTemplate = self.podTemplate(info, metadata);
+  deployment(info, podTemplate, metadata={}):: (
+    {
+      apiVersion: 'apps/v1beta1',
+      kind: 'Deployment',
+      metadata: metadata,
+      replicas: info.replicas,
+      template: podTemplate,
+    }
+  ),
+  cron(info, secrets={}, metadata={}):: (
+    local containers = [self.container(info.name, info.image)];
+    local podTemplate = self.podTemplate(
+      info=info,
+      containers=containers,
+      secrets=secrets,
+      metadata=metadata
+    );
     {
       apiVersion: 'batch/v1beta1',
       kind: 'CronJob',
@@ -161,38 +198,76 @@ local kubernetes = {
 local farm = {
   metadata: {
     name: 'farm',
+    build: BUILD,
   },
   asKubeConfig():: [
     kubernetes.ingress([
       { serviceName: 'hub', servicePort: 80 },
+      { serviceName: 'jenkins', servicePort: 8080 },
       { serviceName: 'vault', servicePort: 8200 },
     ], metadata=self.metadata),
 
-    kubernetes.cron({
+    kubernetes.cron(info={
       name: 'chorebot',
       schedule: '0 10 * * *',
       image: docker.images.chorebot,
       volumes: [],
-      secrets: {
-        role: 'chorebot',
-        once: true,
-        paths: {
-          WEBHOOK: '/slack/reckerfamily/webhook',
-        },
+    }, secrets={
+      role: 'chorebot',
+      once: true,
+      paths: {
+        WEBHOOK: '/slack/reckerfamily/webhook',
       },
     }, metadata=self.metadata),
   ],
 };
 
 local vault = {
+  metadata: {
+
+  },
   asKubeConfig():: [
 
   ],
 };
 
+local nfs = {
+  host: 'archive.local',
+  asFarmMount(project):: '/mnt/scratch/farm/' + project,
+};
+
+local jenkins = {
+  metadata: {
+    name: 'jenkins',
+    build: BUILD,
+  },
+
+  asKubeConfig():: (
+    local metadata = self.metadata;
+
+    local masterContainer = kubernetes.container(
+      name='master',
+      image=docker.images.jenkins,
+    );
+
+    local podTemplate = kubernetes.podTemplate(info={
+      name: 'master',
+      image: docker.images.jenkins,
+      volumes: [nfs.asFarmMount(metadata.name)],
+    }, containers=[masterContainer], metadata=metadata);
+
+    local deployment = kubernetes.deployment(info={
+      version: 'apps/v1beta1',
+      kind: 'Deployment',
+      replicas: 1,
+    }, podTemplate=podTemplate, metadata=metadata);
+
+    [deployment]
+  ),
+};
+
 {
-  '.travis.yml': std.manifestYamlDoc(travis.asTravisFile()),
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
   'kubernetes/farm.yml': std.manifestYamlStream(farm.asKubeConfig()),
-  // 'kubernetes/vault.yml': std.manifestYamlStream(vault.asKubeConfig()),
+  'kubernetes/jenkins.yml': std.manifestYamlStream(jenkins.asKubeConfig()),
 }

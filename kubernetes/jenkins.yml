@@ -1,0 +1,22 @@
+---
+"apiVersion": "apps/v1beta1"
+"kind": "Deployment"
+"metadata":
+  "build": "0"
+  "name": "jenkins"
+"replicas": 1
+"template":
+  "containers":
+  - "env": []
+    "image": "arecker/jenkins:latest"
+    "imagePullPolicy": "Always"
+    "name": "master"
+    "volumeMounts": []
+  "metadata":
+    "build": "0"
+    "name": "jenkins"
+  "restartPolicy": "OnFailure"
+  "volumes":
+  - "/mnt/scratch/farm/jenkins"
+...
+

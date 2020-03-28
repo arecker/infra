@@ -2,6 +2,7 @@
 "apiVersion": "networking.k8s.io/v1beta1"
 "kind": "Ingress"
 "metadata":
+  "build": "0"
   "name": "farm"
 "spec":
   "rules":
@@ -11,6 +12,12 @@
       - "backend":
           "serviceName": "hub"
           "servicePort": 80
+  - "host": "jenkins.local"
+    "http":
+      "paths":
+      - "backend":
+          "serviceName": "jenkins"
+          "servicePort": 8080
   - "host": "vault.local"
     "http":
       "paths":
@@ -51,6 +58,9 @@
             "volumeMounts":
             - "mountPath": "/secrets"
               "name": "secrets"
+          "metadata":
+            "build": "0"
+            "name": "farm"
           "restartPolicy": "OnFailure"
           "volumes":
           - "emptyDir": {}
