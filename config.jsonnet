@@ -392,9 +392,24 @@ local hub = {
   ),
 };
 
+local kubeApplyScript = {
+  autoApply: [
+    'ingress',
+    'vault',
+    'hub',
+    'chorebot',
+  ],
+  asScript():: (
+    local sheBang = '#!/usr/bin/env sh\n';
+    local body = std.join('\n', ['kubectl apply -f kubernetes/%s.yml' % file for file in self.autoApply]);
+    sheBang + body
+  ),
+};
+
 {
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
   'kubernetes/chorebot.yml': std.manifestYamlStream(chorebot.asKubeConfig()),
   'kubernetes/hub.yml': std.manifestYamlStream(hub.asKubeConfig()),
   'kubernetes/ingress.yml': std.manifestYamlStream(ingress.asKubeConfig()),
+  'scripts/kubeApply.sh': kubeApplyScript.asScript(),
 }
