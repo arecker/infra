@@ -24,6 +24,10 @@ local docker = (
       dockerfile: 'dockerfiles/Dockerfile.web',
       context: 'hub',
     },
+    jenkins: {
+      dockerfile: 'Dockerfile-alpine',
+      context: 'jenkins',
+    },
   };
 
   {
@@ -321,7 +325,6 @@ local jenkins = {
   metadata: {
     name: 'jenkins',
     labels: {
-      build: BUILD,
       service: 'jenkins',
     },
   },

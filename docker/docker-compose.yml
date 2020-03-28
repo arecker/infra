@@ -17,7 +17,7 @@
   "jenkins":
     "build":
       "context": "jenkins"
-      "dockerfile": "Dockerfile"
+      "dockerfile": "Dockerfile-alpine"
     "image": "arecker/jenkins:0"
   "vault":
     "build":
