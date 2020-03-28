@@ -154,11 +154,11 @@ local kubernetes = {
       containers: std.map(addSecretMount, podTemplate.containers) + [container],
     }
   ),
-  podTemplate(info, containers, secrets={}, metadata={}):: (
+  podTemplate(containers=[], volumes=[], secrets={}, metadata={}):: (
     local data = {
       metadata: metadata,
       restartPolicy: 'OnFailure',
-      volumes: info.volumes,
+      volumes: volumes,
       containers: containers,
     };
 
@@ -186,21 +186,16 @@ local kubernetes = {
       template: podTemplate,
     } + info
   ),
-  cron(info, containers=[], secrets={}, metadata={}):: (
-    local podTemplate = self.podTemplate(
-      info=info,
-      containers=containers,
-      secrets=secrets,
-      metadata=metadata
-    );
-    {
+  cron(schedule='', podTemplate={}, metadata={}):: (
+    std.prune({
       apiVersion: 'batch/v1beta1',
       kind: 'CronJob',
+      metadata: metadata,
       spec: {
-        schedule: info.schedule,
+        schedule: schedule,
         jobTemplate: { spec: { template: { spec: podTemplate } } },
       },
-    } + { metadata+: { name: info.name } }
+    })
   ),
 };
 
@@ -212,7 +207,24 @@ local farm = {
     },
   },
   asKubeConfig():: (
-    local chorebotPodTemplate = {};
+    local chorebotMetadata = self.metadata { name: 'chorebot' };
+
+    local chorebotContainer = kubernetes.container(
+      name=chorebotMetadata.name,
+      image=docker.images.chorebot,
+      pullPolicy='Always'
+    );
+
+    local chorebotPodTemplate = kubernetes.podTemplate(
+      containers=[chorebotContainer],
+      secrets={
+        role: 'chorebot',
+        once: true,
+        paths: {
+          WEBHOOK: '/slack/reckerfamily/webhook',
+        },
+      }
+    );
 
     [
       kubernetes.ingress([
@@ -221,17 +233,11 @@ local farm = {
         { serviceName: 'vault', servicePort: 8200 },
       ], metadata=self.metadata),
 
-      kubernetes.cron(info={
-        name: 'chorebot',
-        schedule: '0 10 * * *',
-        volumes: [],
-      }, containers=[chorebotContainer], secrets={
-        role: 'chorebot',
-        once: true,
-        paths: {
-          WEBHOOK: '/slack/reckerfamily/webhook',
-        },
-      }, metadata=self.metadata),
+      kubernetes.cron(
+        schedule='0 10 * * *',
+        podTemplate=chorebotPodTemplate,
+        metadata=chorebotMetadata
+      ),
     ]
   ),
 };
@@ -277,11 +283,11 @@ local jenkins = {
       volumes={ 'jenkins-data': '/var/jenkins_home' },
     );
 
-    local podTemplate = kubernetes.podTemplate(info={
-      name: 'master',
-      image: docker.images.jenkins,
-      volumes: [nfs.asFarmMount('jenkins-data')],
-    }, containers=[masterContainer], metadata=metadata);
+    local podTemplate = kubernetes.podTemplate(
+      volumes=[nfs.asFarmMount('jenkins-data')],
+      containers=[masterContainer],
+      metadata=metadata
+    );
 
     local deployment = kubernetes.deployment(info={
       version: 'apps/v1beta1',
