@@ -6,32 +6,33 @@
     "build": "0"
     "service": "jenkins"
   "name": "jenkins"
-"replicas": 1
-"template":
-  "containers":
-  - "env": []
-    "image": "arecker/jenkins:latest"
-    "imagePullPolicy": "Always"
-    "name": "master"
-    "ports":
-    - "containerPort": 8080
-    "securityContext":
-      "runAsUser": 1001
-    "volumeMounts":
-    - "mountPath": "/var/jenkins_home"
-      "name": "jenkins-data"
-  "metadata":
-    "labels":
-      "build": "0"
-      "service": "jenkins"
-    "name": "jenkins"
-  "restartPolicy": "OnFailure"
-  "volumes":
-  - "name": "jenkins-data"
-    "nfs":
-      "host": "archive.local"
-      "path": "/mnt/scratch/farm/jenkins-data"
-"version": "apps/v1beta1"
+"spec":
+  "replicas": 1
+  "template":
+    "metadata":
+      "labels":
+        "build": "0"
+        "service": "jenkins"
+      "name": "jenkins"
+    "spec":
+      "containers":
+      - "env": []
+        "image": "arecker/jenkins:latest"
+        "imagePullPolicy": "Always"
+        "name": "master"
+        "ports":
+        - "containerPort": 8080
+        "securityContext":
+          "runAsUser": 1001
+        "volumeMounts":
+        - "mountPath": "/var/jenkins_home"
+          "name": "jenkins-data"
+      "restartPolicy": "Always"
+      "volumes":
+      - "name": "jenkins-data"
+        "nfs":
+          "path": "/mnt/scratch/farm/jenkins-data"
+          "server": "archive.local"
 ---
 "apiVersion": "v1"
 "kind": "Service"

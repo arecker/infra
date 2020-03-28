@@ -163,16 +163,20 @@ local kubernetes = {
     );
 
     podTemplate {
-      volumes: podTemplate.volumes + [{ name: 'secrets', emptyDir: {} }],
-      containers: std.map(addSecretMount, podTemplate.containers) + [container],
+      spec+: {
+        volumes: podTemplate.spec.volumes + [{ name: 'secrets', emptyDir: {} }],
+        containers: std.map(addSecretMount, podTemplate.spec.containers) + [container],
+      },
     }
   ),
-  podTemplate(containers=[], volumes=[], secrets={}, metadata={}):: (
+  podTemplate(containers=[], volumes=[], secrets={}, metadata={}, restartPolicy='Always'):: (
     local data = {
       metadata: metadata,
-      restartPolicy: 'OnFailure',
-      volumes: volumes,
-      containers: containers,
+      spec: {
+        restartPolicy: restartPolicy,
+        volumes: volumes,
+        containers: containers,
+      },
     };
 
     local podSecrets = {
@@ -191,13 +195,16 @@ local kubernetes = {
         paths=podSecrets.paths
       )
   ),
-  deployment(info, podTemplate, metadata={}):: (
+  deployment(replicas, podTemplate, metadata={}):: (
     {
       apiVersion: 'apps/v1beta1',
       kind: 'Deployment',
       metadata: metadata,
-      template: podTemplate,
-    } + info
+      spec: {
+        replicas: replicas,
+        template: podTemplate,
+      },
+    }
   ),
   cron(schedule='', podTemplate={}, metadata={}):: (
     std.prune({
@@ -206,7 +213,7 @@ local kubernetes = {
       metadata: metadata,
       spec: {
         schedule: schedule,
-        jobTemplate: { spec: { template: { spec: podTemplate } } },
+        jobTemplate: { spec: { template: podTemplate } },
       },
     })
   ),
@@ -229,6 +236,7 @@ local chorebot = {
     );
 
     local podTemplate = kubernetes.podTemplate(
+      restartPolicy='OnFailure',
       containers=[container],
       secrets={
         role: 'chorebot',
@@ -282,7 +290,7 @@ local nfs = {
     {
       name: name,
       nfs: {
-        host: nfs.host,
+        server: nfs.host,
         path: '/mnt/scratch/farm/' + name,
       },
     }
@@ -315,11 +323,7 @@ local jenkins = {
       metadata=metadata
     );
 
-    local deployment = kubernetes.deployment(info={
-      version: 'apps/v1beta1',
-      kind: 'Deployment',
-      replicas: 1,
-    }, podTemplate=podTemplate, metadata=metadata);
+    local deployment = kubernetes.deployment(replicas=1, podTemplate=podTemplate, metadata=metadata);
 
     local service = kubernetes.service(name='jenkins', port=8080, metadata=metadata);
 
