@@ -361,9 +361,41 @@ local jenkins = {
   ),
 };
 
+local hub = {
+  metadata: {
+    name: 'hub',
+    labels: {
+      build: BUILD,
+    },
+  },
+
+  proxyMetadata: self.metadata {
+    labels+: {
+      service: 'hub-proxy',
+    },
+  },
+
+  webMetadata: self.metadata {
+    labels+: {
+      service: 'hub-web',
+    },
+  },
+
+  dbMetadata: self.metadata {
+    labels+: {
+      service: 'hub-db',
+    },
+  },
+
+  asKubeConfig():: (
+    []
+  ),
+};
+
 {
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
   'kubernetes/chorebot.yml': std.manifestYamlStream(chorebot.asKubeConfig()),
+  'kubernetes/hub.yml': std.manifestYamlStream(hub.asKubeConfig()),
   'kubernetes/ingress.yml': std.manifestYamlStream(ingress.asKubeConfig()),
   'kubernetes/jenkins.yml': std.manifestYamlStream(jenkins.asKubeConfig()),
 }
