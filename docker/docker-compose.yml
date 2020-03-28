@@ -2,13 +2,13 @@
   "chorebot":
     "build":
       "context": "chorebot"
-    "image": "arecker/chorebot:latest"
+    "image": "arecker/chorebot:0"
   "jenkins":
     "build":
       "context": "jenkins"
-    "image": "arecker/jenkins:latest"
+    "image": "arecker/jenkins:0"
   "vault":
     "build":
       "context": "vault"
-    "image": "arecker/vault:latest"
+    "image": "arecker/vault:0"
 "version": "3"

@@ -23,7 +23,7 @@ local docker = (
         version: '3',
         services: {
           [project]: {
-            image: 'arecker/%s:latest' % project,
+            image: 'arecker/%s:%s' % [project, BUILD],
             build: { context: project },
           }
           for project in projects
