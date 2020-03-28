@@ -4,7 +4,7 @@
 "metadata":
   "labels":
     "build": "0"
-  "name": "farm"
+  "name": "ingress"
 "spec":
   "rules":
   - "host": "hub.local"

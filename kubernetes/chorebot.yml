@@ -1,0 +1,41 @@
+---
+"apiVersion": "batch/v1beta1"
+"kind": "CronJob"
+"metadata":
+  "labels":
+    "build": "0"
+  "name": "chorebot"
+"spec":
+  "jobTemplate":
+    "spec":
+      "template":
+        "spec":
+          "containers":
+          - "image": "arecker/chorebot:latest"
+            "imagePullPolicy": "Always"
+            "name": "chorebot"
+            "volumeMounts":
+            - "mountPath": "/secrets"
+              "name": "secrets"
+              "readOnly": true
+          - "env":
+            - "name": "ONLY_RUN_ONCE"
+              "value": "true"
+            - "name": "SECRET_WEBHOOK"
+              "value": "/slack/reckerfamily/webhook"
+            - "name": "VAULT_ADDR"
+              "value": "http://vault.local"
+            - "name": "VAULT_ROLE"
+              "value": "chorebot"
+            "image": "arecker/secretboi:latest"
+            "imagePullPolicy": "Always"
+            "name": "secretboi"
+            "volumeMounts":
+            - "mountPath": "/secrets"
+              "name": "secrets"
+          "restartPolicy": "OnFailure"
+          "volumes":
+          - "name": "secrets"
+  "schedule": "0 10 * * *"
+...
+

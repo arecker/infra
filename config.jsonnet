@@ -86,6 +86,19 @@ local kubernetes = {
       },
     } + { metadata: metadata }
   ),
+  service(name='', port='', metadata={}):: (
+    {
+      apiVersion: 'v1',
+      kind: 'Service',
+      metadata: metadata,
+      spec: {
+        ports: [{ port: port, protocol: 'TCP' }],
+        selector: {
+          service: name,
+        },
+      },
+    }
+  ),
   container(
     name,
     image,
@@ -199,24 +212,24 @@ local kubernetes = {
   ),
 };
 
-local farm = {
+local chorebot = {
   metadata: {
-    name: 'farm',
+    name: 'chorebot',
     labels: {
       build: BUILD,
     },
   },
   asKubeConfig():: (
-    local chorebotMetadata = self.metadata { name: 'chorebot' };
+    local metadata = self.metadata;
 
-    local chorebotContainer = kubernetes.container(
-      name=chorebotMetadata.name,
+    local container = kubernetes.container(
+      name=metadata.name,
       image=docker.images.chorebot,
       pullPolicy='Always'
     );
 
-    local chorebotPodTemplate = kubernetes.podTemplate(
-      containers=[chorebotContainer],
+    local podTemplate = kubernetes.podTemplate(
+      containers=[container],
       secrets={
         role: 'chorebot',
         once: true,
@@ -226,18 +239,30 @@ local farm = {
       }
     );
 
+    local cron = kubernetes.cron(
+      schedule='0 10 * * *',
+      podTemplate=podTemplate,
+      metadata=metadata
+    );
+
+    [cron]
+  ),
+};
+
+local ingress = {
+  metadata: {
+    name: 'ingress',
+    labels: {
+      build: BUILD,
+    },
+  },
+  asKubeConfig():: (
     [
       kubernetes.ingress([
         { serviceName: 'hub', servicePort: 80 },
         { serviceName: 'jenkins', servicePort: 8080 },
         { serviceName: 'vault', servicePort: 8200 },
       ], metadata=self.metadata),
-
-      kubernetes.cron(
-        schedule='0 10 * * *',
-        podTemplate=chorebotPodTemplate,
-        metadata=chorebotMetadata
-      ),
     ]
   ),
 };
@@ -269,6 +294,7 @@ local jenkins = {
     name: 'jenkins',
     labels: {
       build: BUILD,
+      service: 'jenkins',
     },
   },
 
@@ -279,7 +305,7 @@ local jenkins = {
       name='master',
       image=docker.images.jenkins,
       securityContext={ runAsUser: 1001 },
-      ports=[{ containerPort: 8200 }],
+      ports=[{ containerPort: 8080 }],
       volumes={ 'jenkins-data': '/var/jenkins_home' },
     );
 
@@ -295,12 +321,15 @@ local jenkins = {
       replicas: 1,
     }, podTemplate=podTemplate, metadata=metadata);
 
-    [deployment]
+    local service = kubernetes.service(name='jenkins', port=8080, metadata=metadata);
+
+    [deployment, service]
   ),
 };
 
 {
   'docker/docker-compose.yml': std.manifestYamlDoc(docker.asComposeFile()),
-  'kubernetes/farm.yml': std.manifestYamlStream(farm.asKubeConfig()),
+  'kubernetes/chorebot.yml': std.manifestYamlStream(chorebot.asKubeConfig()),
+  'kubernetes/ingress.yml': std.manifestYamlStream(ingress.asKubeConfig()),
   'kubernetes/jenkins.yml': std.manifestYamlStream(jenkins.asKubeConfig()),
 }
