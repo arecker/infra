@@ -3,25 +3,25 @@
     "build":
       "context": "chorebot"
       "dockerfile": "Dockerfile"
-    "image": "arecker/chorebot:0"
+    "image": "arecker/chorebot:latest"
   "hub-proxy":
     "build":
       "context": "hub"
       "dockerfile": "dockerfiles/Dockerfile.proxy"
-    "image": "arecker/hub-proxy:0"
+    "image": "arecker/hub-proxy:latest"
   "hub-web":
     "build":
       "context": "hub"
       "dockerfile": "dockerfiles/Dockerfile.web"
-    "image": "arecker/hub-web:0"
+    "image": "arecker/hub-web:latest"
   "jenkins":
     "build":
       "context": "jenkins"
       "dockerfile": "Dockerfile-alpine"
-    "image": "arecker/jenkins:0"
+    "image": "arecker/jenkins:latest"
   "vault":
     "build":
       "context": "vault"
       "dockerfile": "Dockerfile"
-    "image": "arecker/vault:0"
+    "image": "arecker/vault:latest"
 "version": "3"

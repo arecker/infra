@@ -3,6 +3,7 @@
 "kind": "Deployment"
 "metadata":
   "labels":
+    "build": "static"
     "service": "jenkins"
   "name": "jenkins"
 "spec":
@@ -10,6 +11,7 @@
   "template":
     "metadata":
       "labels":
+        "build": "static"
         "service": "jenkins"
       "name": "jenkins"
     "spec":
@@ -36,6 +38,7 @@
 "kind": "Service"
 "metadata":
   "labels":
+    "build": "static"
     "service": "jenkins"
   "name": "jenkins"
 "spec":

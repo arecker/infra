@@ -9,24 +9,33 @@ local docker = (
     'hub-proxy',
   ];
 
-  local projectBuildConfigs = {
+  local projectConfigs = {
     [project]: {
-      dockerfile: 'Dockerfile',
-      context: project,
+      image: 'arecker/%s:latest' % project,
+      build: {
+        context: project,
+        dockerfile: 'Dockerfile',
+      },
     }
     for project in projects
   } + {
-    'hub-proxy': {
-      dockerfile: 'dockerfiles/Dockerfile.proxy',
-      context: 'hub',
+    'hub-proxy'+: {
+      build+: {
+        dockerfile: 'dockerfiles/Dockerfile.proxy',
+        context: 'hub',
+      },
     },
-    'hub-web': {
-      dockerfile: 'dockerfiles/Dockerfile.web',
-      context: 'hub',
+    'hub-web'+: {
+      build+: {
+        dockerfile: 'dockerfiles/Dockerfile.web',
+        context: 'hub',
+      },
     },
-    jenkins: {
-      dockerfile: 'Dockerfile-alpine',
-      context: 'jenkins',
+    jenkins+: {
+      build+: {
+        dockerfile: 'Dockerfile-alpine',
+        context: 'jenkins',
+      },
     },
   };
 
@@ -46,10 +55,7 @@ local docker = (
       {
         version: '3',
         services: {
-          [project]: {
-            image: 'arecker/%s:%s' % [project, BUILD],
-            build: projectBuildConfigs[project],
-          }
+          [project]: projectConfigs[project]
           for project in projects
         },
       }
@@ -326,6 +332,7 @@ local jenkins = {
     name: 'jenkins',
     labels: {
       service: 'jenkins',
+      build: 'static',  // it's probably not a good idea to continuously deploy jenkins, right?
     },
   },
 
