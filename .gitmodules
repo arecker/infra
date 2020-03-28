@@ -1,0 +1,3 @@
+[submodule "docker/hub"]
+	path = docker/hub
+	url = git@github.com:arecker/hub.git
