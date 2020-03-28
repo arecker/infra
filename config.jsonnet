@@ -5,7 +5,27 @@ local docker = (
     'chorebot',
     'jenkins',
     'vault',
+    'hub-web',
+    'hub-proxy',
   ];
+
+  local projectBuildConfigs = {
+    [project]: {
+      dockerfile: 'Dockerfile',
+      context: project,
+    }
+    for project in projects
+  } + {
+    'hub-proxy': {
+      dockerfile: 'dockerfiles/Dockerfile.proxy',
+      context: 'hub',
+    },
+    'hub-web': {
+      dockerfile: 'dockerfiles/Dockerfile.web',
+      context: 'hub',
+    },
+  };
+
   {
     projects: projects,
     login():: (
@@ -24,7 +44,7 @@ local docker = (
         services: {
           [project]: {
             image: 'arecker/%s:%s' % [project, BUILD],
-            build: { context: project },
+            build: projectBuildConfigs[project],
           }
           for project in projects
         },
