@@ -2,7 +2,8 @@
 "apiVersion": "apps/v1beta1"
 "kind": "Deployment"
 "metadata":
-  "build": "0"
+  "labels":
+    "build": "0"
   "name": "jenkins"
 "replicas": 1
 "template":
@@ -11,12 +12,23 @@
     "image": "arecker/jenkins:latest"
     "imagePullPolicy": "Always"
     "name": "master"
-    "volumeMounts": []
+    "ports":
+    - "containerPort": 8200
+    "securityContext":
+      "runAsUser": 1001
+    "volumeMounts":
+    - "mountPath": "/var/jenkins_home"
+      "name": "jenkins-data"
   "metadata":
-    "build": "0"
+    "labels":
+      "build": "0"
     "name": "jenkins"
   "restartPolicy": "OnFailure"
   "volumes":
-  - "/mnt/scratch/farm/jenkins"
+  - "name": "jenkins-data"
+    "nfs":
+      "host": "archive.local"
+      "path": "/mnt/scratch/farm/jenkins-data"
+"version": "apps/v1beta1"
 ...
 
