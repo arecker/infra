@@ -368,26 +368,26 @@ local jenkins = {
 };
 
 local hub = {
-  metadata: {
+  baseMetadata:: {
     name: 'hub',
     labels: {
       build: BUILD,
     },
   },
 
-  proxyMetadata: self.metadata {
+  proxyMetadata: self.baseMetadata {
     labels+: {
       service: 'hub-proxy',
     },
   },
 
-  webMetadata: self.metadata {
+  webMetadata: self.baseMetadata {
     labels+: {
       service: 'hub-web',
     },
   },
 
-  dbMetadata: self.metadata {
+  dbMetadata: self.baseMetadata {
     labels+: {
       service: 'hub-db',
     },
