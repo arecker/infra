@@ -4,6 +4,11 @@
       "context": "chorebot"
       "dockerfile": "Dockerfile"
     "image": "arecker/chorebot:latest"
+  "docker-slave":
+    "build":
+      "context": "docker-slave"
+      "dockerfile": "Dockerfile-alpine"
+    "image": "arecker/docker-slave:latest"
   "hub-proxy":
     "build":
       "context": "hub"
