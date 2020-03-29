@@ -3,10 +3,10 @@ local BUILD = importstr 'BUILD';
 local docker = (
   local projects = [
     'chorebot',
-    'docker-slave',
     'hub-proxy',
     'hub-web',
     'jenkins',
+    'jenkins-agent',
     'vault',
   ];
 
@@ -20,11 +20,6 @@ local docker = (
     }
     for project in projects
   } + {
-    'docker-slave'+: {
-      build+: {
-        dockerfile: 'Dockerfile-alpine',
-      },
-    },
     'hub-proxy'+: {
       build+: {
         dockerfile: 'dockerfiles/Dockerfile.proxy',
@@ -40,7 +35,11 @@ local docker = (
     jenkins+: {
       build+: {
         dockerfile: 'Dockerfile-alpine',
-        context: 'jenkins',
+      },
+    },
+    'jenkins-agent'+: {
+      build+: {
+        dockerfile: 'Dockerfile-alpine',
       },
     },
   };

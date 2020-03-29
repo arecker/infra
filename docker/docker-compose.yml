@@ -4,11 +4,6 @@
       "context": "chorebot"
       "dockerfile": "Dockerfile"
     "image": "arecker/chorebot:latest"
-  "docker-slave":
-    "build":
-      "context": "docker-slave"
-      "dockerfile": "Dockerfile-alpine"
-    "image": "arecker/docker-slave:latest"
   "hub-proxy":
     "build":
       "context": "hub"
@@ -24,6 +19,11 @@
       "context": "jenkins"
       "dockerfile": "Dockerfile-alpine"
     "image": "arecker/jenkins:latest"
+  "jenkins-agent":
+    "build":
+      "context": "jenkins-agent"
+      "dockerfile": "Dockerfile-alpine"
+    "image": "arecker/jenkins-agent:latest"
   "vault":
     "build":
       "context": "vault"
