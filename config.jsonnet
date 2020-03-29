@@ -7,6 +7,7 @@ local docker = (
     'hub-web',
     'jenkins',
     'jenkins-agent',
+    'jnlp',
     'vault',
   ];
 

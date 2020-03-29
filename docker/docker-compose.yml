@@ -24,6 +24,11 @@
       "context": "jenkins-agent"
       "dockerfile": "Dockerfile-alpine"
     "image": "arecker/jenkins-agent:latest"
+  "jnlp":
+    "build":
+      "context": "jnlp"
+      "dockerfile": "Dockerfile"
+    "image": "arecker/jnlp:latest"
   "vault":
     "build":
       "context": "vault"
