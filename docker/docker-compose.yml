@@ -19,11 +19,6 @@
       "context": "jenkins"
       "dockerfile": "Dockerfile-alpine"
     "image": "arecker/jenkins:latest"
-  "jenkins-agent":
-    "build":
-      "context": "jenkins-agent"
-      "dockerfile": "Dockerfile-alpine"
-    "image": "arecker/jenkins-agent:latest"
   "jnlp":
     "build":
       "context": "jnlp"

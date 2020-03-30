@@ -36,7 +36,7 @@ local docker = (
       build+: {
         dockerfile: 'Dockerfile-alpine',
       },
-    }
+    },
   };
 
   {
