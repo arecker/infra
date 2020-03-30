@@ -4,9 +4,3 @@
 [submodule "docker/jenkins"]
 	path = docker/jenkins
 	url = https://github.com/jenkinsci/docker
-[submodule "docker/docker-slave"]
-	path = docker/docker-slave
-	url = git@github.com:jenkinsci/docker-slave.git
-[submodule "docker/jenkins-agent"]
-	path = docker/jenkins-agent
-	url = git@github.com:jenkinsci/docker-slave.git

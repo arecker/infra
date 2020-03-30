@@ -6,7 +6,6 @@ local docker = (
     'hub-proxy',
     'hub-web',
     'jenkins',
-    'jenkins-agent',
     'jnlp',
     'vault',
   ];
@@ -37,12 +36,7 @@ local docker = (
       build+: {
         dockerfile: 'Dockerfile-alpine',
       },
-    },
-    'jenkins-agent'+: {
-      build+: {
-        dockerfile: 'Dockerfile-alpine',
-      },
-    },
+    }
   };
 
   {
