@@ -5,8 +5,6 @@ local docker = (
     'chorebot',
     'hub-proxy',
     'hub-web',
-    'jenkins',
-    'jnlp',
     'vault',
   ];
 
@@ -30,11 +28,6 @@ local docker = (
       build+: {
         dockerfile: 'dockerfiles/Dockerfile.web',
         context: 'hub',
-      },
-    },
-    jenkins+: {
-      build+: {
-        dockerfile: 'Dockerfile-alpine',
       },
     },
   };
@@ -298,7 +291,6 @@ local ingress = {
     [
       kubernetes.ingress([
         { serviceName: 'hub', servicePort: 80 },
-        { serviceName: 'jenkins', servicePort: 8080 },
         { serviceName: 'vault', servicePort: 8200 },
       ], metadata=self.metadata),
     ]
@@ -324,40 +316,6 @@ local nfs = {
         path: '/mnt/scratch/farm/' + name,
       },
     }
-  ),
-};
-
-local jenkins = {
-  metadata: {
-    name: 'jenkins',
-    labels: {
-      service: 'jenkins',
-      build: 'static',  // it's probably not a good idea to continuously deploy jenkins, right?
-    },
-  },
-
-  asKubeConfig():: (
-    local metadata = self.metadata;
-
-    local masterContainer = kubernetes.container(
-      name='master',
-      image=docker.images.jenkins,
-      securityContext={ runAsUser: 1001 },
-      ports=[{ containerPort: 8080 }],
-      volumes={ 'jenkins-data': '/var/jenkins_home' },
-    );
-
-    local podTemplate = kubernetes.podTemplate(
-      volumes=[nfs.asFarmMount('jenkins-data')],
-      containers=[masterContainer],
-      metadata=metadata
-    );
-
-    local deployment = kubernetes.deployment(replicas=1, podTemplate=podTemplate, metadata=metadata);
-
-    local service = kubernetes.service(name='jenkins', port=8080, metadata=metadata);
-
-    [deployment, service]
   ),
 };
 

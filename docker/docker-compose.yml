@@ -14,16 +14,6 @@
       "context": "hub"
       "dockerfile": "dockerfiles/Dockerfile.web"
     "image": "arecker/hub-web:latest"
-  "jenkins":
-    "build":
-      "context": "jenkins"
-      "dockerfile": "Dockerfile-alpine"
-    "image": "arecker/jenkins:latest"
-  "jnlp":
-    "build":
-      "context": "jnlp"
-      "dockerfile": "Dockerfile"
-    "image": "arecker/jnlp:latest"
   "vault":
     "build":
       "context": "vault"
