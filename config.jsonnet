@@ -34,12 +34,6 @@ local docker = (
 
   {
     projects: projects,
-    login():: (
-      'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-    ),
-    compose(cmd):: (
-      'docker-compose -f docker/docker-compose.yml %s' % cmd
-    ),
     images: {
       [project]: 'arecker/%s:latest' % project
       for project in projects
@@ -55,28 +49,6 @@ local docker = (
     ),
   }
 );
-
-local travis = {
-  asTravisFile():: {
-    language: 'bash',
-    arch: ['arm64'],
-    services: ['docker'],
-    branches: { only: ['master'] },
-    notifications: { email: false },
-    jobs: {
-      include: [
-        {
-          stage: 'docker',
-          script: [
-            docker.login(),
-            docker.compose('build --parallel'),
-            docker.compose('push'),
-          ],
-        },
-      ],
-    },
-  },
-};
 
 local kubernetes = {
   ingress(rules, metadata={}):: (
@@ -345,20 +317,23 @@ local hub = {
     },
   },
 
+  dbDeployment():: (
+    local podTemplate = kubernetes.podTemplate(
+      restartPolicy='OnFailure',
+      containers=[container],
+      secrets={
+        role: 'chorebot',
+        once: true,
+        paths: {
+          WEBHOOK: '/slack/reckerfamily/webhook',
+        },
+      }
+    );
+    {}
+  ),
+
   asKubeConfig():: (
     []
-  ),
-};
-
-local kubeApplyScript = {
-  autoApply: [
-    'ingress',
-    'vault',
-    'hub',
-    'chorebot',
-  ],
-  asScript():: (
-    std.join('\n', ['kubectl apply -f kubernetes/%s.yml' % file for file in self.autoApply])
   ),
 };
 
@@ -367,5 +342,4 @@ local kubeApplyScript = {
   'kubernetes/chorebot.yml': std.manifestYamlStream(chorebot.asKubeConfig()),
   'kubernetes/hub.yml': std.manifestYamlStream(hub.asKubeConfig()),
   'kubernetes/ingress.yml': std.manifestYamlStream(ingress.asKubeConfig()),
-  'scripts/kubeApply.sh': kubeApplyScript.asScript(),
 }
