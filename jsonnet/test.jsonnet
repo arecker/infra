@@ -20,7 +20,7 @@ local testCase = {
 local kubernetesTest = testCase {
   testIngress(): (
     local rule = [k.ingressRule('hub', 80)];
-    local actual = k.ingress().withRules([rule]);
+    local actual = k.ingress('test').withRules([rule]);
     self.assertEqual(actual.spec.rules, [rule])
   ),
 };

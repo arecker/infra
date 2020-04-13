@@ -3,16 +3,15 @@
     withLabels(labels):: (
       self + { metadata+: { labels+: labels } }
     ),
+    inNamespace(name):: (
+      self + { metadata+: { namespace: name } }
+    ),
   },
-  ingress():: (
-    {
+  ingress(name):: (
+    self._base {
       apiVersion: 'networking.k8s.io/v1beta1',
       kind: 'Ingress',
-      spec: {
-        rules: [
-
-        ],
-      },
+      metadata: { name: name },
       withRules(ingressRules):: (
         self {
           spec+: {
