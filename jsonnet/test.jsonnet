@@ -26,5 +26,8 @@ local kubernetesTest = testCase {
 };
 
 {
-  kubernetesTest: kubernetesTest.run(),
+  '.tests.txt': std.manifestJson({
+    kubernetesTest: kubernetesTest.run()
+  })
 }
+

@@ -1,10 +1,12 @@
-.PHONY: all jsonnet test
+jsonnetFiles = $(wildcard jsonnet/*.jsonnet)
+jsonnetFlags = -m . -S
 
-all: test jsonnet
-
-test:
-	jsonnet jsonnet/test.jsonnet
+.PHONY: jsonnet test all
 
 jsonnet:
-	jsonnetfmt -i jsonnet/hub.jsonnet
-	jsonnet -m . -S jsonnet/hub.jsonnet
+	for file in $(jsonnetFiles); do jsonnet $(jsonnetFlags) $$file; done
+
+test:
+	jsonnet $(jsonnetFlags) jsonnet/test.jsonnet
+
+all: test jsonnet

@@ -40,6 +40,75 @@
             "apiVersion": "v1",
             "kind": "Service",
             "metadata": {
+                "name": "hub-db",
+                "namespace": "hub"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "port": 5432,
+                        "protocol": "TCP"
+                    }
+                ],
+                "selector": {
+                    "service": "hub-db"
+                }
+            }
+        },
+        {
+            "apiVersion": "apps/v1beta1",
+            "kind": "Deployment",
+            "metadata": {
+                "name": "hub-db",
+                "namespace": "hub"
+            },
+            "spec": {
+                "replicas": 1,
+                "template": {
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "PGDATA",
+                                        "value": "/var/lib/postgresql/data/pgdata"
+                                    },
+                                    {
+                                        "name": "POSTGRES_DB",
+                                        "value": "hub"
+                                    },
+                                    {
+                                        "name": "POSTGRES_PASSWORD_FILE",
+                                        "value": "/secrets/HUB/db_password"
+                                    },
+                                    {
+                                        "name": "POSTGRES_USER_FILE",
+                                        "value": "/secrets/HUB/db_username"
+                                    }
+                                ],
+                                "image": "postgres:11.5",
+                                "imagePullPolicy": "Always",
+                                "name": "postgres",
+                                "ports": [
+                                    {
+                                        "containerPort": 5432,
+                                        "protocol": "TCP"
+                                    }
+                                ]
+                            }
+                        ],
+                        "securityContext": {
+                            "runAsGroup": 1000,
+                            "runAsUser": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
                 "name": "hub-web",
                 "namespace": "hub"
             },

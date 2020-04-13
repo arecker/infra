@@ -7,6 +7,51 @@
       self + { metadata+: { namespace: name } }
     ),
   },
+  container(name):: {
+    name: name,
+    withEnv(envList):: self { env: envList },
+    withImage(image):: self { image: image },
+    withImagePullPolicy(policy):: self { imagePullPolicy: policy },
+    withPorts(containerPorts):: self { ports: containerPorts },
+    withVolumeMounts(volumeMounts):: self { volumeMounts: volumeMounts },
+  },
+  containerEnvList(envMap):: std.sort([
+    { name: k, value: envMap[k] }
+    for k in std.objectFields(envMap)
+  ], keyF=function(x) x.name),
+  containerPort(containerPort, protocol='TCP'):: {
+    containerPort: containerPort,
+    protocol: protocol,
+  },
+  containerVolumeMount(name, path, readOnly=true):: {
+    name: name,
+    mountPath: path,
+    readOnly: readOnly,
+  },
+  deployment(name):: self._base {
+    apiVersion: 'apps/v1beta1',
+    kind: 'Deployment',
+    metadata: { name: name },
+    withContainers(containers):: self {
+      spec+: {
+        template+: {
+          spec+: {
+            containers: containers,
+          },
+        },
+      },
+    },
+    withReplicas(n):: self { spec+: { replicas: n } },
+    withSecurityContext(securityContext):: self {
+      spec+: {
+        template+: {
+          spec+: {
+            securityContext: securityContext,
+          },
+        },
+      },
+    },
+  },
   ingress(name):: (
     self._base {
       apiVersion: 'networking.k8s.io/v1beta1',
@@ -57,6 +102,7 @@
   ),
   path(file):: 'kubernetes/' + file,
   render(data):: std.manifestJson(data),
+  securityContext(uid, gid):: { runAsUser: uid, runAsGroup: gid },
   service(name):: self._base {
     name:: name,
     apiVersion: 'v1',
