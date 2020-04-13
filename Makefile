@@ -1,7 +1,10 @@
-.PHONY: all jsonnet
+.PHONY: all jsonnet test
 
-all: jsonnet
+all: test jsonnet
+
+test:
+	jsonnet jsonnet/test.jsonnet
 
 jsonnet:
-	jsonnetfmt -i config.jsonnet
-	jsonnet -m . -S config.jsonnet
+	jsonnetfmt -i jsonnet/ingress.jsonnet
+	jsonnet -m . -S jsonnet/ingress.jsonnet

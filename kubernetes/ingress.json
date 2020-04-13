@@ -1,0 +1,50 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "labels": {
+                    "name": "ingress"
+                },
+                "name": "ingress"
+            }
+        },
+        {
+            "apiVersion": "networking.k8s.io/v1beta1",
+            "kind": "Ingress",
+            "spec": {
+                "rules": [
+                    {
+                        "host": "hub.local",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "serviceName": "hub",
+                                        "servicePort": 80
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "host": "vault.local",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "serviceName": "vault",
+                                        "servicePort": 8200
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "kind": "List"
+}
