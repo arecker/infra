@@ -57,4 +57,21 @@
   ),
   path(file):: 'kubernetes/' + file,
   render(data):: std.manifestJson(data),
+  service(name):: self._base {
+    name:: name,
+    apiVersion: 'v1',
+    kind: 'Service',
+    metadata: {
+      name: name,
+    },
+    spec: {
+      selector: {
+        service: name,
+      },
+    },
+    withPorts(ports):: self + {
+      spec+: { ports+: ports },
+    },
+  },
+  servicePort(port, protocol='TCP'):: { port: port, protocol: protocol },
 }

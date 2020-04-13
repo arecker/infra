@@ -5,5 +5,7 @@ local k = import 'kubernetes.jsonnet';
   ingress:: k.ingress('hub').inNamespace('hub').withRules([self.ingressRule]),
   ingressRule:: k.ingressRule('hub', 80),
   namespace:: k.namespace('hub'),
-  resources:: [self.namespace, self.ingress],
+  resources:: [self.namespace, self.ingress, self.webService],
+  webService:: k.service('hub-web').inNamespace('hub').withPorts(self.webServicePorts),
+  webServicePorts:: [k.servicePort(8000)],
 }
