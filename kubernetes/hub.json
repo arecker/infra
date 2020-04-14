@@ -94,13 +94,60 @@
                                         "containerPort": 5432,
                                         "protocol": "TCP"
                                     }
-                                ]
+                                ],
+                                "volumeMounts": {
+                                    "mountPath": "/secrets",
+                                    "name": "secrets",
+                                    "readOnly": true
+                                }
+                            }
+                        ],
+                        "initContainers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "ONLY_RUN_ONCE",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "name": "RECURSE_SECRETS",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "name": "SECRET_HUB",
+                                        "value": "/hub"
+                                    },
+                                    {
+                                        "name": "VAULT_ADDR",
+                                        "value": "http://vault.local"
+                                    },
+                                    {
+                                        "name": "VAULT_ROLE",
+                                        "value": "hub"
+                                    }
+                                ],
+                                "image": "arecker/secretboi:latest",
+                                "imagePullPolicy": "Always",
+                                "name": "secretboi",
+                                "volumeMounts": {
+                                    "mountPath": "/secrets",
+                                    "name": "secrets",
+                                    "readOnly": true
+                                }
                             }
                         ],
                         "securityContext": {
                             "runAsGroup": 1000,
                             "runAsUser": 1000
-                        }
+                        },
+                        "volumes": [
+                            {
+                                "emptyDir": {
+                                    "medium": "Memory"
+                                },
+                                "name": "secrets"
+                            }
+                        ]
                     }
                 }
             }

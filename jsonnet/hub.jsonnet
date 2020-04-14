@@ -28,6 +28,14 @@ local db = {
     .withReplicas(1)
     .withContainers([self.container])
     .withSecurityContext(self.securityContext)
+    .withSecrets(
+      role='hub',
+      once=true,
+      recurse=true,
+      paths={
+        HUB: '/hub',
+      },
+    )
   ),
   resources: [self.service, self.deployment],
   securityContext: k.securityContext(1000, 1000),
@@ -49,5 +57,5 @@ local web = {
 {
   [k.path('hub.json')]: k.render(k.list(self.resources)),
   namespace:: k.namespace('hub'),
-  resources:: [self.namespace] ingress.resources + db.resources + web.resources,
+  resources:: [self.namespace] + ingress.resources + db.resources + web.resources,
 }

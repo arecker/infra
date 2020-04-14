@@ -28,30 +28,91 @@
     mountPath: path,
     readOnly: readOnly,
   },
-  deployment(name):: self._base {
-    apiVersion: 'apps/v1beta1',
-    kind: 'Deployment',
-    metadata: { name: name },
-    withContainers(containers):: self {
-      spec+: {
-        template+: {
-          spec+: {
-            containers: containers,
+  deployment(name):: (
+    local k = self;
+
+    self._base {
+      apiVersion: 'apps/v1beta1',
+      kind: 'Deployment',
+      metadata: { name: name },
+      spec: {
+        template: {
+          spec: {
+            initContainers: [],
+            containers: [],
+            volumes: [],
           },
         },
       },
-    },
-    withReplicas(n):: self { spec+: { replicas: n } },
-    withSecurityContext(securityContext):: self {
-      spec+: {
-        template+: {
-          spec+: {
-            securityContext: securityContext,
+      withContainers(containers):: self {
+        spec+: {
+          template+: {
+            spec+: {
+              containers: containers,
+            },
           },
         },
       },
-    },
-  },
+      withReplicas(n):: self { spec+: { replicas: n } },
+      withSecrets(role, paths={}, once=false, recurse=false):: (
+        local container =
+          k
+          .container('secretboi')
+          .withImage('arecker/secretboi:latest')
+          .withImagePullPolicy('Always')
+          .withVolumeMounts(k.containerVolumeMount('secrets', '/secrets'))
+          .withEnv(k.containerEnvList({
+            VAULT_ADDR: 'http://vault.local',
+            VAULT_ROLE: role,
+            ONLY_RUN_ONCE: '%s' % once,
+            RECURSE_SECRETS: '%s' % recurse,
+          } + {
+            ['SECRET_%s' % k]: paths[k]
+            for k in std.objectFields(paths)
+          }));
+
+        local volumeMount = k.containerVolumeMount('secrets', '/secrets', readOnly=true);
+        local containers = self.spec.template.spec.containers;
+        local initContainers = self.spec.template.spec.initContainers;
+
+        self {
+          spec+: {
+            template+: {
+              spec+: {
+                volumes+: [{ name: 'secrets', emptyDir: { medium: 'Memory' } }],
+                containers: [
+                  c.withVolumeMounts(volumeMount)
+                  for c in containers
+                ] + if once then [] else [container],
+                initContainers: [
+                  c.withVolumeMounts(volumeMount)
+                  for c in initContainers
+                ] + if once then [container] else [],
+              },
+            },
+          },
+        }
+      ),
+      withSecurityContext(securityContext):: self {
+        spec+: {
+          template+: {
+            spec+: {
+              securityContext: securityContext,
+            },
+          },
+        },
+      },
+      withVolumes(volumes):: self {
+        spec+: {
+          template+: {
+            spec+: {
+              volumes: volumes,
+            },
+          },
+        },
+      },
+    }
+  ),
   ingress(name):: (
     self._base {
       apiVersion: 'networking.k8s.io/v1beta1',
