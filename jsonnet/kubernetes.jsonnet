@@ -13,7 +13,7 @@
     withImage(image):: self { image: image },
     withImagePullPolicy(policy):: self { imagePullPolicy: policy },
     withPorts(containerPorts):: self { ports: containerPorts },
-    withVolumeMounts(volumeMounts):: self { volumeMounts: volumeMounts },
+    withVolumeMounts(volumeMounts):: self { volumeMounts+: volumeMounts },
   },
   containerEnvList(envMap):: std.sort([
     { name: k, value: envMap[k] }
@@ -23,7 +23,7 @@
     containerPort: containerPort,
     protocol: protocol,
   },
-  containerVolumeMount(name, path, readOnly=true):: {
+  containerVolumeMount(name, path, readOnly=false):: {
     name: name,
     mountPath: path,
     readOnly: readOnly,
@@ -81,11 +81,11 @@
               spec+: {
                 volumes+: [{ name: 'secrets', emptyDir: { medium: 'Memory' } }],
                 containers: [
-                  c.withVolumeMounts(volumeMount)
+                  c.withVolumeMounts([volumeMount])
                   for c in containers
                 ] + if once then [] else [container],
                 initContainers: [
-                  c.withVolumeMounts(volumeMount)
+                  c.withVolumeMounts([volumeMount])
                   for c in initContainers
                 ] + if once then [container] else [],
               },
@@ -181,4 +181,11 @@
     },
   },
   servicePort(port, protocol='TCP'):: { port: port, protocol: protocol },
+  volumeFromArchive(name, path):: {
+    name: name,
+    nfs: {
+      server: 'archive.local',
+      path: '/mnt/scratch/farm%s' % path,
+    },
+  },
 }

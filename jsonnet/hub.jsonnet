@@ -1,3 +1,4 @@
+local docker = import 'docker.jsonnet';
 local k = import 'kubernetes.jsonnet';
 
 local ingress = {
@@ -49,9 +50,47 @@ local db = {
 };
 
 local web = {
-  resources: [self.service],
+  container: (
+    k
+    .container('web')
+    .withImage(docker.projects['hub-web'].image)
+    .withImagePullPolicy('Always')
+    .withEnv(self.containerEnv)
+    .withPorts(self.containerPorts)
+    .withVolumeMounts(self.containerVolumeMounts)
+  ),
+  containerEnv: k.containerEnvList({
+    DJANGO_SETTINGS_MODULE: 'hub.settings.prod',
+    DEBUG: 'false',
+  }),
+  containerPorts: [k.containerPort(8000)],
+  containerVolumeMounts: [
+    k.containerVolumeMount('media', '/media')
+  ],
+  deployment: (
+    k
+    .deployment('hub-web')
+    .inNamespace('hub')
+    .withReplicas(2)
+    .withContainers([self.container])
+    .withSecurityContext(self.securityContext)
+    .withVolumes(self.volumes)
+    .withSecrets(
+      role='hub',
+      once=true,
+      recurse=true,
+      paths={
+        HUB: '/hub',
+      },
+    )
+  ),
+  resources: [self.service, self.deployment],
+  securityContext: k.securityContext(1001, 1001),
   service: k.service('hub-web').inNamespace('hub').withPorts(self.servicePorts),
   servicePorts: [k.servicePort(8000)],
+  volumes: [
+    k.volumeFromArchive('media', '/hub/media')
+  ]
 };
 
 {
