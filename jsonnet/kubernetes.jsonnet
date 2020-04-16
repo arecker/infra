@@ -53,6 +53,15 @@
           },
         },
       },
+      withInitContainers(initContainers):: self {
+        spec+: {
+          template+: {
+            spec+: {
+              initContainers: initContainers,
+            },
+          },
+        },
+      },
       withReplicas(n):: self { spec+: { replicas: n } },
       withSecrets(role, paths={}, once=false, recurse=false):: (
         local container =

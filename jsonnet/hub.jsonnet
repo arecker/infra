@@ -7,14 +7,21 @@ local ingress = {
 };
 
 local db = {
-  container: (
+  initContainers: [
+    k
+    .container('postgres')
+    .withImage('busybox')
+    .withImagePullPolicy('Always')
+    .withVolumeMounts([k.containerVolumeMount('db', '/data')]),
+  ],
+  containers: [
     k
     .container('postgres')
     .withImage('postgres:11.5')
     .withImagePullPolicy('Always')
     .withEnv(self.containerEnv)
-    .withPorts(self.containerPorts)
-  ),
+    .withPorts(self.containerPorts),
+  ],
   containerEnv: k.containerEnvList({
     PGDATA: '/var/lib/postgresql/data/pgdata',
     POSTGRES_DB: 'hub',
@@ -27,7 +34,8 @@ local db = {
     .deployment('hub-db')
     .inNamespace('hub')
     .withReplicas(1)
-    .withContainers([self.container])
+    .withContainers(self.containers)
+    .withInitContainers(self.initContainers)
     .withSecurityContext(self.securityContext)
     .withSecrets(
       role='hub',
@@ -47,6 +55,9 @@ local db = {
     .withPorts(self.servicePorts)
   ),
   servicePorts: [k.servicePort(5432)],
+  volumes: [
+    k.volumeFromArchive('db', '/hub/media'),
+  ],
 };
 
 local web = {
@@ -65,7 +76,7 @@ local web = {
   }),
   containerPorts: [k.containerPort(8000)],
   containerVolumeMounts: [
-    k.containerVolumeMount('media', '/media')
+    k.containerVolumeMount('media', '/media'),
   ],
   deployment: (
     k
@@ -89,8 +100,8 @@ local web = {
   service: k.service('hub-web').inNamespace('hub').withPorts(self.servicePorts),
   servicePorts: [k.servicePort(8000)],
   volumes: [
-    k.volumeFromArchive('media', '/hub/media')
-  ]
+    k.volumeFromArchive('media', '/hub/media'),
+  ],
 };
 
 {

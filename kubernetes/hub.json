@@ -106,6 +106,23 @@
                         ],
                         "initContainers": [
                             {
+                                "image": "busybox",
+                                "imagePullPolicy": "Always",
+                                "name": "postgres",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "db",
+                                        "readOnly": false
+                                    },
+                                    {
+                                        "mountPath": "/secrets",
+                                        "name": "secrets",
+                                        "readOnly": true
+                                    }
+                                ]
+                            },
+                            {
                                 "env": [
                                     {
                                         "name": "ONLY_RUN_ONCE",
