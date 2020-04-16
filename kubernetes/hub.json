@@ -148,11 +148,13 @@
                                 "image": "arecker/secretboi:latest",
                                 "imagePullPolicy": "Always",
                                 "name": "secretboi",
-                                "volumeMounts": {
-                                    "mountPath": "/secrets",
-                                    "name": "secrets",
-                                    "readOnly": false
-                                }
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/secrets",
+                                        "name": "secrets",
+                                        "readOnly": false
+                                    }
+                                ]
                             }
                         ],
                         "securityContext": {
@@ -263,11 +265,13 @@
                                 "image": "arecker/secretboi:latest",
                                 "imagePullPolicy": "Always",
                                 "name": "secretboi",
-                                "volumeMounts": {
-                                    "mountPath": "/secrets",
-                                    "name": "secrets",
-                                    "readOnly": false
-                                }
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/secrets",
+                                        "name": "secrets",
+                                        "readOnly": false
+                                    }
+                                ]
                             }
                         ],
                         "securityContext": {

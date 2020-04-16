@@ -69,7 +69,7 @@
           .container('secretboi')
           .withImage('arecker/secretboi:latest')
           .withImagePullPolicy('Always')
-          .withVolumeMounts(k.containerVolumeMount('secrets', '/secrets'))
+          .withVolumeMounts([k.containerVolumeMount('secrets', '/secrets')])
           .withEnv(k.containerEnvList({
             VAULT_ADDR: 'http://vault.local',
             VAULT_ROLE: role,
