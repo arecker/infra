@@ -9,6 +9,8 @@
   },
   container(name):: {
     name: name,
+    withArgs(args):: self { args: args },
+    withCommand(cmd):: self { command: cmd },
     withEnv(envList):: self { env: envList },
     withImage(image):: self { image: image },
     withImagePullPolicy(policy):: self { imagePullPolicy: policy },
@@ -136,9 +138,9 @@
       ),
     }
   ),
-  ingressRule(serviceName, servicePort):: (
+  ingressRule(host, serviceName, servicePort):: (
     {
-      host: serviceName + '.local',
+      host: host,
       http: {
         paths: [
           {
