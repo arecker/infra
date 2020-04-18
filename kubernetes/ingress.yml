@@ -7,12 +7,6 @@
   "name": "ingress"
 "spec":
   "rules":
-  - "host": "hub.local"
-    "http":
-      "paths":
-      - "backend":
-          "serviceName": "hub"
-          "servicePort": 80
   - "host": "vault.local"
     "http":
       "paths":
