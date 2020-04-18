@@ -1,10 +1,15 @@
 local docker = import 'docker.jsonnet';
 local k = import 'kubernetes.jsonnet';
 
+local namespace = {
+  name: 'hub',
+  resources: [k.namespace(self.name)],
+};
+
 local db = {
   initContainers: [
     k
-    .container('postgres')
+    .container('permissions')
     .withImage('busybox')
     .withImagePullPolicy('Always')
     .withVolumeMounts([k.containerVolumeMount('db', '/data')])
@@ -35,6 +40,7 @@ local db = {
     .withContainers(self.containers)
     .withInitContainers(self.initContainers)
     .withSecurityContext(self.securityContext)
+    .withVolumes(self.volumes)
     .withSecrets(
       role='hub',
       once=true,
@@ -59,7 +65,11 @@ local db = {
   serviceName: 'hub-db',
   servicePorts: [k.servicePort(5432)],
   volumes: [
-    k.volumeFromArchive('db', '/hub/media'),
+    k.volumeFromNFS(
+      name='db',
+      server='archive.local',
+      path='/mnt/scratch/hub',
+    ),
   ],
 };
 
@@ -78,6 +88,7 @@ local web = {
   containerEnv: k.containerEnvList({
     DJANGO_SETTINGS_MODULE: 'hub.settings.prod',
     DEBUG: 'false',
+    DB_HOST: 'hub-db.hub.svc.cluster.local',
   }),
   containerPorts: [k.containerPort(8000)],
   containerVolumeMounts: [
@@ -127,7 +138,7 @@ local proxy = {
     .withVolumeMounts(self.containerVolumeMounts)
   ),
   containerEnv: k.containerEnvList({
-    UPSTREAM_DNS: 'hub-web.default.svc.cluster.local',
+    UPSTREAM_DNS: '%s.%s.svc.cluster.local' % [web.serviceName, namespace.name],
     UPSTREAM_HOSTNAME: 'hub.local',
   }),
   containerPorts: [k.containerPort(80), k.containerPort(443)],
@@ -163,12 +174,28 @@ local ingress = {
   rules:: [k.ingressRule(self.hostname, proxy.serviceName, 80)],
 };
 
-local namespace = {
-  name: 'hub',
-  resources: [k.namespace(self.name)],
+local clusterRoleBinding = {
+  apiVersion: 'rbac.authorization.k8s.io/v1beta1',
+  kind: 'ClusterRoleBinding',
+  metadata: {
+    name: 'role-tokenreview-binding',
+    namespace: namespace.name,
+  },
+  roleRef: {
+    apiGroup: 'rbac.authorization.k8s.io',
+    kind: 'ClusterRole',
+    name: 'system:auth-delegator',
+  },
+  subjects: [
+    {
+      kind: 'ServiceAccount',
+      name: 'default',
+      namespace: namespace.name,
+    },
+  ],
 };
 
 {
   [k.path('hub.json')]: k.render(k.list(self.resources)),
-  resources:: namespace.resources + ingress.resources + db.resources + web.resources + proxy.resources,
+  resources:: namespace.resources + ingress.resources + db.resources + web.resources + proxy.resources + [clusterRoleBinding],
 }

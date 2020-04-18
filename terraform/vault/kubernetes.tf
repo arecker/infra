@@ -44,6 +44,6 @@ resource "vault_kubernetes_auth_backend_role" "hub" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "hub"
   bound_service_account_names      = ["default"]
-  bound_service_account_namespaces = ["default"]
+  bound_service_account_namespaces = ["hub"]
   token_policies                   = ["hub"]
 }

@@ -199,11 +199,18 @@
     },
   },
   servicePort(port, protocol='TCP'):: { port: port, protocol: protocol },
-  volumeFromArchive(name, path):: {
+  volumeFromNFS(name, server, path):: {
     name: name,
     nfs: {
-      server: 'archive.local',
-      path: '/mnt/scratch/farm%s' % path,
+      server: server,
+      path: path,
     },
   },
+  volumeFromArchive(name, path):: (
+    self.volumeFromNFS(
+      name=name,
+      server='archive.local',
+      path='/mnt/scratch/farm%s' % path,
+    )
+  ),
 }
