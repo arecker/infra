@@ -8,7 +8,7 @@ local db = {
     .withImage('busybox')
     .withImagePullPolicy('Always')
     .withVolumeMounts([k.containerVolumeMount('db', '/data')])
-    .withCommand(["/bin/chmod", "-R", "777", "/data"])
+    .withCommand(['/bin/chmod', '-R', '777', '/data']),
   ],
   containers: [
     k
@@ -26,10 +26,12 @@ local db = {
   }),
   containerPorts: [k.containerPort(5432)],
   deployment: (
+    local me = self;
     k
     .deployment('hub-db')
     .inNamespace('hub')
     .withReplicas(1)
+    .withPodMetadata({ labels: me.podLabels })
     .withContainers(self.containers)
     .withInitContainers(self.initContainers)
     .withSecurityContext(self.securityContext)
@@ -42,14 +44,19 @@ local db = {
       },
     )
   ),
+  podLabels: (
+    local me = self;
+    { service: me.serviceName }
+  ),
   resources: [self.service, self.deployment],
   securityContext: k.securityContext(1000, 1000),
   service: (
     k
-    .service('hub-db')
+    .service(self.serviceName)
     .inNamespace('hub')
     .withPorts(self.servicePorts)
   ),
+  serviceName: 'hub-db',
   servicePorts: [k.servicePort(5432)],
   volumes: [
     k.volumeFromArchive('db', '/hub/media'),
@@ -77,10 +84,12 @@ local web = {
     k.containerVolumeMount('media', '/media'),
   ],
   deployment: (
+    local me = self;
     k
     .deployment('hub-web')
     .inNamespace('hub')
     .withReplicas(2)
+    .withPodMetadata({ labels: me.podLabels })
     .withContainers([self.container])
     .withSecurityContext(self.securityContext)
     .withVolumes(self.volumes)
@@ -93,10 +102,15 @@ local web = {
       },
     )
   ),
+  podLabels: (
+    local me = self;
+    { service: me.serviceName }
+  ),
   resources: [self.service, self.deployment],
   securityContext: k.securityContext(1001, 1001),
-  service: k.service('hub-web').inNamespace('hub').withPorts(self.servicePorts),
+  service: k.service(self.serviceName).inNamespace('hub').withPorts(self.servicePorts),
   servicePorts: [k.servicePort(8000)],
+  serviceName: 'hub-web',
   volumes: [
     k.volumeFromArchive('media', '/hub/media'),
   ],
@@ -121,13 +135,18 @@ local proxy = {
     k.containerVolumeMount('media', '/usr/share/nginx/html/media/', readOnly=true),
   ],
   deployment: (
+    local me = self;
     k
     .deployment('hub-proxy')
     .inNamespace('hub')
     .withReplicas(2)
+    .withPodMetadata({ labels: me.podLabels })
     .withContainers([self.container])
-    .withSecurityContext(self.securityContext)
     .withVolumes(self.volumes)
+  ),
+  podLabels: (
+    local me = self;
+    { service: me.serviceName }
   ),
   resources: [self.service, self.deployment],
   service: k.service(self.serviceName).inNamespace('hub').withPorts(self.servicePorts),
@@ -144,8 +163,12 @@ local ingress = {
   rules:: [k.ingressRule(self.hostname, proxy.serviceName, 80)],
 };
 
+local namespace = {
+  name: 'hub',
+  resources: [k.namespace(self.name)],
+};
+
 {
   [k.path('hub.json')]: k.render(k.list(self.resources)),
-  namespace:: k.namespace('hub'),
-  resources:: [self.namespace] + ingress.resources + db.resources + web.resources,
+  resources:: namespace.resources + ingress.resources + db.resources + web.resources + proxy.resources,
 }

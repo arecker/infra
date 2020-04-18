@@ -65,6 +65,11 @@
             "spec": {
                 "replicas": 1,
                 "template": {
+                    "metadata": {
+                        "labels": {
+                            "service": "hub-db"
+                        }
+                    },
                     "spec": {
                         "containers": [
                             {
@@ -208,6 +213,11 @@
             "spec": {
                 "replicas": 2,
                 "template": {
+                    "metadata": {
+                        "labels": {
+                            "service": "hub-web"
+                        }
+                    },
                     "spec": {
                         "containers": [
                             {
@@ -303,6 +313,91 @@
                                     "medium": "Memory"
                                 },
                                 "name": "secrets"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "name": "hub-proxy",
+                "namespace": "hub"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "port": 80,
+                        "protocol": "TCP"
+                    }
+                ],
+                "selector": {
+                    "service": "hub-proxy"
+                }
+            }
+        },
+        {
+            "apiVersion": "apps/v1beta1",
+            "kind": "Deployment",
+            "metadata": {
+                "name": "hub-proxy",
+                "namespace": "hub"
+            },
+            "spec": {
+                "replicas": 2,
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "service": "hub-proxy"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "UPSTREAM_DNS",
+                                        "value": "hub-web.default.svc.cluster.local"
+                                    },
+                                    {
+                                        "name": "UPSTREAM_HOSTNAME",
+                                        "value": "hub.local"
+                                    }
+                                ],
+                                "image": "arecker/hub-proxy:latest",
+                                "imagePullPolicy": "Always",
+                                "name": "proxy",
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 443,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/usr/share/nginx/html/media/",
+                                        "name": "media",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "initContainers": [
+
+                        ],
+                        "volumes": [
+                            {
+                                "name": "media",
+                                "nfs": {
+                                    "path": "/mnt/scratch/farm/hub/media",
+                                    "server": "archive.local"
+                                }
                             }
                         ]
                     }

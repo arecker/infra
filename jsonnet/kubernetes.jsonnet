@@ -64,6 +64,13 @@
           },
         },
       },
+      withPodMetadata(metadata):: self {
+        spec+: {
+          template+: {
+            metadata: metadata,
+          },
+        },
+      },
       withReplicas(n):: self { spec+: { replicas: n } },
       withSecrets(role, paths={}, once=false, recurse=false):: (
         local container =
