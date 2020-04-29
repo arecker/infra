@@ -49,7 +49,7 @@ resource "vault_kubernetes_auth_backend_role" "hub" {
 }
 
 resource "vault_policy" "reckerbot" {
-  name = "hub"
+  name = "reckerbot"
 
   policy = <<EOT
 path "secret/data/reckerbot" {
