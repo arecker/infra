@@ -5,6 +5,7 @@ local tag = 'latest';
     'chorebot',
     'hub-proxy',
     'hub-web',
+    'manifestor',
     'vault',
   ],
   projects:: {
