@@ -4,7 +4,6 @@ log() {
     echo "manifestor: $1" 1>&2;
 }
 
-while true; do
-    log "sleeping"
-    sleep 1
-done
+log "using kubectl $(kubectl version --short=true | head -1 | awk '{ print $3 }')"
+
+kubectl apply -f "$MANIFEST_URL"

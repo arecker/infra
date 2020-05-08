@@ -1,11 +1,13 @@
-FROM debian:buster-slim
+FROM alpine:latest
 MAINTAINER Alex Recker <alex@reckerfamily.com>
 
-RUN apt update && \
-	apt install -y curl && \
-	curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
-	chmod +x ./kubectl && \
-	mv ./kubectl /usr/local/bin/kubectl
+ARG KUBECTL_VERSION="v1.18.2"
+ARG KUBECTL_ARCH="arm"
+
+RUN apk --update add bash curl
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/${KUBECTL_ARCH}/kubectl && \
+    chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
 
 ADD run.bash /usr/local/bin/run.bash
 
