@@ -65,3 +65,21 @@ resource "vault_kubernetes_auth_backend_role" "reckerbot" {
   bound_service_account_namespaces = ["reckerbot"]
   token_policies                   = ["reckerbot"]
 }
+
+resource "vault_policy" "wallpaper" {
+  name = "wallpaper"
+
+  policy = <<EOT
+path "secret/data/wallpaper" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+resource "vault_kubernetes_auth_backend_role" "wallpaper" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "wallpaper"
+  bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["wallpaper"]
+  token_policies                   = ["wallpaper"]
+}
