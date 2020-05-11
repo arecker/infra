@@ -102,6 +102,11 @@
                                 ],
                                 "volumeMounts": [
                                     {
+                                        "mountPath": "/var/lib/postgresql/data",
+                                        "name": "db",
+                                        "readOnly": false
+                                    },
+                                    {
                                         "mountPath": "/secrets",
                                         "name": "secrets",
                                         "readOnly": true

@@ -21,7 +21,8 @@ local db = {
     .withImage('postgres:11.5')
     .withImagePullPolicy('Always')
     .withEnv(self.containerEnv)
-    .withPorts(self.containerPorts),
+    .withPorts(self.containerPorts)
+    .withVolumeMounts([k.containerVolumeMount('db', '/var/lib/postgresql/data')]),
   ],
   containerEnv: k.containerEnvList({
     PGDATA: '/var/lib/postgresql/data/pgdata',
