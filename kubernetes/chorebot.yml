@@ -37,19 +37,4 @@
           "volumes":
           - "name": "secrets"
   "schedule": "0 10 * * *"
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: role-tokenreview-binding
-  namespace: default
-  labels:
-    rbac.authorization.kubernetes.io/autoupdate: 'false'
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: "system:auth-delegator"
-subjects:
-- name: default
-  kind: ServiceAccount
-  namespace: default
+

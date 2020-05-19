@@ -175,28 +175,7 @@ local ingress = {
   rules:: [k.ingressRule(self.hostname, proxy.serviceName, 80)],
 };
 
-local clusterRoleBinding = {
-  apiVersion: 'rbac.authorization.k8s.io/v1beta1',
-  kind: 'ClusterRoleBinding',
-  metadata: {
-    name: 'role-tokenreview-binding',
-    namespace: namespace.name,
-  },
-  roleRef: {
-    apiGroup: 'rbac.authorization.k8s.io',
-    kind: 'ClusterRole',
-    name: 'system:auth-delegator',
-  },
-  subjects: [
-    {
-      kind: 'ServiceAccount',
-      name: 'default',
-      namespace: namespace.name,
-    },
-  ],
-};
-
 {
   [k.path('hub.json')]: k.render(k.list(self.resources)),
-  resources:: namespace.resources + ingress.resources + db.resources + web.resources + proxy.resources + [clusterRoleBinding],
+  resources:: namespace.resources + ingress.resources + db.resources + web.resources + proxy.resources,
 }
