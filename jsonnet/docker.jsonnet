@@ -6,7 +6,6 @@ local tag = 'latest';
     'hub-proxy',
     'hub-web',
     'manifestor',
-    'vault',
   ],
   projects:: {
     [image]: {

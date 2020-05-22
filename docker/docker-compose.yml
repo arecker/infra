@@ -19,9 +19,4 @@
       "context": "manifestor"
       "dockerfile": "Dockerfile"
     "image": "arecker/manifestor:latest"
-  "vault":
-    "build":
-      "context": "vault"
-      "dockerfile": "Dockerfile"
-    "image": "arecker/vault:latest"
 "version": "3"
