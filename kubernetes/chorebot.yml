@@ -14,6 +14,9 @@
           - "image": "arecker/chorebot:latest"
             "imagePullPolicy": "Always"
             "name": "chorebot"
+            "env":
+            - "name": "HUB_URL"
+              "value": "http://chores.local"
             "volumeMounts":
             - "mountPath": "/secrets"
               "name": "secrets"
@@ -27,8 +30,6 @@
               "value": "http://vault.local"
             - "name": "VAULT_ROLE"
               "value": "chorebot"
-            - "name": "HUB_URL"
-              "value": "http://chores.local"
             "image": "arecker/secretboi:latest"
             "imagePullPolicy": "Always"
             "name": "secretboi"
