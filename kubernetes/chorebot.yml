@@ -27,6 +27,8 @@
               "value": "http://vault.local"
             - "name": "VAULT_ROLE"
               "value": "chorebot"
+            - "name": "HUB_URL"
+              "value": "http://chores.local"
             "image": "arecker/secretboi:latest"
             "imagePullPolicy": "Always"
             "name": "secretboi"
