@@ -291,55 +291,6 @@ module "reckerfamily_dot_com_gmail" {
   zone_name = "reckerfamily.com."
 }
 
-#######################
-# fromdirktolight.com #
-#######################
-
-resource "aws_route53_zone" "fromdirktolight_dot_com" {
-  name = "fromdirktolight.com."
-}
-
-resource "aws_route53_record" "fromdirktolight_dot_com_ns" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "fromdirktolight.com"
-  type    = "NS"
-  ttl     = "172800"
-  records = [
-    "ns-1231.awsdns-25.org.",
-    "ns-62.awsdns-07.com.",
-    "ns-1004.awsdns-61.net.",
-    "ns-1742.awsdns-25.co.uk."
-  ]
-}
-
-resource "aws_route53_record" "fromdirktolight_dot_com_soa" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "fromdirktolight.com"
-  type    = "SOA"
-  ttl     = "900"
-  records = [
-    "ns-1004.awsdns-61.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-  ]
-}
-
-resource "aws_route53_record" "fromdirktolight_dot_com_cname" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "www.fromdirktolight.com."
-  type    = "CNAME"
-  ttl     = "300"
-  records = [
-    "arecker.github.io."
-  ]
-}
-
-resource "aws_route53_record" "fromdirktolight_dot_com_apex" {
-  zone_id = "${aws_route53_zone.fromdirktolight_dot_com.zone_id}"
-  name    = "fromdirktolight.com."
-  type    = "A"
-  ttl     = "300"
-  records = local.github_ips
-}
-
 ############################
 # tranquilitydesignsmn.com #
 ############################
