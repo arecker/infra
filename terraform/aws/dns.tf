@@ -196,6 +196,16 @@ resource "aws_route53_record" "alexrecker_dot_com_archive_cname" {
   ]
 }
 
+resource "aws_route53_record" "alexrecker_dot_com_txt" {
+  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
+  name	  = "alexrecker.com."
+  type	  = "TXT"
+  ttl	  = "300"
+  records = [
+    "google-site-verification=ETLppNnA0WVMiSfqYwpsCJeDC-emoZhTy3xnyEJXr_Y"
+  ]
+}
+
 #####################
 # bobrosssearch.com #
 #####################
