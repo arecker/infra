@@ -192,7 +192,7 @@ resource "aws_route53_record" "alexrecker_dot_com_rancher_cname" {
   type    = "CNAME"
   ttl     = "300"
   records = [
-    "cluster-0.local."
+    "rancher.local."
   ]
 }
 
