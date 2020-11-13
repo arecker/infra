@@ -362,18 +362,6 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_cname" {
   allow_overwrite = true
 }
 
-resource "aws_route53_record" "tranquilitydesignsmn_dot_com_api_cert" {
-  zone_id = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name    = "_5bfba514fa57efad86cc0f606c890464.api.tranquilitydesignsmn.com."
-  type    = "CNAME"
-  ttl     = "300"
-  records = [
-    "_e8fb87937c1cf4f5a6fa7dd3097368c3.acm-validations.aws."
-  ]
-  allow_overwrite = true
-}
-
-
 module "tranquilitydesignsmn_dot_com_privateemail" {
   source = "../modules/privateemail"
   zone_name = "tranquilitydesignsmn.com."
