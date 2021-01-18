@@ -48,7 +48,10 @@
       "src": "env.j2"
     "vars":
       "variables":
+        "FLASK_ENV": "production"
         "HUB_URL": "http://chores.local"
+        "PYTHONDONTWRITEBYTECODE": "1"
+        "PYTHONUNBUFFERED": "1"
         "WEBHOOK_URL": "{{ secrets.chores_webhook_url }}"
   - "cron":
       "hour": "10"

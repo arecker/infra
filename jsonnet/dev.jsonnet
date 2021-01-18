@@ -20,7 +20,10 @@ local tasks = [
   a.gitPersonal(repo='chores', dest='~/src/chores'),
   a.venv('chores', requirements='~/src/chores/requirements.txt'),
   a.template('env.j2', '~/envs/chores.env', variables={
+    FLASK_ENV: 'production',
     HUB_URL: 'http://chores.local',
+    PYTHONDONTWRITEBYTECODE: '1',
+    PYTHONUNBUFFERED: '1',
     WEBHOOK_URL: '{{ secrets.chores_webhook_url }}',
   }),
   a.cron(
