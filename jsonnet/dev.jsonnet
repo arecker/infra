@@ -3,6 +3,7 @@ local a = import 'lib/ansible.libsonnet';
 local tasks = [
   a.packages([
     'git',
+    'nfs-common',
     'python3',
     'python3-pip',
     'python3-setuptools',
