@@ -38,12 +38,12 @@ local gitPersonal(repo='', dest='', version='master') = (
   git(url=url, dest=dest, version=version)
 );
 
-local venv(name, requirements='', python='3.7.3') = {
+local venv(name, requirements='') = {
   name: 'venv: ' + name,
   pip: {
     requirements: requirements,
     virtualenv: '~/src/venvs/' + name,
-    virtualenv_python: python,
+    virtualenv_command: 'pyvenv',
   },
 };
 
@@ -53,7 +53,7 @@ local tasks = [
     'python3',
     'python3-pip',
     'python3-setuptools',
-    'python3-virtualenv',
+    'python3-venv',
   ]),
   directories(['~/src', '~/venvs']),
   gitPersonal(repo='chores', dest='~/src/chores'),
