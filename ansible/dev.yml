@@ -20,6 +20,7 @@
       "state": "directory"
     "name": "directory: {{ item }}"
     "with_items":
+    - "~/envs"
     - "~/src"
     - "~/venvs"
   - "git":
@@ -32,5 +33,15 @@
       "requirements": "~/src/chores/requirements.txt"
       "virtualenv": "~/venvs/chores"
       "virtualenv_command": "pyvenv"
+  - "name": "template: ~/envs/chores.env"
+    "template":
+      "dest": "~/envs/chores.env"
+      "mode": "0600"
+      "src": "env.j2"
+    "vars":
+      "variables":
+        "HUB_URL": "http://chores.local"
+        "WEBHOOK_URL": "{{ secrets.chores_webhook_url }}"
+  "vars_files": "secrets.yml"
 ...
 
