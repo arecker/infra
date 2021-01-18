@@ -30,7 +30,7 @@
   - "name": "venv: chores"
     "pip":
       "requirements": "~/src/chores/requirements.txt"
-      "virtualenv": "~/src/venvs/chores"
+      "virtualenv": "~/venvs/chores"
       "virtualenv_command": "pyvenv"
 ...
 

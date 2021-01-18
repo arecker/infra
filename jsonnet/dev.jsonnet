@@ -1,15 +1,4 @@
-local package(name) = {
-  name: 'package: ' + name,
-  become: true,
-  package: {
-    name: name,
-    state: 'present',
-  },
-};
-
-local packages(names=[]) = package(name='{{ item }}') {
-  with_items: names,
-};
+local a = import 'lib/ansible.libsonnet';
 
 local directory(path) = {
   name: 'directory: ' + path,
@@ -42,13 +31,22 @@ local venv(name, requirements='') = {
   name: 'venv: ' + name,
   pip: {
     requirements: requirements,
-    virtualenv: '~/src/venvs/' + name,
+    virtualenv: '~/venvs/' + name,
     virtualenv_command: 'pyvenv',
   },
 };
 
+local cron(command='', minute='', hour='') = {
+  name: 'cron: ' + command,
+  cron: {
+    job: command,
+    hour: hour,
+    minute: minute,
+  },
+};
+
 local tasks = [
-  packages([
+  a.packages([
     'git',
     'python3',
     'python3-pip',
