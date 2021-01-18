@@ -20,9 +20,17 @@
       "state": "directory"
     "name": "directory: {{ item }}"
     "with_items":
+    - "~/bin"
     - "~/envs"
     - "~/src"
     - "~/venvs"
+  - "copy":
+      "dest": "~/bin/{{ item }}"
+      "mode": "0755"
+      "src": "bin/{{ item }}"
+    "name": "bin: {{ item }}"
+    "with_items":
+    - "chorebot"
   - "git":
       "dest": "~/src/chores"
       "repo": "https://www.github.com/arecker/chores.git"
@@ -36,12 +44,18 @@
   - "name": "template: ~/envs/chores.env"
     "template":
       "dest": "~/envs/chores.env"
-      "mode": "0600"
+      "mode": "0700"
       "src": "env.j2"
     "vars":
       "variables":
         "HUB_URL": "http://chores.local"
         "WEBHOOK_URL": "{{ secrets.chores_webhook_url }}"
+  - "cron":
+      "hour": "10"
+      "job": "$HOME/bin/chorebot &> /dev/null"
+      "minute": "0"
+      "name": "chorebot"
+    "name": "cron: chorebot"
   "vars_files": "secrets.yml"
 ...
 

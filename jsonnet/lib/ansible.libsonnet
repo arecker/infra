@@ -49,7 +49,27 @@
     template: {
       src: name,
       dest: dest,
-      mode: '0600',
+      mode: '0700',
     },
+  },
+  cron(name='', command='', minute='*', hour='*'):: {
+    name: 'cron: ' + name,
+    cron: {
+      name: name,
+      minute: minute,
+      hour: hour,
+      job: command,
+    },
+  },
+  bin(name=''):: {
+    name: 'bin: ' + name,
+    copy: {
+      src: 'bin/' + name,
+      dest: '~/bin/' + name,
+      mode: '0755',
+    },
+  },
+  bins(names=[]):: self.bin(name='{{ item }}') {
+    with_items: names,
   },
 }

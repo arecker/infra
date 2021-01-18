@@ -9,9 +9,13 @@ local tasks = [
     'python3-venv',
   ]),
   a.directories([
+    '~/bin',
     '~/envs',
     '~/src',
     '~/venvs',
+  ]),
+  a.bins([
+    'chorebot',
   ]),
   a.gitPersonal(repo='chores', dest='~/src/chores'),
   a.venv('chores', requirements='~/src/chores/requirements.txt'),
@@ -19,6 +23,12 @@ local tasks = [
     HUB_URL: 'http://chores.local',
     WEBHOOK_URL: '{{ secrets.chores_webhook_url }}',
   }),
+  a.cron(
+    name='chorebot',
+    minute='0',
+    hour='10',
+    command='$HOME/bin/chorebot &> /dev/null'
+  ),
 ];
 
 [
