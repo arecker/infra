@@ -23,3 +23,7 @@ secrets:
 .PHONY: dev
 dev: build
 	$(ANSIBLE) ansible/dev.yml
+
+.PHONY: chores
+chores: build
+	$(ANSIBLE) ansible/chores.yml
