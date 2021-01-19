@@ -33,6 +33,7 @@
     "name": "bin: {{ item }}"
     "with_items":
     - "chorebot"
+    - "chores"
   - "become": true
     "mount":
       "fstype": "nfs"
@@ -57,6 +58,7 @@
       "src": "env.j2"
     "vars":
       "variables":
+        "DB_PATH": "sqlite:///$HOME/mnt/chores.db"
         "FLASK_ENV": "production"
         "HUB_URL": "http://chores.local"
         "PYTHONDONTWRITEBYTECODE": "1"

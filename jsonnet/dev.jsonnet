@@ -18,11 +18,13 @@ local tasks = [
   ]),
   a.bins([
     'chorebot',
+    'chores',
   ]),
   a.mount(url='nas.local:/volume1/dev', path='/home/alex/mnt'),
   a.gitPersonal(repo='chores', dest='~/src/chores'),
   a.venv('chores', requirements='~/src/chores/requirements.txt'),
   a.template('env.j2', '~/envs/chores.env', variables={
+    DB_PATH: 'sqlite:///$HOME/mnt/chores.db',
     FLASK_ENV: 'production',
     HUB_URL: 'http://chores.local',
     PYTHONDONTWRITEBYTECODE: '1',
