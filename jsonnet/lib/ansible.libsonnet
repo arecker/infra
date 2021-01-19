@@ -72,4 +72,14 @@
   bins(names=[]):: self.bin(name='{{ item }}') {
     with_items: names,
   },
+  mount(url='', path=''):: {
+    name: 'mount: ' + path,
+    become: true,
+    mount: {
+      path: path,
+      src: url,
+      fstype: 'nfs',
+      state: 'present',
+    },
+  },
 }

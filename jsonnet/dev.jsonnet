@@ -12,12 +12,14 @@ local tasks = [
   a.directories([
     '~/bin',
     '~/envs',
+    '~/mnt',
     '~/src',
     '~/venvs',
   ]),
   a.bins([
     'chorebot',
   ]),
+  a.mount(url='nas.local:/volume1/dev', path='/home/alex/mnt'),
   a.gitPersonal(repo='chores', dest='~/src/chores'),
   a.venv('chores', requirements='~/src/chores/requirements.txt'),
   a.template('env.j2', '~/envs/chores.env', variables={
