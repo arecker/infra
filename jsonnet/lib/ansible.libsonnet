@@ -87,10 +87,20 @@
       name='service.j2',
       dest='~/.config/systemd/user/' + name + '.service',
       variables={
-        description: 'service definition: ' + name,
+        description: name + ' service',
         command: command,
         envFile: envFile,
       }
     )
   ),
+  service(name=''):: {
+    name: 'sevice: ' + name,
+    systemd: {
+      name: name,
+      daemon_reload: true,
+      scope: 'user',
+      enabled: true,
+      state: 'started',
+    },
+  },
 }

@@ -1,12 +1,12 @@
 # {{ ansible_managed }}
 
 [Unit]
-Description="{{ variables.description }}"
+Description={{ variables.description }}
 After=network.target
 
 [Service]
-ExecStart="{{ variables.command }}"
-EnvironmentFile="{{ variables.envFile }}"
+ExecStart={{ variables.command }}
+EnvironmentFile={{ variables.envFile }}
 Restart=always
 RestartSec=5s
 

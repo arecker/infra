@@ -1,9 +1,11 @@
 ---
 - "handlers":
-  - "name": "reload systemd"
+  - "name": "restart chores service"
     "systemd":
       "daemon_reload": true
+      "name": "chores"
       "scope": "user"
+      "state": "restarted"
   "hosts": "dev.local"
   "name": "chores"
   "remote_user": "alex"
@@ -13,6 +15,8 @@
       "mode": "0755"
       "src": "bin/{{ item }}"
     "name": "bin: {{ item }}"
+    "notify":
+    - "restart chores service"
     "with_items":
     - "chorebot"
     - "chores"
@@ -21,19 +25,25 @@
       "repo": "https://www.github.com/arecker/chores.git"
       "version": "master"
     "name": "git: ~/src/chores"
+    "notify":
+    - "restart chores service"
   - "name": "venv: chores"
+    "notify":
+    - "restart chores service"
     "pip":
       "requirements": "~/src/chores/requirements.txt"
       "virtualenv": "~/venvs/chores"
       "virtualenv_command": "pyvenv"
   - "name": "template: ~/envs/chores.env"
+    "notify":
+    - "restart chores service"
     "template":
       "dest": "~/envs/chores.env"
       "mode": "0700"
       "src": "env.j2"
     "vars":
       "variables":
-        "DB_PATH": "sqlite:///$HOME/mnt/chores.db"
+        "DB_PATH": "sqlite:////home/alex/mnt/chores.db"
         "FLASK_ENV": "production"
         "HUB_URL": "http://chores.local"
         "PYTHONDONTWRITEBYTECODE": "1"
@@ -46,7 +56,8 @@
       "name": "chorebot"
     "name": "cron: chorebot"
   - "name": "template: ~/.config/systemd/user/chores.service"
-    "notify": "reload systemd"
+    "notify":
+    - "restart chores service"
     "template":
       "dest": "~/.config/systemd/user/chores.service"
       "mode": "0700"
@@ -54,8 +65,15 @@
     "vars":
       "variables":
         "command": "%h/bin/chores"
-        "description": "service definition: chores"
+        "description": "chores service"
         "envFile": "%h/envs/chores.env"
+  - "name": "sevice: chores"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "chores"
+      "scope": "user"
+      "state": "started"
   "vars_files": "secrets.yml"
 ...
 

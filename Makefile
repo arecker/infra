@@ -15,6 +15,7 @@ jsonnet:
 .PHONY: ansible-lint
 ansible-lint:
 	ansible-lint ansible/dev.yml
+	ansible-lint ansible/chores.yml
 
 .PHONY: secrets
 secrets:
