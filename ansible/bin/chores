@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-export $(cat $HOME/envs/chores.env | xargs)
 cd $HOME/src/chores/
 $HOME/venvs/chores/bin/gunicorn --bind 127.0.0.1:5000 --workers 2 "app:app"

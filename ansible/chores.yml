@@ -1,5 +1,10 @@
 ---
-- "hosts": "dev.local"
+- "handlers":
+  - "name": "reload systemd"
+    "systemd":
+      "daemon_reload": true
+      "scope": "user"
+  "hosts": "dev.local"
   "name": "chores"
   "remote_user": "alex"
   "tasks":
@@ -40,6 +45,17 @@
       "minute": "0"
       "name": "chorebot"
     "name": "cron: chorebot"
+  - "name": "template: ~/.config/systemd/user/chores.service"
+    "notify": "reload systemd"
+    "template":
+      "dest": "~/.config/systemd/user/chores.service"
+      "mode": "0700"
+      "src": "service.j2"
+    "vars":
+      "variables":
+        "command": "%h/bin/chores"
+        "description": "service definition: chores"
+        "envFile": "%h/envs/chores.env"
   "vars_files": "secrets.yml"
 ...
 

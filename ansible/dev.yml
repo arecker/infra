@@ -21,6 +21,7 @@
       "state": "directory"
     "name": "directory: {{ item }}"
     "with_items":
+    - "~/.config/systemd/user/"
     - "~/bin"
     - "~/envs"
     - "~/mnt"

@@ -82,4 +82,15 @@
       state: 'present',
     },
   },
+  serviceDefinition(name='', command='', envFile=''):: (
+    self.template(
+      name='service.j2',
+      dest='~/.config/systemd/user/' + name + '.service',
+      variables={
+        description: 'service definition: ' + name,
+        command: command,
+        envFile: envFile,
+      }
+    )
+  ),
 }

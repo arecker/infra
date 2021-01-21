@@ -1,5 +1,15 @@
 local a = import 'lib/ansible.libsonnet';
 
+local handlers = [
+  {
+    name: 'reload systemd',
+    systemd: {
+      daemon_reload: true,
+      scope: 'user',
+    },
+  },
+];
+
 local tasks = [
   a.bins([
     'chorebot',
@@ -21,6 +31,13 @@ local tasks = [
     hour='10',
     command='$HOME/bin/chorebot &> /dev/null'
   ),
+  a.serviceDefinition(
+    name='chores',
+    command='%h/bin/chores',
+    envFile='%h/envs/chores.env',
+  ) + {
+    notify: 'reload systemd',
+  },
 ];
 
 [
@@ -30,5 +47,6 @@ local tasks = [
     remote_user: 'alex',
     vars_files: 'secrets.yml',
     tasks: tasks,
+    handlers: handlers,
   },
 ]

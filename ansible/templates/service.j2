@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description="{{ variables.description }}"
+After=network.target
+
+[Service]
+ExecStart="{{ variables.command }}"
+EnvironmentFile="{{ variables.envFile }}"
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

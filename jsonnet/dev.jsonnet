@@ -10,6 +10,7 @@ local tasks = [
     'python3-venv',
   ]),
   a.directories([
+    '~/.config/systemd/user/',
     '~/bin',
     '~/envs',
     '~/mnt',
