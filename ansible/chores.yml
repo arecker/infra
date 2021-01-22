@@ -48,6 +48,7 @@
         "DB_PATH": "sqlite:////home/alex/mnt/chores.db"
         "FLASK_ENV": "production"
         "HUB_URL": "http://chores.local"
+        "PORT": 5000
         "PYTHONDONTWRITEBYTECODE": "1"
         "PYTHONUNBUFFERED": "1"
         "WEBHOOK_URL": "{{ secrets.chores_webhook_url }}"

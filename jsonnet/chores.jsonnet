@@ -1,5 +1,7 @@
 local a = import 'lib/ansible.libsonnet';
 
+local port = 5000;
+
 local serviceHandler = a.serviceHandler(name='chores');
 
 local tasks = [
@@ -13,6 +15,7 @@ local tasks = [
     DB_PATH: 'sqlite:////home/alex/mnt/chores.db',
     FLASK_ENV: 'production',
     HUB_URL: 'http://chores.local',
+    PORT: port,
     PYTHONDONTWRITEBYTECODE: '1',
     PYTHONUNBUFFERED: '1',
     WEBHOOK_URL: '{{ secrets.chores_webhook_url }}',
@@ -33,7 +36,7 @@ local tasks = [
 
 {
   hostname:: 'chores.local',
-  port:: 5000,
+  port:: port,
   asPlaybook():: [
     {
       name: 'chores',
