@@ -34,7 +34,8 @@
       "requirements": "~/src/chores/requirements.txt"
       "virtualenv": "~/venvs/chores"
       "virtualenv_command": "pyvenv"
-  - "name": "template: ~/envs/chores.env"
+  - "become": false
+    "name": "template: ~/envs/chores.env"
     "notify":
     - "restart chores service"
     "template":
@@ -55,7 +56,8 @@
       "minute": "0"
       "name": "chorebot"
     "name": "cron: chorebot"
-  - "name": "template: ~/.config/systemd/user/chores.service"
+  - "become": false
+    "name": "template: ~/.config/systemd/user/chores.service"
     "notify":
     - "restart chores service"
     "template":

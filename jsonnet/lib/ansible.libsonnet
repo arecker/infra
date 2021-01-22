@@ -41,11 +41,12 @@
       virtualenv_command: 'pyvenv',
     },
   },
-  template(name='', dest='', variables={}):: {
+  template(name='', dest='', variables={}, become=false):: {
     name: 'template: ' + dest,
     vars: {
       variables: variables,
     },
+    become: become,
     template: {
       src: name,
       dest: dest,
@@ -101,6 +102,15 @@
       scope: 'user',
       enabled: true,
       state: 'started',
+    },
+  },
+  serviceHandler(name=''):: {
+    name: 'restart ' + name + ' service',
+    systemd: {
+      name: name,
+      state: 'restarted',
+      scope: 'user',
+      daemon_reload: true,
     },
   },
 }

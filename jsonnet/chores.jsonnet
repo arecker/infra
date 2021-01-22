@@ -1,24 +1,14 @@
 local a = import 'lib/ansible.libsonnet';
 
-local handlers = [
-  {
-    name: 'restart chores service',
-    systemd: {
-      name: 'chores',
-      state: 'restarted',
-      scope: 'user',
-      daemon_reload: true,
-    },
-  },
-];
+local serviceHandler = a.serviceHandler(name='chores');
 
 local tasks = [
   a.bins([
     'chorebot',
     'chores',
-  ]) + { notify: ['restart chores service'] },
-  a.gitPersonal(repo='chores', dest='~/src/chores') + { notify: ['restart chores service'] },
-  a.venv('chores', requirements='~/src/chores/requirements.txt') + { notify: ['restart chores service'] },
+  ]) + { notify: [serviceHandler.name] },
+  a.gitPersonal(repo='chores', dest='~/src/chores') + { notify: [serviceHandler.name] },
+  a.venv('chores', requirements='~/src/chores/requirements.txt') + { notify: [serviceHandler.name] },
   a.template('env.j2', '~/envs/chores.env', variables={
     DB_PATH: 'sqlite:////home/alex/mnt/chores.db',
     FLASK_ENV: 'production',
@@ -26,7 +16,7 @@ local tasks = [
     PYTHONDONTWRITEBYTECODE: '1',
     PYTHONUNBUFFERED: '1',
     WEBHOOK_URL: '{{ secrets.chores_webhook_url }}',
-  }) + { notify: ['restart chores service'] },
+  }) + { notify: [serviceHandler.name] },
   a.cron(
     name='chorebot',
     minute='0',
@@ -37,17 +27,21 @@ local tasks = [
     name='chores',
     command='%h/bin/chores',
     envFile='%h/envs/chores.env',
-  ) + { notify: ['restart chores service'] },
+  ) + { notify: [serviceHandler.name] },
   a.service(name='chores'),
 ];
 
-[
-  {
-    name: 'chores',
-    hosts: 'dev.local',
-    remote_user: 'alex',
-    vars_files: 'secrets.yml',
-    tasks: tasks,
-    handlers: handlers,
-  },
-]
+{
+  hostname:: 'chores.local',
+  port:: 5000,
+  asPlaybook():: [
+    {
+      name: 'chores',
+      hosts: 'dev.local',
+      remote_user: 'alex',
+      vars_files: 'secrets.yml',
+      tasks: tasks,
+      handlers: [serviceHandler],
+    },
+  ]
+}

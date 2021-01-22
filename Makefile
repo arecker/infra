@@ -1,5 +1,5 @@
 VAULT_ID=--vault-id infra@scripts/pass-vault-client.py
-ANSIBLE=ansible-playbook -K -i ansible/hosts.yml $(VAULT_ID)
+ANSIBLE=ansible-playbook -i ansible/hosts.yml $(VAULT_ID)
 JSONNET=jsonnet -S -m .
 
 .PHONY: all
@@ -23,7 +23,7 @@ secrets:
 
 .PHONY: dev
 dev: build
-	$(ANSIBLE) ansible/dev.yml
+	$(ANSIBLE) -K ansible/dev.yml
 
 .PHONY: chores
 chores: build

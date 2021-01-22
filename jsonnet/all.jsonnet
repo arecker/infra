@@ -5,5 +5,5 @@ local hosts = import './hosts.jsonnet';
 {
   'ansible/hosts.yml': std.manifestYamlStream([hosts]),
   'ansible/dev.yml': std.manifestYamlStream([dev]),
-  'ansible/chores.yml': std.manifestYamlStream([chores]),
+  'ansible/chores.yml': std.manifestYamlStream([chores.asPlaybook()]),
 }
