@@ -41,7 +41,7 @@
       virtualenv_command: 'pyvenv',
     },
   },
-  template(name='', dest='', variables={}, become=false):: {
+  template(name='', dest='', variables={}, become=false, mode='0700'):: {
     name: 'template: ' + dest,
     vars: {
       variables: variables,
@@ -50,7 +50,7 @@
     template: {
       src: name,
       dest: dest,
-      mode: '0700',
+      mode: mode,
     },
   },
   cron(name='', command='', minute='*', hour='*'):: {
@@ -110,6 +110,7 @@
       name: name,
       state: 'restarted',
       scope: 'user',
+      enabled: true,
       daemon_reload: true,
     },
   },

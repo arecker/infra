@@ -3,6 +3,7 @@
   - "name": "restart chores service"
     "systemd":
       "daemon_reload": true
+      "enabled": true
       "name": "chores"
       "scope": "user"
       "state": "restarted"

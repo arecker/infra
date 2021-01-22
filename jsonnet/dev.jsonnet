@@ -1,7 +1,18 @@
 local chores = import 'chores.jsonnet';
 local a = import 'lib/ansible.libsonnet';
 
+local hosts = {
+  [chores.hostname]: chores.port,
+};
+
 local tasks = [
+  a.template(
+    name='hosts.j2',
+    dest='/etc/hosts',
+    become=true,
+    variables=hosts,
+    mode='0644',
+  ),
   a.packages([
     'git',
     'nfs-common',
@@ -24,9 +35,7 @@ local tasks = [
     name='nginx.conf.j2',
     dest='/etc/nginx/nginx.conf',
     become=true,
-    variables={
-      [chores.hostname]: chores.port,
-    }
+    variables=hosts,
   ),
 ];
 
