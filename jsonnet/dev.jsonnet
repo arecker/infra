@@ -26,11 +26,9 @@ local tasks = [
     '~/.config/systemd/user/',
     '~/bin',
     '~/envs',
-    '~/mnt',
     '~/src',
     '~/venvs',
   ]),
-  a.mount(url='nas.local:/volume1/dev', path='/home/alex/mnt'),
   a.template(
     name='nginx.conf.j2',
     dest='/etc/nginx/nginx.conf',

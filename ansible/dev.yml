@@ -34,16 +34,8 @@
     - "~/.config/systemd/user/"
     - "~/bin"
     - "~/envs"
-    - "~/mnt"
     - "~/src"
     - "~/venvs"
-  - "become": true
-    "mount":
-      "fstype": "nfs"
-      "path": "/home/alex/mnt"
-      "src": "nas.local:/volume1/dev"
-      "state": "present"
-    "name": "mount: /home/alex/mnt"
   - "become": true
     "name": "template: /etc/nginx/nginx.conf"
     "template":
