@@ -16,6 +16,7 @@ jsonnet:
 ansible-lint:
 	ansible-lint ansible/dev.yml
 	ansible-lint ansible/chores.yml
+	ansible-lint ansible/wallpaper.yml
 
 .PHONY: secrets
 secrets:
@@ -28,3 +29,7 @@ dev: build
 .PHONY: chores
 chores: build
 	$(ANSIBLE) ansible/chores.yml
+
+.PHONY: wallpaper
+wallpaper: build
+	$(ANSIBLE) ansible/wallpaper.yml

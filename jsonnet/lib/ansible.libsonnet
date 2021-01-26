@@ -73,6 +73,14 @@
   bins(names=[]):: self.bin(name='{{ item }}') {
     with_items: names,
   },
+  copy(src='', dest=''):: {
+    name: 'copy: ' + dest,
+    copy: {
+      src: src,
+      dest: dest,
+      mode: '640',
+    },
+  },
   mount(url='', path=''):: {
     name: 'mount: ' + path,
     become: true,

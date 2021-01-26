@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+export $(cat $HOME/envs/wallpaper.env | xargs)
+
+$(eval echo $GPHOTOS_COMMAND_PATH) \
+    --album "Wallpaper" \
+    --use-hardlinks \
+    --omit-album-date \
+    --skip-video \
+    --secret "$(eval echo $SECRET_PATH)" \
+    --use-flat-path \
+    "$(eval echo $STORAGE_PATH)"

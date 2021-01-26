@@ -1,0 +1,45 @@
+---
+- "hosts": "dev.local"
+  "name": "wallpaper"
+  "remote_user": "alex"
+  "tasks":
+  - "copy":
+      "dest": "~/bin/sync"
+      "mode": "0755"
+      "src": "bin/sync"
+    "name": "bin: sync"
+  - "git":
+      "dest": "~/src/wallpaper"
+      "repo": "https://www.github.com/arecker/wallpaper.git"
+      "version": "master"
+    "name": "git: ~/src/wallpaper"
+  - "name": "venv: wallpaper"
+    "pip":
+      "requirements": "~/src/wallpaper/requirements.txt"
+      "virtualenv": "~/venvs/wallpaper"
+      "virtualenv_command": "pyvenv"
+  - "copy":
+      "dest": "~/.wallpaper.json"
+      "mode": "640"
+      "src": "credentials.json"
+    "name": "copy: ~/.wallpaper.json"
+  - "become": false
+    "name": "template: ~/envs/wallpaper.env"
+    "template":
+      "dest": "~/envs/wallpaper.env"
+      "mode": "0700"
+      "src": "env.j2"
+    "vars":
+      "variables":
+        "GPHOTOS_COMMAND_PATH": "$HOME/venvs/wallpaper/bin/gphotos-sync"
+        "SECRET_PATH": "$HOME/.wallpaper.json"
+        "STORAGE_PATH": "$HOME/mnt/wallpaper"
+  - "cron":
+      "hour": "*"
+      "job": "$HOME/src/wallpaper/sync &> /dev/null"
+      "minute": "0"
+      "name": "wallpaper"
+    "name": "cron: wallpaper"
+  "vars_files": "secrets.yml"
+...
+
