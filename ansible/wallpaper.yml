@@ -1,13 +1,26 @@
 ---
-- "hosts": "dev.local"
+- "handlers":
+  - "name": "restart wallpaper service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "wallpaper"
+      "scope": "user"
+      "state": "restarted"
+  "hosts": "dev.local"
   "name": "wallpaper"
   "remote_user": "alex"
   "tasks":
   - "copy":
-      "dest": "~/bin/sync"
+      "dest": "~/bin/{{ item }}"
       "mode": "0755"
-      "src": "bin/sync"
-    "name": "bin: sync"
+      "src": "bin/{{ item }}"
+    "name": "bin: {{ item }}"
+    "notify":
+    - "restart wallpaper service"
+    "with_items":
+    - "sync"
+    - "wallpaper"
   - "git":
       "dest": "~/src/wallpaper"
       "repo": "https://www.github.com/arecker/wallpaper.git"
@@ -25,13 +38,18 @@
     "name": "copy: ~/.wallpaper.json"
   - "become": false
     "name": "template: ~/envs/wallpaper.env"
+    "notify":
+    - "restart wallpaper service"
     "template":
       "dest": "~/envs/wallpaper.env"
       "mode": "0700"
       "src": "env.j2"
     "vars":
       "variables":
+        "FLASK_APP": "app.py"
+        "FLASK_ENV": "production"
         "GPHOTOS_COMMAND_PATH": "$HOME/venvs/wallpaper/bin/gphotos-sync"
+        "PORT": 5001
         "SECRET_PATH": "$HOME/.wallpaper.json"
         "STORAGE_PATH": "$HOME/mnt/wallpaper"
   - "cron":
@@ -40,6 +58,26 @@
       "minute": "0"
       "name": "wallpaper"
     "name": "cron: wallpaper"
+  - "become": false
+    "name": "template: ~/.config/systemd/user/wallpaper.service"
+    "notify":
+    - "restart wallpaper service"
+    "template":
+      "dest": "~/.config/systemd/user/wallpaper.service"
+      "mode": "0700"
+      "src": "service.j2"
+    "vars":
+      "variables":
+        "command": "%h/bin/wallpaper"
+        "description": "wallpaper service"
+        "envFile": "%h/envs/wallpaper.env"
+  - "name": "sevice: wallpaper"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "wallpaper"
+      "scope": "user"
+      "state": "started"
   "vars_files": "secrets.yml"
 ...
 

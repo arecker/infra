@@ -112,8 +112,9 @@
       state: 'started',
     },
   },
-  serviceHandler(name=''):: {
+  serviceHandler(name='', become=false):: {
     name: 'restart ' + name + ' service',
+    become: become,
     systemd: {
       name: name,
       state: 'restarted',

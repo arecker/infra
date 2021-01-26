@@ -1,8 +1,10 @@
-local chores = import 'chores.jsonnet';
 local a = import 'lib/ansible.libsonnet';
+local chores = import 'chores.jsonnet';
+local wallpaper = import 'wallpaper.jsonnet';
 
 local hosts = {
   [chores.hostname]: chores.port,
+  [wallpaper.hostname]: wallpaper.port,
 };
 
 local tasks = [

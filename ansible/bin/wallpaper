@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd $HOME/src/wallpaper/
+$HOME/venvs/wallpaper/bin/gunicorn --bind "127.0.0.1:${PORT}" --workers 2 "app:app"

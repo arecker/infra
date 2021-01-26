@@ -12,6 +12,7 @@
     "vars":
       "variables":
         "chores.local": 5000
+        "wallpaper.local": 5001
   - "become": true
     "name": "package: {{ item }}"
     "package":
@@ -45,5 +46,6 @@
     "vars":
       "variables":
         "chores.local": 5000
+        "wallpaper.local": 5001
 ...
 
