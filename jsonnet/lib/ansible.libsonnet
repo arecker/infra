@@ -112,13 +112,13 @@
       state: 'started',
     },
   },
-  serviceHandler(name='', become=false):: {
+  serviceHandler(name='', scope='user', state='restarted'):: {
     name: 'restart ' + name + ' service',
-    become: become,
+    become: scope == 'system',
     systemd: {
       name: name,
-      state: 'restarted',
-      scope: 'user',
+      state: state,
+      scope: scope,
       enabled: true,
       daemon_reload: true,
     },

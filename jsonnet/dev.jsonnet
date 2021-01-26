@@ -1,6 +1,8 @@
-local a = import 'lib/ansible.libsonnet';
 local chores = import 'chores.jsonnet';
+local a = import 'lib/ansible.libsonnet';
 local wallpaper = import 'wallpaper.jsonnet';
+
+local serviceHandler = a.serviceHandler(name='nginx', scope='system', state='reloaded');
 
 local hosts = {
   [chores.hostname]: chores.port,
@@ -36,7 +38,7 @@ local tasks = [
     dest='/etc/nginx/nginx.conf',
     become=true,
     variables=hosts,
-  ),
+  ) + { notify: [serviceHandler.name] },
 ];
 
 [
@@ -45,5 +47,6 @@ local tasks = [
     hosts: 'dev.local',
     remote_user: 'alex',
     tasks: tasks,
+    handlers: [serviceHandler],
   },
 ]

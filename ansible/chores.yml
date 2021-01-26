@@ -1,6 +1,7 @@
 ---
 - "handlers":
-  - "name": "restart chores service"
+  - "become": false
+    "name": "restart chores service"
     "systemd":
       "daemon_reload": true
       "enabled": true

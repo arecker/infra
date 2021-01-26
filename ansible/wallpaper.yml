@@ -1,6 +1,7 @@
 ---
 - "handlers":
-  - "name": "restart wallpaper service"
+  - "become": false
+    "name": "restart wallpaper service"
     "systemd":
       "daemon_reload": true
       "enabled": true

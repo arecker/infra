@@ -1,5 +1,14 @@
 ---
-- "hosts": "dev.local"
+- "handlers":
+  - "become": true
+    "name": "restart nginx service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "nginx"
+      "scope": "system"
+      "state": "reloaded"
+  "hosts": "dev.local"
   "name": "dev server"
   "remote_user": "alex"
   "tasks":
@@ -39,6 +48,8 @@
     - "~/venvs"
   - "become": true
     "name": "template: /etc/nginx/nginx.conf"
+    "notify":
+    - "restart nginx service"
     "template":
       "dest": "/etc/nginx/nginx.conf"
       "mode": "0700"
