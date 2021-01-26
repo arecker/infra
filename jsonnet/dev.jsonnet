@@ -17,6 +17,8 @@ local tasks = [
     variables=hosts,
     mode='0644',
   ),
+  a.template(name='ansible.list.j2', dest='/etc/apt/sources.list.d/ansible.list', become=true, mode='0744'),
+  a.aptKey(keyserver='keyserver.ubuntu.com', id='93C4A3FD7BB9C367'),
   a.packages([
     'git',
     'nfs-common',
@@ -26,6 +28,7 @@ local tasks = [
     'python3-setuptools',
     'python3-venv',
   ]),
+  a.package('ansible', update=true),
   a.directories([
     '~/.config/systemd/user/',
     '~/bin',

@@ -23,6 +23,20 @@
         "chores.local": 5000
         "wallpaper.local": 5001
   - "become": true
+    "name": "template: /etc/apt/sources.list.d/ansible.list"
+    "template":
+      "dest": "/etc/apt/sources.list.d/ansible.list"
+      "mode": "0744"
+      "src": "ansible.list.j2"
+    "vars":
+      "variables": {}
+  - "apt_key":
+      "id": "93C4A3FD7BB9C367"
+      "keyserver": "keyserver.ubuntu.com"
+      "state": "present"
+    "become": true
+    "name": "apt-key: 93C4A3FD7BB9C367"
+  - "become": true
     "name": "package: {{ item }}"
     "package":
       "name": "{{ item }}"
@@ -36,6 +50,12 @@
     - "python3-pip"
     - "python3-setuptools"
     - "python3-venv"
+  - "become": true
+    "name": "package: ansible"
+    "package":
+      "name": "ansible"
+      "state": "present"
+      "update_cache": true
   - "file":
       "mode": "0751"
       "path": "{{ item }}"

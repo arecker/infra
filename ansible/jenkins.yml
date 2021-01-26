@@ -18,7 +18,7 @@
     "name": "template: /etc/apt/sources.list.d/jenkins.list"
     "template":
       "dest": "/etc/apt/sources.list.d/jenkins.list"
-      "mode": "0700"
+      "mode": "0744"
       "src": "jenkins.list.j2"
     "vars":
       "variables": {}

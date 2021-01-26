@@ -125,12 +125,14 @@
       daemon_reload: true,
     },
   },
-  aptKey(url=''):: {
-    name: 'apt-key: ' + url,
+  aptKey(url=null, keyserver=null, id=null):: {
+    name: 'apt-key: ' + (if url != null then url else id),
     become: true,
-    apt_key: {
-      url: 'https://pkg.jenkins.io/debian/jenkins.io.key',
+    apt_key: std.prune({
+      url: url,
+      id: id,
+      keyserver: keyserver,
       state: 'present',
-    },
+    }),
   },
 }
