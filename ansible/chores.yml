@@ -72,7 +72,8 @@
         "command": "%h/bin/chores"
         "description": "chores service"
         "envFile": "%h/envs/chores.env"
-  - "name": "sevice: chores"
+  - "become": false
+    "name": "sevice: chores"
     "systemd":
       "daemon_reload": true
       "enabled": true

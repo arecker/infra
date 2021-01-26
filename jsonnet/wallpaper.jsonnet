@@ -11,7 +11,7 @@ local tasks = [
   ]) + { notify: [serviceHandler.name] },
   a.gitPersonal(repo='wallpaper', dest='~/src/wallpaper'),
   a.venv('wallpaper', requirements='~/src/wallpaper/requirements.txt'),
-  a.copy('credentials.json', '~/.wallpaper.json'),
+  a.copy('secrets/credentials.json', '~/.wallpaper.json'),
   a.template('env.j2', '~/envs/wallpaper.env', variables={
     FLASK_APP: 'app.py',
     FLASK_ENV: 'production',
@@ -42,7 +42,7 @@ local tasks = [
       name: 'wallpaper',
       hosts: 'dev.local',
       remote_user: 'alex',
-      vars_files: 'secrets.yml',
+      vars_files: 'secrets/secrets.yml',
       tasks: tasks,
       handlers: [serviceHandler],
     },

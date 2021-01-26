@@ -39,6 +39,7 @@ local tasks = [
     become=true,
     variables=hosts,
   ) + { notify: [serviceHandler.name] },
+  a.service(name='nginx', scope='system'),
 ];
 
 [

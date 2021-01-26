@@ -1,10 +1,11 @@
 {
-  package(name=''):: {
+  package(name='', update=false):: {
     name: 'package: ' + name,
     become: true,
     package: {
       name: name,
       state: 'present',
+      update_cache: update,
     },
   },
   packages(names=[]):: self.package(name='{{ item }}') {
@@ -102,12 +103,13 @@
       }
     )
   ),
-  service(name=''):: {
+  service(name='', scope='user'):: {
     name: 'sevice: ' + name,
+    become: scope == 'system',
     systemd: {
       name: name,
       daemon_reload: true,
-      scope: 'user',
+      scope: scope,
       enabled: true,
       state: 'started',
     },
@@ -121,6 +123,14 @@
       scope: scope,
       enabled: true,
       daemon_reload: true,
+    },
+  },
+  aptKey(url=''):: {
+    name: 'apt-key: ' + url,
+    become: true,
+    apt_key: {
+      url: 'https://pkg.jenkins.io/debian/jenkins.io.key',
+      state: 'present',
     },
   },
 }

@@ -27,6 +27,7 @@
     "package":
       "name": "{{ item }}"
       "state": "present"
+      "update_cache": false
     "with_items":
     - "git"
     - "nfs-common"
@@ -58,5 +59,13 @@
       "variables":
         "chores.local": 5000
         "wallpaper.local": 5001
+  - "become": true
+    "name": "sevice: nginx"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "nginx"
+      "scope": "system"
+      "state": "started"
 ...
 

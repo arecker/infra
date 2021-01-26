@@ -13,14 +13,12 @@ jsonnet:
 	$(JSONNET) jsonnet/all.jsonnet
 
 .PHONY: ansible-lint
-ansible-lint:
-	ansible-lint ansible/dev.yml
-	ansible-lint ansible/chores.yml
-	ansible-lint ansible/wallpaper.yml
+ansible-lint: jsonnet
+	ansible-lint ansible/*.yml
 
 .PHONY: secrets
 secrets:
-	EDITOR="emacsclient" ansible-vault edit $(VAULT_ID) ansible/secrets.yml
+	EDITOR="emacsclient" ansible-vault edit $(VAULT_ID) ansible/secrets/secrets.yml
 
 .PHONY: dev
 dev: build
@@ -33,3 +31,7 @@ chores: build
 .PHONY: wallpaper
 wallpaper: build
 	$(ANSIBLE) ansible/wallpaper.yml
+
+.PHONY: jenkins
+jenkins: build
+	$(ANSIBLE) -K ansible/jenkins.yml

@@ -1,0 +1,40 @@
+---
+- "hosts": "dev.local"
+  "name": "jenkins server"
+  "remote_user": "alex"
+  "tasks":
+  - "become": true
+    "name": "package: default-jdk"
+    "package":
+      "name": "default-jdk"
+      "state": "present"
+      "update_cache": false
+  - "apt_key":
+      "state": "present"
+      "url": "https://pkg.jenkins.io/debian/jenkins.io.key"
+    "become": true
+    "name": "apt-key: https://pkg.jenkins.io/debian/jenkins.io.key"
+  - "become": true
+    "name": "template: /etc/apt/sources.list.d/jenkins.list"
+    "template":
+      "dest": "/etc/apt/sources.list.d/jenkins.list"
+      "mode": "0700"
+      "src": "jenkins.list.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "package: jenkins"
+    "package":
+      "name": "jenkins"
+      "state": "present"
+      "update_cache": true
+  - "become": true
+    "name": "sevice: jenkins"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "jenkins"
+      "scope": "system"
+      "state": "started"
+...
+

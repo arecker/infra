@@ -35,7 +35,7 @@
   - "copy":
       "dest": "~/.wallpaper.json"
       "mode": "640"
-      "src": "credentials.json"
+      "src": "secrets/credentials.json"
     "name": "copy: ~/.wallpaper.json"
   - "become": false
     "name": "template: ~/envs/wallpaper.env"
@@ -72,13 +72,14 @@
         "command": "%h/bin/wallpaper"
         "description": "wallpaper service"
         "envFile": "%h/envs/wallpaper.env"
-  - "name": "sevice: wallpaper"
+  - "become": false
+    "name": "sevice: wallpaper"
     "systemd":
       "daemon_reload": true
       "enabled": true
       "name": "wallpaper"
       "scope": "user"
       "state": "started"
-  "vars_files": "secrets.yml"
+  "vars_files": "secrets/secrets.yml"
 ...
 
