@@ -14,7 +14,7 @@ def main():
         args = parser.parse_args()
         cmd = 'pass ansible/{}'.format(args.vault_id).split(' ')
         output = subprocess.check_output(cmd)
-        print(output.strip())
+        print(output.decode('utf-8').strip())
 
 
 if __name__ == '__main__':
