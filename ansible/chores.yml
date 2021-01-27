@@ -74,6 +74,6 @@
       "name": "chores"
       "scope": "user"
       "state": "started"
-  "vars_files": "secrets.yml"
+  "vars_files": "secrets/secrets.yml"
 ...
 
