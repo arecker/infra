@@ -45,12 +45,15 @@ local tasks = [
   a.service(name='nginx', scope='system'),
 ];
 
-[
-  {
-    name: 'dev server',
-    hosts: 'dev.local',
-    vars_files: 'secrets/secrets.yml',
-    tasks: tasks,
-    handlers: [serviceHandler],
-  },
-]
+{
+  'ansible/dev.yml': std.manifestYamlStream([self.asPlaybook()]),
+  asPlaybook():: [
+    {
+      name: 'dev server',
+      hosts: 'dev.local',
+      vars_files: 'secrets/secrets.yml',
+      tasks: tasks,
+      handlers: [serviceHandler],
+    },
+  ],
+}

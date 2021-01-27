@@ -29,13 +29,13 @@ local tasks = [
 ];
 
 {
+  'ansible/wallpaper.yml': std.manifestYamlStream([self.asPlaybook()]),
   hostname:: 'wallpaper.local',
   port:: port,
   asPlaybook():: [
     {
       name: 'wallpaper',
       hosts: 'dev.local',
-      remote_user: 'alex',
       vars_files: 'secrets/secrets.yml',
       tasks: tasks,
       handlers: [serviceHandler],

@@ -1,7 +1,6 @@
 ---
 - "hosts": "dev.local"
   "name": "jenkins server"
-  "remote_user": "alex"
   "tasks":
   - "become": true
     "name": "package: default-jdk"
@@ -36,5 +35,6 @@
       "name": "jenkins"
       "scope": "system"
       "state": "started"
+  "vars_files": "secrets/secrets.yml"
 ...
 

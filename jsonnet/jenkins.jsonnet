@@ -9,11 +9,12 @@ local tasks = [
 ];
 
 {
+  'ansible/jenkins.yml': std.manifestYamlStream([self.asPlaybook()]),
   asPlaybook():: [
     {
       name: 'jenkins server',
       hosts: 'dev.local',
-      remote_user: 'alex',
+      vars_files: 'secrets/secrets.yml',
       tasks: tasks,
     },
   ],

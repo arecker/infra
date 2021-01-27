@@ -29,6 +29,7 @@ local tasks = [
 ];
 
 {
+  'ansible/chores.yml': std.manifestYamlStream([self.asPlaybook()]),
   hostname:: 'chores.local',
   port:: port,
   asPlaybook():: [
@@ -39,5 +40,5 @@ local tasks = [
       tasks: tasks,
       handlers: [serviceHandler],
     },
-  ]
+  ],
 }

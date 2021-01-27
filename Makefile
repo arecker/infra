@@ -1,37 +1,22 @@
 VAULT_ID=--vault-id infra@scripts/pass-vault-client.py
-ANSIBLE=ansible-playbook -i ansible/hosts.yml $(VAULT_ID)
-JSONNET=jsonnet -S -m .
+
+JSONNET_FILES = $(wildcard jsonnet/*.jsonnet)
+ANSIBLE_FILES = $(addprefix ansible/, $(notdir $(patsubst %.jsonnet, %.yml, $(JSONNET_FILES))))
 
 .PHONY: all
-all: build
+all: $(ANSIBLE_FILES)
 
-.PHONY: build
-build: jsonnet ansible-lint
+ansible/%.yml: jsonnet/%.jsonnet
+	jsonnet -S -m . $<
+	ansible-lint $@
+	touch $@
 
-.PHONY: jsonnet
-jsonnet:
-	$(JSONNET) jsonnet/all.jsonnet
-
-.PHONY: ansible-lint
-ansible-lint: jsonnet
-	ansible-lint ansible/*.yml
+PLAYBOOKS = dev jenkins chores wallpaper
+.PHONY: install $(PLAYBOOKS)
+install: $(PLAYBOOKS)
+$(PLAYBOOKS): $(ANSIBLE_FILES)
+	ansible-playbook -i ansible/hosts.yml $(VAULT_ID) ansible/$@.yml
 
 .PHONY: secrets
 secrets:
 	EDITOR="emacsclient" ansible-vault edit $(VAULT_ID) ansible/secrets/secrets.yml
-
-.PHONY: dev
-dev: build
-	$(ANSIBLE) ansible/dev.yml
-
-.PHONY: chores
-chores: build
-	$(ANSIBLE) ansible/chores.yml
-
-.PHONY: wallpaper
-wallpaper: build
-	$(ANSIBLE) ansible/wallpaper.yml
-
-.PHONY: jenkins
-jenkins: build
-	$(ANSIBLE) -K ansible/jenkins.yml
