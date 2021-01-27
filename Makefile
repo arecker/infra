@@ -12,8 +12,8 @@ ansible/%.yml: jsonnet/%.jsonnet
 	touch $@
 
 PLAYBOOKS = dev jenkins chores wallpaper
-.PHONY: install $(PLAYBOOKS)
-install: $(PLAYBOOKS)
+.PHONY: ansible $(PLAYBOOKS)
+ansible: $(PLAYBOOKS)
 $(PLAYBOOKS): $(ANSIBLE_FILES)
 	ansible-playbook -i ansible/hosts.yml $(VAULT_ID) ansible/$@.yml
 
