@@ -10,7 +10,6 @@
       "state": "reloaded"
   "hosts": "dev.local"
   "name": "dev server"
-  "remote_user": "alex"
   "tasks":
   - "become": true
     "name": "template: /etc/hosts"
@@ -87,5 +86,6 @@
       "name": "nginx"
       "scope": "system"
       "state": "started"
+  "vars_files": "secrets/secrets.yml"
 ...
 

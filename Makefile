@@ -22,7 +22,7 @@ secrets:
 
 .PHONY: dev
 dev: build
-	$(ANSIBLE) -K ansible/dev.yml
+	$(ANSIBLE) ansible/dev.yml
 
 .PHONY: chores
 chores: build

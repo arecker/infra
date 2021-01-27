@@ -49,7 +49,7 @@ local tasks = [
   {
     name: 'dev server',
     hosts: 'dev.local',
-    remote_user: 'alex',
+    vars_files: 'secrets/secrets.yml',
     tasks: tasks,
     handlers: [serviceHandler],
   },

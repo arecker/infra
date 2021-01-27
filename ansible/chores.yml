@@ -10,7 +10,6 @@
       "state": "restarted"
   "hosts": "dev.local"
   "name": "chores"
-  "remote_user": "alex"
   "tasks":
   - "copy":
       "dest": "~/bin/{{ item }}"

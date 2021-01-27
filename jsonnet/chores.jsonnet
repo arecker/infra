@@ -35,7 +35,6 @@ local tasks = [
     {
       name: 'chores',
       hosts: 'dev.local',
-      remote_user: 'alex',
       vars_files: 'secrets/secrets.yml',
       tasks: tasks,
       handlers: [serviceHandler],
