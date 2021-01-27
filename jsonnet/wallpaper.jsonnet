@@ -20,12 +20,6 @@ local tasks = [
     SECRET_PATH: '$HOME/.wallpaper.json',
     STORAGE_PATH: '$HOME/mnt/wallpaper',
   }) + { notify: [serviceHandler.name] },
-  a.cron(
-    name='wallpaper',
-    minute='0',
-    hour='*',
-    command='$HOME/src/wallpaper/sync &> /dev/null'
-  ),
   a.serviceDefinition(
     name='wallpaper',
     command='%h/bin/wallpaper',

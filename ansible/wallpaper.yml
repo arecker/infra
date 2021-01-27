@@ -53,12 +53,6 @@
         "PORT": 5001
         "SECRET_PATH": "$HOME/.wallpaper.json"
         "STORAGE_PATH": "$HOME/mnt/wallpaper"
-  - "cron":
-      "hour": "*"
-      "job": "$HOME/src/wallpaper/sync &> /dev/null"
-      "minute": "0"
-      "name": "wallpaper"
-    "name": "cron: wallpaper"
   - "become": false
     "name": "template: ~/.config/systemd/user/wallpaper.service"
     "notify":

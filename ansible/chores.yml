@@ -53,12 +53,6 @@
         "PYTHONDONTWRITEBYTECODE": "1"
         "PYTHONUNBUFFERED": "1"
         "WEBHOOK_URL": "{{ secrets.chores_webhook_url }}"
-  - "cron":
-      "hour": "10"
-      "job": "$HOME/bin/chorebot &> /dev/null"
-      "minute": "0"
-      "name": "chorebot"
-    "name": "cron: chorebot"
   - "become": false
     "name": "template: ~/.config/systemd/user/chores.service"
     "notify":

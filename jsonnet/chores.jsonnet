@@ -20,12 +20,6 @@ local tasks = [
     PYTHONUNBUFFERED: '1',
     WEBHOOK_URL: '{{ secrets.chores_webhook_url }}',
   }) + { notify: [serviceHandler.name] },
-  a.cron(
-    name='chorebot',
-    minute='0',
-    hour='10',
-    command='$HOME/bin/chorebot &> /dev/null'
-  ),
   a.serviceDefinition(
     name='chores',
     command='%h/bin/chores',
