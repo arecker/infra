@@ -1,5 +1,10 @@
 local api = {
-  templateName:: 'hosted_zones.yml',
+  templateName:: (
+    local fullPath = std.thisFile;
+    local splitPath = std.split(fullPath, '/');
+    local fileName = splitPath[std.length(splitPath) - 1];
+    std.strReplace(fileName, '.jsonnet', '.yml')
+  ),
   templatePath:: 'cloudformation/templates/' + self.templateName,
   HostedZone(name=''):: {
     name: name,
