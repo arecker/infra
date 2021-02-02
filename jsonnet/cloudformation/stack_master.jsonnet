@@ -5,7 +5,7 @@ local hosted_zones = import 'templates/hosted_zones.jsonnet';
     stacks: {
       'us-east-2': {
         'hosted-zones': {
-          template: hosted_zones.template_name,
+          template: hosted_zones.templateName,
         },
       },
     },
