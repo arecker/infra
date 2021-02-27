@@ -17,7 +17,7 @@ cloudformation/%.yml: jsonnet/cloudformation/%.jsonnet
 	jsonnet -S -m . $<
 	touch $@
 
-PLAYBOOKS = dev jenkins chores wallpaper
+PLAYBOOKS = dev jenkins chores wallpaper minecraft
 .PHONY: ansible $(PLAYBOOKS)
 ansible: $(PLAYBOOKS)
 $(PLAYBOOKS): $(ANSIBLE_FILES)
