@@ -2,6 +2,12 @@
 - "hosts": "dev.local"
   "name": "minecraft server"
   "tasks":
+  - "become": true
+    "name": "package: screen"
+    "package":
+      "name": "screen"
+      "state": "present"
+      "update_cache": false
   - "file":
       "mode": "0751"
       "path": "~/minecraft"
