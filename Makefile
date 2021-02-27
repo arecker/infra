@@ -1,6 +1,7 @@
 VAULT_ID=--vault-id infra@scripts/pass-vault-client.py
 
 ANSIBLE_JSONNET_FILES = $(wildcard jsonnet/ansible/*.jsonnet)
+ANSIBLE_LIBSONNET_FILES = $(wildcard jsonnet/ansible/lib/*.libsonnet)
 ANSIBLE_FILES = $(addprefix ansible/, $(notdir $(patsubst %.jsonnet, %.yml, $(ANSIBLE_JSONNET_FILES))))
 CLOUDFORMATION_JSONNET_FILES = $(shell find jsonnet/cloudformation -type f -name '*.jsonnet')
 CLOUDFORMATION_FILES = $(subst jsonnet/,, $(patsubst %.jsonnet, %.yml, $(CLOUDFORMATION_JSONNET_FILES)))
@@ -8,7 +9,7 @@ CLOUDFORMATION_FILES = $(subst jsonnet/,, $(patsubst %.jsonnet, %.yml, $(CLOUDFO
 .PHONY: all
 all: $(ANSIBLE_FILES) $(CLOUDFORMATION_FILES)
 
-ansible/%.yml: jsonnet/ansible/%.jsonnet
+ansible/%.yml: jsonnet/ansible/%.jsonnet $(ANSIBLE_LIBSONNET_FILES)
 	jsonnet -S -m . $<
 	ansible-lint $@
 	touch $@

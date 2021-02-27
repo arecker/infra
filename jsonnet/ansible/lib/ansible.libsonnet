@@ -63,6 +63,14 @@
       job: command,
     },
   },
+  cronSpecial(name='', command='', specialTime=''):: {
+    name: 'cron: ' + name,
+    cron: {
+      name: name,
+      special_time: specialTime,
+      job: command,
+    },
+  },
   bin(name=''):: {
     name: 'bin: ' + name,
     copy: {

@@ -8,6 +8,25 @@
       "name": "screen"
       "state": "present"
       "update_cache": false
+  - "file":
+      "mode": "0751"
+      "path": "~/minecraft"
+      "state": "directory"
+    "name": "directory: ~/minecraft"
+  - "get_url":
+      "dest": "~/minecraft/server.jar"
+      "url": "https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar"
+    "name": "get_url: ~/minecraft/server.jar"
+  - "copy":
+      "dest": "~/bin/minecraft"
+      "mode": "0755"
+      "src": "bin/minecraft"
+    "name": "bin: minecraft"
+  - "cron":
+      "job": "~/bin/minecraft"
+      "name": "minecraft server"
+      "special_time": "reboot"
+    "name": "cron: minecraft server"
   "vars_files": "secrets/secrets.yml"
 ...
 

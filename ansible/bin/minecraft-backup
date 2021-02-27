@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+tar -cpvzf $HOME/mnt/minecraft/minecraft-hour0.tar.gz $HOME/minecraft/world
