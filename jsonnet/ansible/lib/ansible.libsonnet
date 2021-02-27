@@ -135,4 +135,11 @@
       state: 'present',
     }),
   },
+  getUrl(url='', path=''):: {
+    name: 'get_url: ' + path,
+    get_url: {
+      url: url,
+      dest: path,
+    },
+  },
 }
