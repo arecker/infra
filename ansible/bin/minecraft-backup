@@ -1,2 +1,26 @@
 #!/usr/bin/env bash
-tar -cpvzf $HOME/mnt/minecraft/minecraft-hour0.tar.gz $HOME/minecraft/world
+
+_log() {
+    echo "minecraft-backup: $1"
+}
+
+rotate() {
+    local thisBackupNumber="$1"
+    local thisBackupPath="$HOME/mnt/minecraft/minecraft-hour${thisBackupNumber}.tar.gz"
+    local newBackupPath="$HOME/mnt/minecraft/minecraft-hour$(( thisBackupNumber += 1 )).tar.gz"
+    if test -f "$thisBackupPath"; then
+        _log "moving $thisBackupPath to $newBackupPath"
+        mv "$thisBackupPath" "$newBackupPath"
+    else
+        _log "skipping $thisBackupPath, does not exist"
+    fi
+}
+
+for i in {23..0}; do
+    rotate "$i"
+done
+
+
+newBackupPath="$HOME/mnt/minecraft/minecraft-hour0.tar.gz"
+_log "creating $newBackupPath"
+tar -Pcpzf "$newBackupPath" "$HOME/minecraft/world"

@@ -6,8 +6,9 @@ local tasks = [
   a.package(name='screen'),
   a.directory(path='~/minecraft'),
   a.getUrl(url=serverJarURL, path='~/minecraft/server.jar'),
-  a.bin(name='minecraft'),
+  a.bins(names=['minecraft', 'minecraft-backup']),
   a.cronSpecial(name='minecraft server', command='~/bin/minecraft', specialTime='reboot'),
+  a.cronSpecial(name='minecraft server backup', command='~/bin/minecraft-backup', specialTime='hourly'),
 ];
 
 {

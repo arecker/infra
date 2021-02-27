@@ -18,15 +18,23 @@
       "url": "https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar"
     "name": "get_url: ~/minecraft/server.jar"
   - "copy":
-      "dest": "~/bin/minecraft"
+      "dest": "~/bin/{{ item }}"
       "mode": "0755"
-      "src": "bin/minecraft"
-    "name": "bin: minecraft"
+      "src": "bin/{{ item }}"
+    "name": "bin: {{ item }}"
+    "with_items":
+    - "minecraft"
+    - "minecraft-backup"
   - "cron":
       "job": "~/bin/minecraft"
       "name": "minecraft server"
       "special_time": "reboot"
     "name": "cron: minecraft server"
+  - "cron":
+      "job": "~/bin/minecraft-backup"
+      "name": "minecraft server backup"
+      "special_time": "hourly"
+    "name": "cron: minecraft server backup"
   "vars_files": "secrets/secrets.yml"
 ...
 
