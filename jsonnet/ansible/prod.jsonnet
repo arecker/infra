@@ -1,10 +1,17 @@
 local a = import 'lib/ansible.libsonnet';
 
 local tasks = [
+  a.template(
+    name='hosts.prod.j2',
+    dest='/etc/hosts',
+    become=true,
+    mode='0644',
+  ),
   a.packages(names=[
-    'ncurses-term',
     'fail2ban',
     'htop',
+    'logwatch',
+    'ncurses-term',
   ]),
   a.service(name='fail2ban', scope='system'),
 ];

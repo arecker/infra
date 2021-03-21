@@ -3,15 +3,24 @@
   "name": "prod server"
   "tasks":
   - "become": true
+    "name": "template: /etc/hosts"
+    "template":
+      "dest": "/etc/hosts"
+      "mode": "0644"
+      "src": "hosts.prod.j2"
+    "vars":
+      "variables": {}
+  - "become": true
     "name": "package: {{ item }}"
     "package":
       "name": "{{ item }}"
       "state": "present"
       "update_cache": false
     "with_items":
-    - "ncurses-term"
     - "fail2ban"
     - "htop"
+    - "logwatch"
+    - "ncurses-term"
   - "become": true
     "name": "sevice: fail2ban"
     "systemd":
