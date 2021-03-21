@@ -25,11 +25,6 @@
     "Properties":
       "Name": "reckerfamily.com."
     "Type": "AWS::Route53::HostedZone"
-  "thereckerfamilycookbookcom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "thereckerfamilycookbook.com."
-    "Type": "AWS::Route53::HostedZone"
   "tranquilitydesignsmncom":
     "DeletionPolicy": "Retain"
     "Properties":
