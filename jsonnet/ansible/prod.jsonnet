@@ -14,6 +14,7 @@ local tasks = [
     'ncurses-term',
   ]),
   a.service(name='fail2ban', scope='system'),
+  a.package(name='mariadb-server'),
 ];
 
 {
