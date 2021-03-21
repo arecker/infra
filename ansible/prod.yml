@@ -35,6 +35,14 @@
       "name": "mariadb-server"
       "state": "present"
       "update_cache": false
+  - "become": true
+    "name": "sevice: mariadb"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "mariadb"
+      "scope": "system"
+      "state": "started"
   "vars_files": "secrets/secrets.yml"
 ...
 
