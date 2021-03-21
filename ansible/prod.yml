@@ -1,0 +1,25 @@
+---
+- "hosts": "prod"
+  "name": "prod server"
+  "tasks":
+  - "become": true
+    "name": "package: {{ item }}"
+    "package":
+      "name": "{{ item }}"
+      "state": "present"
+      "update_cache": false
+    "with_items":
+    - "ncurses-term"
+    - "fail2ban"
+    - "htop"
+  - "become": true
+    "name": "sevice: fail2ban"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "fail2ban"
+      "scope": "system"
+      "state": "started"
+  "vars_files": "secrets/secrets.yml"
+...
+

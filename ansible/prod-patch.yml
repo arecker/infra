@@ -1,0 +1,28 @@
+---
+- "hosts": "prod"
+  "name": "patch prod server"
+  "tasks":
+  - "apt":
+      "update_cache": true
+    "become": true
+    "name": "update"
+  - "apt":
+      "name": "*"
+      "state": "latest"
+    "become": true
+    "name": "upgrade"
+  - "apt":
+      "upgrade": "dist"
+    "become": true
+    "name": "dist-upgrade"
+  - "apt":
+      "autoremove": true
+    "become": true
+    "name": "autoremove"
+  - "become": true
+    "name": "reboot"
+    "reboot":
+      "reboot_timeout": 3600
+  "vars_files": "secrets/secrets.yml"
+...
+
