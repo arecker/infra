@@ -43,6 +43,20 @@
       "name": "mariadb"
       "scope": "system"
       "state": "started"
+  - "become": true
+    "name": "package: apache2"
+    "package":
+      "name": "apache2"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "sevice: apache2"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "apache2"
+      "scope": "system"
+      "state": "started"
   "vars_files": "secrets/secrets.yml"
 ...
 
