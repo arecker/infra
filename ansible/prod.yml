@@ -17,9 +17,11 @@
       "state": "present"
       "update_cache": false
     "with_items":
+    - "certbot"
     - "fail2ban"
     - "htop"
     - "logwatch"
+    - "mariadb-server"
     - "ncurses-term"
   - "become": true
     "name": "sevice: fail2ban"
@@ -29,12 +31,6 @@
       "name": "fail2ban"
       "scope": "system"
       "state": "started"
-  - "become": true
-    "name": "package: mariadb-server"
-    "package":
-      "name": "mariadb-server"
-      "state": "present"
-      "update_cache": false
   - "become": true
     "name": "sevice: mariadb"
     "systemd":
