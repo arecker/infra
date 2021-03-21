@@ -11,7 +11,7 @@ all: $(ANSIBLE_FILES) $(CLOUDFORMATION_FILES)
 
 ansible/%.yml: jsonnet/ansible/%.jsonnet $(ANSIBLE_LIBSONNET_FILES)
 	jsonnet -S -m . $<
-	ansible-lint $@
+	# ansible-lint -i ansible/hosts.yml $@
 	touch $@
 
 cloudformation/%.yml: jsonnet/cloudformation/%.jsonnet
