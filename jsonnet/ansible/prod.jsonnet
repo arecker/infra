@@ -17,8 +17,6 @@ local tasks = [
   ]),
   a.service(name='fail2ban', scope='system'),
   a.service(name='mariadb', scope='system'),
-  a.package(name='apache2'),
-  a.service(name='apache2', scope='system'),
 ];
 
 {

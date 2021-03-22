@@ -1,0 +1,82 @@
+---
+- "handlers":
+  - "become": true
+    "name": "restart apache2 service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "apache2"
+      "scope": "system"
+      "state": "reloaded"
+  "hosts": "prod"
+  "name": "apache"
+  "tasks":
+  - "become": true
+    "name": "package: apache2"
+    "notify":
+    - "restart apache2 service"
+    "package":
+      "name": "apache2"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "sevice: apache2"
+    "notify":
+    - "restart apache2 service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "apache2"
+      "scope": "system"
+      "state": "started"
+  - "become": true
+    "name": "template: /etc/apache2/apache2.conf"
+    "notify":
+    - "restart apache2 service"
+    "template":
+      "dest": "/etc/apache2/apache2.conf"
+      "mode": "0644"
+      "src": "apache/apache2.conf.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "template: /etc/apache2/ports.conf"
+    "notify":
+    - "restart apache2 service"
+    "template":
+      "dest": "/etc/apache2/ports.conf"
+      "mode": "0644"
+      "src": "apache/ports.conf.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "template: /var/www/html/index.html"
+    "template":
+      "dest": "/var/www/html/index.html"
+      "mode": "0644"
+      "src": "apache/default.html.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "template: /etc/apache2/sites-available/000-default.conf"
+    "notify":
+    - "restart apache2 service"
+    "template":
+      "dest": "/etc/apache2/sites-available/000-default.conf"
+      "mode": "0644"
+      "src": "apache/default.conf.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "file":
+      "dest": "/etc/apache2/sites-enabled/000-default.conf"
+      "group": "root"
+      "owner": "root"
+      "src": "/etc/apache2/sites-available/000-default.conf"
+      "state": "link"
+    "name": "symlink: /etc/apache2/sites-enabled/000-default.conf"
+    "notify":
+    - "restart apache2 service"
+  "vars_files": "secrets/secrets.yml"
+...
+
