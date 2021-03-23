@@ -22,6 +22,7 @@ local a2enable(filename) = (
 
 local tasks = [
   a.package(name='apache2') + reloadApache,
+  a.package(name='python-certbot-apache') + reloadApache,
   a.service(name='apache2', scope='system') + reloadApache,
   a.template(
     name='apache/apache2.conf.j2',
@@ -48,6 +49,13 @@ local tasks = [
     mode='0644'
   ) + reloadApache,
   a2enable('000-default.conf'),
+  a.template(
+    name='apache/cookbook.conf.j2',
+    dest='/etc/apache2/sites-available/cookbook.conf',
+    become=true,
+    mode='0644'
+  ) + reloadApache,
+  a2enable('cookbook.conf'),
 ];
 
 {
