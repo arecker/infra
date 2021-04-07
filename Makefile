@@ -3,7 +3,7 @@ VAULT_ID=--vault-id infra@scripts/pass-vault-client.py
 ANSIBLE_JSONNET_FILES = $(wildcard jsonnet/ansible/*.jsonnet)
 ANSIBLE_LIBSONNET_FILES = $(wildcard jsonnet/ansible/lib/*.libsonnet)
 ANSIBLE_FILES = $(addprefix ansible/, $(notdir $(patsubst %.jsonnet, %.yml, $(ANSIBLE_JSONNET_FILES))))
-CLOUDFORMATION_JSONNET_FILES = $(shell find jsonnet/cloudformation -type f -name '*.jsonnet')
+CLOUDFORMATION_JSONNET_FILES = $( shell find jsonnet/cloudformation -type f -name '*.jsonnet')
 CLOUDFORMATION_FILES = $(subst jsonnet/,, $(patsubst %.jsonnet, %.yml, $(CLOUDFORMATION_JSONNET_FILES)))
 
 .PHONY: all
@@ -11,14 +11,13 @@ all: $(ANSIBLE_FILES) $(CLOUDFORMATION_FILES)
 
 ansible/%.yml: jsonnet/ansible/%.jsonnet $(ANSIBLE_LIBSONNET_FILES)
 	jsonnet -S -m . $<
-	# ansible-lint -i ansible/hosts.yml $@
 	touch $@
 
 cloudformation/%.yml: jsonnet/cloudformation/%.jsonnet
 	jsonnet -S -m . $<
 	touch $@
 
-PLAYBOOKS = dev jenkins chores wallpaper minecraft prod prod-patch apache
+PLAYBOOKS = $(notdir $(basename $(shell find jsonnet/ansible -type f -name '*.jsonnet' -not -path "*hosts.jsonnet")))
 .PHONY: ansible $(PLAYBOOKS)
 ansible: $(PLAYBOOKS)
 $(PLAYBOOKS): $(ANSIBLE_FILES)

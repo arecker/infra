@@ -2,11 +2,7 @@
 
 <VirtualHost *:80>
     ServerName www.thereckerfamilycookbook.com
-    Redirect permanent / https://www.thereckerfamilycookbook.com
-</VirtualHost>
-
-<VirtualHost *:80>
-    ServerName thereckerfamilycookbook.com
+    ServerAlias thereckerfamilycookbook.com
     Redirect permanent / https://www.thereckerfamilycookbook.com
 </VirtualHost>
 

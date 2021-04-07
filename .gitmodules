@@ -1,6 +1,0 @@
-[submodule "docker/hub"]
-	path = docker/hub
-	url = git@github.com:arecker/hub.git
-[submodule "docker/jenkins"]
-	path = docker/jenkins
-	url = https://github.com/jenkinsci/docker

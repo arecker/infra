@@ -7,5 +7,5 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = file("${path.module}/token")
+  token = file("${path.module}/../secrets/digitalocean")
 }
