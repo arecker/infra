@@ -186,16 +186,6 @@ resource "aws_route53_record" "alexrecker_dot_com_demo_cname" {
   ]
 }
 
-resource "aws_route53_record" "alexrecker_dot_com_rancher_cname" {
-  zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
-  name    = "rancher.alexrecker.com."
-  type    = "CNAME"
-  ttl     = "300"
-  records = [
-    "rancher.local."
-  ]
-}
-
 resource "aws_route53_record" "alexrecker_dot_com_archive_cname" {
   zone_id = "${aws_route53_zone.alexrecker_dot_com.zone_id}"
   name    = "archive.alexrecker.com."
