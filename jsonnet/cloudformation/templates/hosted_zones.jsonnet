@@ -24,8 +24,6 @@ local api = {
     local me = self;
     {
       astuary: me.HostedZone('astuaryart.com.'),
-      blog: me.HostedZone('alexrecker.com.'),
-      bob: me.HostedZone('bobrosssearch.com.'),
       family: me.HostedZone('reckerfamily.com.'),
       tranquility: me.HostedZone('tranquilitydesignsmn.com.'),
       wedding: me.HostedZone('alexandmarissa.com.'),

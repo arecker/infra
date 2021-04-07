@@ -5,20 +5,10 @@
     "Properties":
       "Name": "alexandmarissa.com."
     "Type": "AWS::Route53::HostedZone"
-  "alexreckercom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "alexrecker.com."
-    "Type": "AWS::Route53::HostedZone"
   "astuaryartcom":
     "DeletionPolicy": "Retain"
     "Properties":
       "Name": "astuaryart.com."
-    "Type": "AWS::Route53::HostedZone"
-  "bobrosssearchcom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "bobrosssearch.com."
     "Type": "AWS::Route53::HostedZone"
   "reckerfamilycom":
     "DeletionPolicy": "Retain"

@@ -6,7 +6,7 @@ terraform {
   }
   required_providers {
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "~> 2.0"
     }
     digitalocean = {
@@ -29,7 +29,7 @@ data "digitalocean_droplet" "prod" {
 }
 
 resource "cloudflare_zone" "cookbook" {
-    zone = "thereckerfamilycookbook.com"
+  zone = "thereckerfamilycookbook.com"
 }
 
 resource "cloudflare_record" "cookbook_apex" {
@@ -37,7 +37,8 @@ resource "cloudflare_record" "cookbook_apex" {
   name    = "@"
   value   = data.digitalocean_droplet.prod.ipv4_address
   type    = "A"
-  ttl     = 300
+  ttl     = 1
+  proxied = true
 }
 
 resource "cloudflare_record" "cookbook_www" {
@@ -45,7 +46,8 @@ resource "cloudflare_record" "cookbook_www" {
   name    = "www"
   value   = data.digitalocean_droplet.prod.ipv4_address
   type    = "A"
-  ttl     = 300
+  ttl     = 1
+  proxied = true
 }
 
 resource "digitalocean_firewall" "prod" {
@@ -78,19 +80,19 @@ resource "digitalocean_firewall" "prod" {
 
   outbound_rule {
     protocol              = "tcp"
-    port_range = "1-65535"
+    port_range            = "1-65535"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
   outbound_rule {
     protocol              = "udp"
-    port_range = "1-65535"
+    port_range            = "1-65535"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
   outbound_rule {
     protocol              = "icmp"
-    port_range = "1-65535"
+    port_range            = "1-65535"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 }
