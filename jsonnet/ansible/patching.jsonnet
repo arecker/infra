@@ -43,8 +43,8 @@ local tasks = [
   'ansible/prod-patch.yml': std.manifestYamlStream([self.asPlaybook()]),
   asPlaybook():: [
     {
-      name: 'patch prod server',
-      hosts: 'prod',
+      name: 'server patching',
+      hosts: ['diningroom', 'prod'],
       vars_files: 'secrets/secrets.yml',
       tasks: tasks,
     },
