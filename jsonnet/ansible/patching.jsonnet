@@ -40,7 +40,7 @@ local tasks = [
 ];
 
 {
-  'ansible/prod-patch.yml': std.manifestYamlStream([self.asPlaybook()]),
+  'ansible/patching.yml': std.manifestYamlStream([self.asPlaybook()]),
   asPlaybook():: [
     {
       name: 'server patching',
