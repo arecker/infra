@@ -44,7 +44,7 @@ local tasks = [
   asPlaybook():: [
     {
       name: 'server patching',
-      hosts: ['diningroom', 'prod'],
+      hosts: ['diningroom.local', 'prod'],
       vars_files: 'secrets/secrets.yml',
       tasks: tasks,
     },
