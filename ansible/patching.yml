@@ -1,6 +1,7 @@
 ---
 - "hosts":
-  - "diningroom"
+  - "diningroom.local"
+  - "printer.local"
   - "prod"
   "name": "server patching"
   "tasks":
