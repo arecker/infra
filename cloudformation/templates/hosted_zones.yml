@@ -1,10 +1,5 @@
 ---
 "Resources":
-  "alexandmarissacom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "alexandmarissa.com."
-    "Type": "AWS::Route53::HostedZone"
   "astuaryartcom":
     "DeletionPolicy": "Retain"
     "Properties":

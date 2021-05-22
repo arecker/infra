@@ -26,7 +26,6 @@ local api = {
       astuary: me.HostedZone('astuaryart.com.'),
       family: me.HostedZone('reckerfamily.com.'),
       tranquility: me.HostedZone('tranquilitydesignsmn.com.'),
-      wedding: me.HostedZone('alexandmarissa.com.'),
     }
   ),
   resources:: (

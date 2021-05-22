@@ -13,7 +13,7 @@ ansible/%.yml: jsonnet/ansible/%.jsonnet $(ANSIBLE_LIBSONNET_FILES)
 	jsonnet -S -m . $<
 	touch $@
 
-cloudformation/%.yml: jsonnet/cloudformation/%.jsonnet
+cloudformation/%.yml: $(CLOUDFORMATION_JSONNET_FILES)
 	jsonnet -S -m . $<
 	touch $@
 

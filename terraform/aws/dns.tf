@@ -7,60 +7,6 @@ locals {
   ]
 }
 
-######################
-# alexandmarissa.com #
-######################
-
-resource "aws_route53_zone" "alexandmarissa_dot_com" {
-  name = "alexandmarissa.com."
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_ns" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com"
-  type    = "NS"
-  ttl     = "172800"
-  records = [
-    "ns-1416.awsdns-49.org.",
-    "ns-1770.awsdns-29.co.uk.",
-    "ns-947.awsdns-54.net.",
-    "ns-470.awsdns-58.com."
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_soa" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com"
-  type    = "SOA"
-  ttl     = "900"
-  records = [
-    "ns-1416.awsdns-49.org. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-  ]
-}
-
-module "alexandmarissa_dot_com_privateemail" {
-  source = "../modules/privateemail"
-  zone_name = "alexandmarissa.com."
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_cname" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "www.alexandmarissa.com."
-  type    = "CNAME"
-  ttl     = "300"
-  records = [
-    "arecker.github.io."
-  ]
-}
-
-resource "aws_route53_record" "alexandmarissa_dot_com_apex" {
-  zone_id = "${aws_route53_zone.alexandmarissa_dot_com.zone_id}"
-  name    = "alexandmarissa.com."
-  type    = "A"
-  ttl     = "300"
-  records = local.github_ips
-}
-
 ##################
 # astuaryart.com #
 ##################
@@ -168,7 +114,7 @@ resource "aws_route53_record" "reckerfamily_dot_com_cookbook_cname" {
 }
 
 module "reckerfamily_dot_com_gmail" {
-  source = "../modules/gmail"
+  source    = "../modules/gmail"
   zone_name = "reckerfamily.com."
 }
 
@@ -204,11 +150,11 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_soa" {
 }
 
 resource "aws_route53_record" "tranquilitydesignsmn_dot_com_apex" {
-  zone_id	  = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
-  name		  = "tranquilitydesignsmn.com."
-  type		  = "A"
-  ttl		  = "300"
-  records	  = local.github_ips
+  zone_id         = "${aws_route53_zone.tranquilitydesignsmn_dot_com.zone_id}"
+  name            = "tranquilitydesignsmn.com."
+  type            = "A"
+  ttl             = "300"
+  records         = local.github_ips
   allow_overwrite = true
 }
 
@@ -224,6 +170,6 @@ resource "aws_route53_record" "tranquilitydesignsmn_dot_com_cname" {
 }
 
 module "tranquilitydesignsmn_dot_com_privateemail" {
-  source = "../modules/privateemail"
+  source    = "../modules/privateemail"
   zone_name = "tranquilitydesignsmn.com."
 }
