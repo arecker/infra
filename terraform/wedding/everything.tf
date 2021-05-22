@@ -20,3 +20,9 @@ provider "cloudflare" {
 resource "cloudflare_zone" "zone" {
   zone = "alexandmarissa.com"
 }
+
+module "email" {
+  source               = "../modules/privateemailv2"
+  cloudflare_zone_id   = cloudflare_zone.zone.id
+  cloudflare_zone_name = cloudflare_zone.zone.zone
+}
