@@ -1,13 +1,20 @@
 ---
-- "hosts": "dev.local"
+- "hosts": "jenkins.local"
   "name": "jenkins server"
   "tasks":
   - "become": true
-    "name": "package: default-jdk"
+    "name": "package: {{ item }}"
     "package":
-      "name": "default-jdk"
+      "name": "{{ item }}"
       "state": "present"
       "update_cache": false
+    "with_items":
+    - "default-jdk"
+    - "git"
+    - "gnupg2"
+    - "python3"
+    - "python3-pip"
+    - "wget"
   - "apt_key":
       "state": "present"
       "url": "https://pkg.jenkins.io/debian/jenkins.io.key"
@@ -19,6 +26,14 @@
       "dest": "/etc/apt/sources.list.d/jenkins.list"
       "mode": "0744"
       "src": "jenkins.list.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "template: /etc/default/jenkins"
+    "template":
+      "dest": "/etc/default/jenkins"
+      "mode": "0644"
+      "src": "jenkins.env.j2"
     "vars":
       "variables": {}
   - "become": true
