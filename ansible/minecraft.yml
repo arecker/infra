@@ -1,18 +1,31 @@
 ---
-- "hosts": "dev.local"
+- "hosts": "minecraft.local"
   "name": "minecraft server"
   "tasks":
   - "become": true
-    "name": "package: screen"
+    "name": "package: {{ item }}"
     "package":
-      "name": "screen"
+      "name": "{{ item }}"
       "state": "present"
       "update_cache": false
+    "with_items":
+    - "default-jdk"
+    - "screen"
   - "file":
       "mode": "0751"
       "path": "~/minecraft"
       "state": "directory"
     "name": "directory: ~/minecraft"
+  - "file":
+      "mode": "0751"
+      "path": "~/bin"
+      "state": "directory"
+    "name": "directory: ~/bin"
+  - "file":
+      "mode": "0751"
+      "path": "~/backups"
+      "state": "directory"
+    "name": "directory: ~/backups"
   - "get_url":
       "dest": "~/minecraft/server.jar"
       "url": "https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar"

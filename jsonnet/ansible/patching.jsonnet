@@ -46,6 +46,7 @@ local tasks = [
       name: 'server patching',
       hosts: [
         'diningroom.local',
+        'minecraft.local',
         'printer.local',
         'prod',
       ],

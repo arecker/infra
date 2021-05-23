@@ -1,6 +1,7 @@
 ---
 - "hosts":
   - "diningroom.local"
+  - "minecraft.local"
   - "printer.local"
   - "prod"
   "name": "server patching"
