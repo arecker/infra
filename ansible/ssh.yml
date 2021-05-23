@@ -3,6 +3,8 @@
   - "diningroom.local"
   - "minecraft.local"
   - "printer.local"
+  - "chores.local"
+  - "wallpaper.local"
   - "prod"
   "name": "SSH keys"
   "tasks":

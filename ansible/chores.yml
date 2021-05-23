@@ -8,9 +8,42 @@
       "name": "chores"
       "scope": "user"
       "state": "restarted"
-  "hosts": "dev.local"
+  - "become": true
+    "name": "restart nginx service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "nginx"
+      "scope": "system"
+      "state": "reloaded"
+  "hosts": "chores.local"
   "name": "chores"
   "tasks":
+  - "become": true
+    "name": "package: {{ item }}"
+    "package":
+      "name": "{{ item }}"
+      "state": "present"
+      "update_cache": false
+    "with_items":
+    - "git"
+    - "nginx"
+    - "python3"
+    - "python3-pip"
+    - "python3-setuptools"
+    - "python3-venv"
+  - "become": false
+    "file":
+      "mode": "0751"
+      "path": "{{ item }}"
+      "state": "directory"
+    "name": "directory: {{ item }}"
+    "with_items":
+    - "~/bin"
+    - "~/src/"
+    - "~/envs"
+    - "~/venvs"
+    - "~/.config/systemd/user"
   - "copy":
       "dest": "~/bin/{{ item }}"
       "mode": "0755"
@@ -45,7 +78,7 @@
       "src": "env.j2"
     "vars":
       "variables":
-        "DB_PATH": "sqlite:////home/alex/mnt/chores.db"
+        "DB_PATH": "sqlite:////home/alex/chores.db"
         "FLASK_ENV": "production"
         "HUB_URL": "http://chores.local"
         "PORT": 5000
@@ -72,6 +105,25 @@
       "enabled": true
       "name": "chores"
       "scope": "user"
+      "state": "started"
+  - "become": true
+    "name": "template: /etc/nginx/nginx.conf"
+    "notify":
+    - "restart nginx service"
+    "template":
+      "dest": "/etc/nginx/nginx.conf"
+      "mode": "0700"
+      "src": "nginx/app.conf.j2"
+    "vars":
+      "variables":
+        "port": 5000
+  - "become": true
+    "name": "sevice: nginx"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "nginx"
+      "scope": "system"
       "state": "started"
   "vars_files": "secrets/secrets.yml"
 ...

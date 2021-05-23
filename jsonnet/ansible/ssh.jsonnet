@@ -22,6 +22,8 @@ local tasks = [
         'diningroom.local',
         'minecraft.local',
         'printer.local',
+        'chores.local',
+        'wallpaper.local',
         'prod',
       ],
       vars_files: 'secrets/secrets.yml',

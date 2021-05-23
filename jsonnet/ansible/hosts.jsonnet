@@ -2,6 +2,16 @@
   'ansible/hosts.yml': std.manifestYamlStream([{
     all: {
       hosts: {
+        'chores.local': {
+          ansible_ssh_user: 'alex',
+          ansible_become_pass: '{{ secrets.sudo }}',
+          ansible_python_interpreter: '/usr/bin/python3'
+        },
+        'wallpaper.local': {
+          ansible_ssh_user: 'alex',
+          ansible_become_pass: '{{ secrets.sudo }}',
+          ansible_python_interpreter: '/usr/bin/python3'
+        },
         'dev.local': {
           ansible_ssh_user: 'alex',
           ansible_become_pass: '{{ secrets.sudo }}',
