@@ -11,13 +11,16 @@
   packages(names=[]):: self.package(name='{{ item }}') {
     with_items: names,
   },
-  directory(path=''):: {
+  directory(path='', mode='0751', become=false, owner=null, group=null):: {
     name: 'directory: ' + path,
-    file: {
+    become: become,
+    file: std.prune({
       path: path,
       state: 'directory',
-      mode: '0751',
-    },
+      mode: mode,
+      owner: owner,
+      group: group,
+    }),
   },
   directories(paths=[]):: self.directory(path='{{ item }}') {
     with_items: paths,
@@ -42,17 +45,26 @@
       virtualenv_command: 'pyvenv',
     },
   },
-  template(name='', dest='', variables={}, become=false, mode='0700'):: {
+  pip(name):: {
+    name: 'pip: ' + name,
+    become: true,
+    pip: {
+      name: name,
+    },
+  },
+  template(name='', dest='', variables={}, become=false, mode='0700', owner=null, group=null):: {
     name: 'template: ' + dest,
     vars: {
       variables: variables,
     },
     become: become,
-    template: {
+    template: std.prune({
       src: name,
       dest: dest,
       mode: mode,
-    },
+      owner: owner,
+      group: group,
+    }),
   },
   cron(name='', command='', minute='*', hour='*'):: {
     name: 'cron: ' + name,

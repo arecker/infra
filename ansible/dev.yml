@@ -55,7 +55,8 @@
       "name": "ansible"
       "state": "present"
       "update_cache": true
-  - "file":
+  - "become": false
+    "file":
       "mode": "0751"
       "path": "{{ item }}"
       "state": "directory"

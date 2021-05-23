@@ -11,17 +11,20 @@
     "with_items":
     - "default-jdk"
     - "screen"
-  - "file":
+  - "become": false
+    "file":
       "mode": "0751"
       "path": "~/minecraft"
       "state": "directory"
     "name": "directory: ~/minecraft"
-  - "file":
+  - "become": false
+    "file":
       "mode": "0751"
       "path": "~/bin"
       "state": "directory"
     "name": "directory: ~/bin"
-  - "file":
+  - "become": false
+    "file":
       "mode": "0751"
       "path": "~/backups"
       "state": "directory"

@@ -1,0 +1,22 @@
+---
+- "hosts":
+  - "diningroom.local"
+  - "minecraft.local"
+  - "printer.local"
+  - "prod"
+  "name": "SSH keys"
+  "tasks":
+  - "become": false
+    "name": "template: ~/.ssh/authorized_keys"
+    "template":
+      "dest": "~/.ssh/authorized_keys"
+      "mode": "0700"
+      "src": "authorized_keys.j2"
+    "vars":
+      "variables":
+        "public_keys":
+        - "{{ secrets.public }}"
+        - "{{ secrets.jenkins.public }}"
+  "vars_files": "secrets/secrets.yml"
+...
+
