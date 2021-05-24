@@ -25,10 +25,19 @@
       "autoremove": true
     "become": true
     "name": "autoremove"
-  - "become": true
+  - "async": true
+    "become": true
     "name": "reboot"
-    "reboot":
-      "reboot_timeout": 3600
+    "poll": false
+    "shell": "sleep 5 && reboot"
+  - "connection": "local"
+    "name": "wait"
+    "wait_for":
+      "delay": 10
+      "host": "{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}"
+      "port": 22
+      "search_regex": "OpenSSH"
+      "timeout": 120
   "vars_files": "secrets/secrets.yml"
 ...
 

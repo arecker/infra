@@ -33,8 +33,19 @@ local tasks = [
   {
     name: 'reboot',
     become: true,
-    reboot: {
-      reboot_timeout: 3600,
+    shell: 'sleep 5 && reboot',
+    async: true,
+    poll: false,
+  },
+  {
+    name: 'wait',
+    connection: 'local',
+    wait_for: {
+      port: 22,
+      host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}',
+      search_regex: 'OpenSSH',
+      delay: 10,
+      timeout: 120,
     },
   },
 ];
