@@ -62,15 +62,6 @@
     "name": "git: ~/src/wallpaper"
     "notify":
     - "restart wallpaper service"
-  - "become": false
-    "name": "template: $HOME/.wallpaper.json"
-    "template":
-      "dest": "$HOME/.wallpaper.json"
-      "mode": "0700"
-      "src": "file.j2"
-    "vars":
-      "variables":
-        "content": "{{ secrets.wallpaper }}"
   - "name": "venv: wallpaper"
     "notify":
     - "restart wallpaper service"
