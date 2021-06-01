@@ -61,7 +61,6 @@ local tasks = [
         'printer.local',
         'chores.local',
         'wallpaper.local',
-        'prod',
       ],
       vars_files: 'secrets/secrets.yml',
       tasks: tasks,

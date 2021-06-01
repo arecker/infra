@@ -5,7 +5,6 @@
   - "printer.local"
   - "chores.local"
   - "wallpaper.local"
-  - "prod"
   "name": "server patching"
   "tasks":
   - "apt":
