@@ -1,33 +1,25 @@
-VAULT_ID=--vault-id infra@scripts/pass-vault-client.py
+ANSIBLE_PLAYBOOKS := chores jenkins minecraft patching wallpaper
+ANSIBLE_TARGETS := $(patsubst %, ansible/%.yml, $(ANSIBLE_PLAYBOOKS)) ansible/hosts.yml
 
-ANSIBLE_JSONNET_FILES = $(wildcard jsonnet/ansible/*.jsonnet)
-ANSIBLE_LIBSONNET_FILES = $(wildcard jsonnet/ansible/lib/*.libsonnet)
-ANSIBLE_FILES = $(addprefix ansible/, $(notdir $(patsubst %.jsonnet, %.yml, $(ANSIBLE_JSONNET_FILES))))
-CLOUDFORMATION_JSONNET_FILES = $( shell find jsonnet/cloudformation -type f -name '*.jsonnet')
-CLOUDFORMATION_FILES = $(subst jsonnet/,, $(patsubst %.jsonnet, %.yml, $(CLOUDFORMATION_JSONNET_FILES)))
+VAULT_ID := --vault-id infra@scripts/pass-vault-client.py
+
+JSONNET_FILES = $(wildcard jsonnet/*.jsonnet)
+LIBSONNET_FILES = $(wildcard jsonnet/lib/*.libsonnet)
 
 .PHONY: all
-all: $(ANSIBLE_FILES) $(CLOUDFORMATION_FILES)
+all: $(ANSIBLE_TARGETS)
 
-ansible/%.yml: jsonnet/ansible/%.jsonnet $(ANSIBLE_LIBSONNET_FILES)
-	jsonnet -S -m . $<
-	touch $@
+ansible/%.yml: jsonnet/%.jsonnet $(JSONNET_FILES) $(LIBSONNET_FILES)
+	jsonnet -S -m . $< && touch $@
 
-cloudformation/%.yml: $(CLOUDFORMATION_JSONNET_FILES)
-	jsonnet -S -m . $<
-	touch $@
-
-PLAYBOOKS = $(notdir $(basename $(shell find jsonnet/ansible -type f -name '*.jsonnet' -not -path "*hosts.jsonnet")))
-.PHONY: ansible $(PLAYBOOKS)
-ansible: $(PLAYBOOKS)
-$(PLAYBOOKS): $(ANSIBLE_FILES)
+.PHONY: $(ANSIBLE_PLAYBOOKS)
+$(ANSIBLE_PLAYBOOKS): $(ANSIBLE_TARGETS)
 	ansible-playbook -i ansible/hosts.yml $(VAULT_ID) ansible/$@.yml
 
 .PHONY: secrets
 secrets:
 	EDITOR="emacsclient" ansible-vault edit $(VAULT_ID) ansible/secrets/secrets.yml
 
-STACKMASTER = cd cloudformation && bundle exec stack_master
-.PHONY: stacks
-stacks: $(CLOUDFORMATION_FILES)
-	$(STACKMASTER) apply --no
+.PHONY: clean
+clean:
+	rm -rf $(ANSIBLE_TARGETS)
