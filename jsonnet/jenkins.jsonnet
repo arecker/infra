@@ -4,7 +4,9 @@ local serviceHandler = a.serviceHandler(name='nginx', scope='system', state='rel
 
 local tasks = [
   a.packages([
+    'bats',
     'default-jdk',
+    'dnsutils',
     'git',
     'gnupg2',
     'nginx',

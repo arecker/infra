@@ -20,3 +20,7 @@ provider "cloudflare" {
 resource "cloudflare_zone" "zone" {
   zone = "tranquilitydesignsmn.com"
 }
+
+output "nameservers" {
+  value = cloudflare_zone.zone.name_servers
+}

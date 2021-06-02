@@ -18,7 +18,9 @@
       "state": "present"
       "update_cache": false
     "with_items":
+    - "bats"
     - "default-jdk"
+    - "dnsutils"
     - "git"
     - "gnupg2"
     - "nginx"

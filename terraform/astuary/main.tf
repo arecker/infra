@@ -58,3 +58,7 @@ resource "cloudflare_record" "verify" {
   ttl     = "900"
   value   = "verify.squarespace.com"
 }
+
+output "nameservers" {
+  value = cloudflare_zone.zone.name_servers
+}
