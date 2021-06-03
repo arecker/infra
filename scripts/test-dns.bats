@@ -16,3 +16,22 @@ NAMESERVER="${NAMESERVER:-8.8.8.8}"
     actual="$(dig @${NAMESERVER} +short cookbook.reckerfamily.com. CNAME)"
     [ "$actual" == "readthedocs.io." ]
 }
+
+@test "alexandmarissa.com - mail" {
+    actual="$(dig @${NAMESERVER} +short alexandmarissa.com MX | sort)"
+    expected="10 mx1.privateemail.com.
+10 mx2.privateemail.com."
+    [ "$actual" == "$expected" ]
+}
+
+@test "tranquilitydesignsmn.com - mail" {
+    actual="$(dig @${NAMESERVER} +short tranquilitydesignsmn.com MX | sort)"
+    expected="10 mx1.privateemail.com.
+10 mx2.privateemail.com."
+    [ "$actual" == "$expected" ]
+}
+
+@test "astuaryart.com - CNAME" {
+    actual="$(dig @${NAMESERVER} +short www.astuaryart.com CNAME)"
+    [ "$actual" == "ext-cust.squarespace.com." ]
+}
