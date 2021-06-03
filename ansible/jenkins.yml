@@ -19,6 +19,7 @@
       "update_cache": false
     "with_items":
     - "bats"
+    - "curl"
     - "default-jdk"
     - "dnsutils"
     - "git"
