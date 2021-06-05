@@ -6,7 +6,7 @@ BIRTHDAY_WEBHOOK="${BIRTHDAY_WEBHOOK:-}"
 
 BIRTHDAY_NAME="${BIRTHDAY_NAME-Joey Bag-o-Donuts}"
 BIRTHDAY_BOT_NAME="${BIRTHDAY_BOT_NAME:-reckerbot}"
-BIRTHDAY_BOT_ICON="${BIRTHDAY_BOT_ICON-:reckerbot:}"
+BIRTHDAY_BOT_ICON="${BIRTHDAY_BOT_ICON:-:reckerbot:}"
 
 log() {
     echo "birthday.sh: $1" 1>&2
