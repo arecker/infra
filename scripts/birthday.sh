@@ -4,7 +4,9 @@ set -e
 
 BIRTHDAY_WEBHOOK="${BIRTHDAY_WEBHOOK:-}"
 
-BIRTHDAY_NAME="${BIRTHDAY_NAME-Joey Bag-o-Donuts}"
+BIRTHDAY_LINK="${BIRTHDAY_LINK:-https://youtu.be/Y6JnYnA9Tzo}"
+BIRTHDAY_NAME="${BIRTHDAY_NAME:-Joey Bag-o-Donuts}"
+BIRTHDAY_CHANNEL="${BIRTHDAY_CHANNEL:-#birthdays}"
 BIRTHDAY_BOT_NAME="${BIRTHDAY_BOT_NAME:-reckerbot}"
 BIRTHDAY_BOT_ICON="${BIRTHDAY_BOT_ICON:-:reckerbot:}"
 
@@ -29,10 +31,15 @@ payload() {
 {
   "username": "$BIRTHDAY_BOT_NAME",
   "icon_emoji": "$BIRTHDAY_BOT_ICON",
-  "text": "Happy birthday, ${BIRTHDAY_NAME}!"
+  "text": "Happy birthday, ${BIRTHDAY_NAME}!\n${BIRTHDAY_LINK}",
+  "channel": "$BIRTHDAY_CHANNEL"
 }
 EOF
 }
 
-# validate || exit 1
-payload
+validate || exit 1
+curl \
+    -H 'Content-type: application/json' \
+    -X POST \
+    -d "$(payload)" \
+    "$BIRTHDAY_WEBHOOK"
