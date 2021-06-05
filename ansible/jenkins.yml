@@ -115,4 +115,20 @@
       "src": "/usr/bin/python3"
       "state": "link"
     "name": "fix python with symlink"
+  - "become": true
+    "copy":
+      "dest": "/usr/local/sbin/jenkins-patch"
+      "mode": "0754"
+      "src": "bin/jenkins-patch"
+    "name": "patching - script"
+  - "become": true
+    "cron":
+      "day": "*"
+      "hour": "5"
+      "job": "/usr/local/sbin/jenkins-patch > /dev/null 2>&1"
+      "minute": "0"
+      "month": "*"
+      "name": "patching"
+      "weekday": "1"
+    "name": "patching - cron"
   "vars_files": "secrets/secrets.yml"

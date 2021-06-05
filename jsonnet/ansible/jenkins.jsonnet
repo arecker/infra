@@ -67,6 +67,30 @@ local tasks = [
       state: 'link',
     },
   },
+
+  // Install patching script and cron
+  {
+    name: 'patching - script',
+    become: true,
+    copy: {
+      src: 'bin/jenkins-patch',
+      dest: '/usr/local/sbin/jenkins-patch',
+      mode: '0754',
+    },
+  },
+  {
+    name: 'patching - cron',
+    become: true,
+    cron: {
+      name: 'patching',
+      minute: '0',
+      hour: '5',
+      day: '*',
+      month: '*',
+      weekday: '1',
+      job: '/usr/local/sbin/jenkins-patch > /dev/null 2>&1'
+    },
+  },
 ];
 
 [
