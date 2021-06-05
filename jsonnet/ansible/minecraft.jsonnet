@@ -1,4 +1,4 @@
-local a = import 'lib/ansible.libsonnet';
+local a = import '../ansible.libsonnet';
 
 local serverJarURL = 'https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar';
 
@@ -16,14 +16,11 @@ local tasks = [
   a.cronSpecial(name='minecraft server backup', command='~/bin/minecraft-backup', specialTime='hourly'),
 ];
 
-{
-  'ansible/minecraft.yml': std.manifestYamlStream([self.asPlaybook()]),
-  asPlaybook():: [
-    {
-      name: 'minecraft server',
-      hosts: 'minecraft.local',
-      vars_files: 'secrets/secrets.yml',
-      tasks: tasks,
-    },
-  ],
-}
+[
+  {
+    name: 'minecraft server',
+    hosts: 'minecraft.local',
+    vars_files: 'secrets/secrets.yml',
+    tasks: tasks,
+  },
+]

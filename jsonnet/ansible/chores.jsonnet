@@ -1,4 +1,4 @@
-local a = import 'lib/ansible.libsonnet';
+local a = import '../ansible.libsonnet';
 
 local port = 5000;
 
@@ -60,17 +60,12 @@ local tasks = [
   a.service(name='nginx', scope='system'),
 ];
 
-{
-  'ansible/chores.yml': std.manifestYamlStream([self.asPlaybook()]),
-  hostname:: 'chores.local',
-  port:: port,
-  asPlaybook():: [
-    {
-      name: 'chores',
-      hosts: 'chores.local',
-      vars_files: 'secrets/secrets.yml',
-      tasks: tasks,
-      handlers: [appHandler, proxyHandler],
-    },
-  ],
-}
+[
+  {
+    name: 'chores',
+    hosts: 'chores.local',
+    vars_files: 'secrets/secrets.yml',
+    tasks: tasks,
+    handlers: [appHandler, proxyHandler],
+  },
+]

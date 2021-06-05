@@ -1,4 +1,4 @@
-local a = import 'lib/ansible.libsonnet';
+local a = import '../ansible.libsonnet';
 
 local serviceHandler = a.serviceHandler(name='nginx', scope='system', state='reloaded');
 
@@ -69,15 +69,12 @@ local tasks = [
   },
 ];
 
-{
-  'ansible/jenkins.yml': std.manifestYamlStream([self.asPlaybook()]),
-  asPlaybook():: [
-    {
-      name: 'jenkins server',
-      hosts: 'jenkins.local',
-      vars_files: 'secrets/secrets.yml',
-      tasks: tasks,
-      handlers: [serviceHandler],
-    },
-  ],
-}
+[
+  {
+    name: 'jenkins server',
+    hosts: 'jenkins.local',
+    vars_files: 'secrets/secrets.yml',
+    tasks: tasks,
+    handlers: [serviceHandler],
+  },
+]

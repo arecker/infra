@@ -1,4 +1,3 @@
----
 - "handlers":
   - "become": false
     "name": "restart chores service"
@@ -126,5 +125,3 @@
       "scope": "system"
       "state": "started"
   "vars_files": "secrets/secrets.yml"
-...
-

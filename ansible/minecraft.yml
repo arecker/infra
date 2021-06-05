@@ -1,4 +1,3 @@
----
 - "hosts": "minecraft.local"
   "name": "minecraft server"
   "tasks":
@@ -52,5 +51,3 @@
       "special_time": "hourly"
     "name": "cron: minecraft server backup"
   "vars_files": "secrets/secrets.yml"
-...
-

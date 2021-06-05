@@ -1,4 +1,4 @@
-local a = import 'lib/ansible.libsonnet';
+local a = import '../ansible.libsonnet';
 
 local port = 5001;
 
@@ -59,17 +59,12 @@ local tasks = [
   a.service(name='nginx', scope='system'),
 ];
 
-{
-  'ansible/wallpaper.yml': std.manifestYamlStream([self.asPlaybook()]),
-  hostname:: 'wallpaper.local',
-  port:: port,
-  asPlaybook():: [
-    {
-      name: 'wallpaper',
-      hosts: 'wallpaper.local',
-      vars_files: 'secrets/secrets.yml',
-      tasks: tasks,
-      handlers: [appHandler, proxyHandler],
-    },
-  ],
-}
+[
+  {
+    name: 'wallpaper',
+    hosts: 'wallpaper.local',
+    vars_files: 'secrets/secrets.yml',
+    tasks: tasks,
+    handlers: [appHandler, proxyHandler],
+  },
+]

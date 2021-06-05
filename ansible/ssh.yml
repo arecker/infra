@@ -1,4 +1,3 @@
----
 - "hosts":
   - "diningroom.local"
   - "minecraft.local"
@@ -19,5 +18,3 @@
         - "{{ secrets.public }}"
         - "{{ secrets.jenkins.public }}"
   "vars_files": "secrets/secrets.yml"
-...
-

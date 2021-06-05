@@ -1,4 +1,3 @@
----
 - "handlers":
   - "become": true
     "name": "restart nginx service"
@@ -117,5 +116,3 @@
       "state": "link"
     "name": "fix python with symlink"
   "vars_files": "secrets/secrets.yml"
-...
-

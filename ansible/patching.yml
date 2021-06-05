@@ -1,4 +1,3 @@
----
 - "hosts":
   - "diningroom.local"
   - "minecraft.local"
@@ -38,5 +37,3 @@
       "search_regex": "OpenSSH"
       "timeout": 120
   "vars_files": "secrets/secrets.yml"
-...
-

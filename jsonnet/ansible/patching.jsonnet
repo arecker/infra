@@ -1,4 +1,4 @@
-local a = import 'lib/ansible.libsonnet';
+local a = import '../ansible.libsonnet';
 
 local tasks = [
   {
@@ -50,20 +50,17 @@ local tasks = [
   },
 ];
 
-{
-  'ansible/patching.yml': std.manifestYamlStream([self.asPlaybook()]),
-  asPlaybook():: [
-    {
-      name: 'server patching',
-      hosts: [
-        'diningroom.local',
-        'minecraft.local',
-        'printer.local',
-        'chores.local',
-        'wallpaper.local',
-      ],
-      vars_files: 'secrets/secrets.yml',
-      tasks: tasks,
-    },
-  ],
-}
+[
+  {
+    name: 'server patching',
+    hosts: [
+      'diningroom.local',
+      'minecraft.local',
+      'printer.local',
+      'chores.local',
+      'wallpaper.local',
+    ],
+    vars_files: 'secrets/secrets.yml',
+    tasks: tasks,
+  },
+]
