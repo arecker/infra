@@ -38,6 +38,8 @@ EOF
 }
 
 validate || exit 1
+
+log "posting payload to $BIRTHDAY_CHANNEL"
 curl \
     -H 'Content-type: application/json' \
     -X POST \
