@@ -1,19 +1,17 @@
 ---
-"Resources":
-  "astuaryartcom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "astuaryart.com."
-    "Type": "AWS::Route53::HostedZone"
-  "reckerfamilycom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "reckerfamily.com."
-    "Type": "AWS::Route53::HostedZone"
-  "tranquilitydesignsmncom":
-    "DeletionPolicy": "Retain"
-    "Properties":
-      "Name": "tranquilitydesignsmn.com."
-    "Type": "AWS::Route53::HostedZone"
-...
-
+Resources:
+  astuaryartcom:
+    DeletionPolicy: Retain
+    Properties:
+      Name: "astuaryart.com."
+    Type: "AWS::Route53::HostedZone"
+  reckerfamilycom:
+    DeletionPolicy: Retain
+    Properties:
+      Name: "reckerfamily.com."
+    Type: "AWS::Route53::HostedZone"
+  tranquilitydesignsmncom:
+    DeletionPolicy: Retain
+    Properties:
+      Name: "tranquilitydesignsmn.com."
+    Type: "AWS::Route53::HostedZone"

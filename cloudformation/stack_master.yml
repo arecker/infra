@@ -1,7 +1,5 @@
 ---
-"stacks":
-  "us-east-2":
-    "hosted-zones":
-      "template": "hosted_zones.yml"
-...
-
+stacks:
+  us-east-2:
+    hosted-zones:
+      template: hosted_zones.yml
