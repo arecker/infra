@@ -11,11 +11,6 @@
     "become": true
     "name": "update"
   - "apt":
-      "name": "*"
-      "state": "latest"
-    "become": true
-    "name": "upgrade"
-  - "apt":
       "upgrade": "dist"
     "become": true
     "name": "dist-upgrade"

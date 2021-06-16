@@ -9,14 +9,6 @@ local tasks = [
     },
   },
   {
-    name: 'upgrade',
-    become: true,
-    apt: {
-      name: '*',
-      state: 'latest',
-    },
-  },
-  {
     name: 'dist-upgrade',
     become: true,
     apt: {
