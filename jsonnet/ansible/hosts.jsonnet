@@ -1,41 +1,22 @@
+local Host = {
+  ansible_ssh_user: 'alex',
+  ansible_become_pass: '{{ secrets.sudo }}',
+  ansible_python_interpreter: '/usr/bin/python3',
+};
+
 {
   all: {
     hosts: {
-      'chores.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
-      'wallpaper.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
-      'console.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
-      'diningroom.local': {
+      'chores.local': Host,
+      'wallpaper.local': Host,
+      'console.local': Host,
+      'diningroom.local': Host {
         ansible_ssh_user: 'recker',
         ansible_become_pass: '{{ secrets.diningroom.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
       },
-      'minecraft.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
-      'printer.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
-      'jenkins.local': {
-        ansible_ssh_user: 'alex',
-        ansible_become_pass: '{{ secrets.sudo }}',
-        ansible_python_interpreter: '/usr/bin/python3'
-      },
+      'minecraft.local': Host,
+      'printer.local': Host,
+      'jenkins.local': Host,
     },
-  }
+  },
 }
