@@ -17,6 +17,7 @@ local tasks = [
   {
     name: 'SSH keys',
     hosts: [
+      'console.local',
       'diningroom.local',
       'minecraft.local',
       'printer.local',
