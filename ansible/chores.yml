@@ -53,7 +53,8 @@
     "with_items":
     - "chorebot"
     - "chores"
-  - "git":
+  - "become": false
+    "git":
       "dest": "~/src/chores"
       "repo": "https://www.github.com/arecker/chores.git"
       "version": "master"

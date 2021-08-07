@@ -100,6 +100,43 @@
       "scope": "system"
       "state": "started"
   - "become": true
+    "name": "package: {{ item }}"
+    "package":
+      "name": "{{ item }}"
+      "state": "present"
+      "update_cache": false
+    "with_items":
+    - "build-essential"
+    - "curl"
+    - "libbz2-dev"
+    - "libffi-dev"
+    - "liblzma-dev"
+    - "libncurses5-dev"
+    - "libncursesw5-dev"
+    - "libreadline-dev"
+    - "libsqlite3-dev"
+    - "libssl-dev"
+    - "llvm"
+    - "make"
+    - "tk-dev"
+    - "wget"
+    - "xz-utils"
+    - "zlib1g-dev"
+  - "become": true
+    "git":
+      "dest": "/var/lib/jenkins/.pyenv"
+      "repo": "https://github.com/pyenv/pyenv.git"
+      "version": "master"
+    "name": "git: /var/lib/jenkins/.pyenv"
+  - "become": true
+    "file":
+      "group": "jenkins"
+      "mode": "0755"
+      "owner": "jenkins"
+      "path": "/var/lib/jenkins/.pyenv"
+      "state": "directory"
+    "name": "directory: /var/lib/jenkins/.pyenv"
+  - "become": true
     "name": "pip: ansible"
     "pip":
       "name": "ansible"

@@ -25,14 +25,15 @@
   directories(paths=[]):: self.directory(path='{{ item }}') {
     with_items: paths,
   },
-  git(url='', dest='', version='master'):: {
+  git(url='', dest='', version='master', become=false):: std.prune({
     name: 'git: ' + dest,
+    become: become,
     git: {
       repo: url,
       dest: dest,
       version: version,
     },
-  },
+  }),
   gitPersonal(repo='', dest='', version='master'):: (
     local url = 'https://www.github.com/arecker/' + repo + '.git';
     self.git(url=url, dest=dest, version=version)

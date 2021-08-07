@@ -45,6 +45,38 @@ local tasks = [
   ) + { notify: [serviceHandler.name] },
   a.service(name='nginx', scope='system'),
 
+  // Setup pyenv
+  a.packages(names=[
+    'build-essential',
+    'curl',
+    'libbz2-dev',
+    'libffi-dev',
+    'liblzma-dev',
+    'libncurses5-dev',
+    'libncursesw5-dev',
+    'libreadline-dev',
+    'libsqlite3-dev',
+    'libssl-dev',
+    'llvm',
+    'make',
+    'tk-dev',
+    'wget',
+    'xz-utils',
+    'zlib1g-dev',
+  ]),
+  a.git(
+    url='https://github.com/pyenv/pyenv.git',
+    dest='/var/lib/jenkins/.pyenv',
+    become=true
+  ),
+  a.directory(
+    become=true,
+    path='/var/lib/jenkins/.pyenv',
+    mode='0755',
+    owner='jenkins',
+    group='jenkins',
+  ),
+
   // Setup some tools
   a.pip('ansible'),
   {
@@ -88,7 +120,7 @@ local tasks = [
       day: '*',
       month: '*',
       weekday: '1',
-      job: '/usr/local/sbin/jenkins-patch > /dev/null 2>&1'
+      job: '/usr/local/sbin/jenkins-patch > /dev/null 2>&1',
     },
   },
 ];

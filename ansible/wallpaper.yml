@@ -54,7 +54,8 @@
     "with_items":
     - "sync"
     - "wallpaper"
-  - "git":
+  - "become": false
+    "git":
       "dest": "~/src/wallpaper"
       "repo": "https://www.github.com/arecker/wallpaper.git"
       "version": "master"
