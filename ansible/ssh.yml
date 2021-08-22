@@ -1,4 +1,13 @@
-- "hosts":
+- "handlers":
+  - "become": true
+    "name": "restart ssh service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "ssh"
+      "scope": "system"
+      "state": "restarted"
+  "hosts":
   - "console.local"
   - "diningroom.local"
   - "minecraft.local"
@@ -7,6 +16,18 @@
   - "wallpaper.local"
   "name": "SSH keys"
   "tasks":
+  - "become": true
+    "name": "template: /etc/ssh/sshd_config"
+    "notify":
+    - "restart ssh service"
+    "template":
+      "dest": "/etc/ssh/sshd_config"
+      "group": "root"
+      "mode": "644"
+      "owner": "root"
+      "src": "sshd_config.j2"
+    "vars":
+      "variables": {}
   - "become": false
     "name": "template: ~/.ssh/authorized_keys"
     "template":
