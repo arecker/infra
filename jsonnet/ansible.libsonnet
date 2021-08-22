@@ -163,4 +163,12 @@
       dest: path,
     },
   },
+  installLauncher(path='~/bin/launcher'):: {
+    name: 'install launcher',
+    get_url: {
+      dest: path,
+      url: 'https://raw.githubusercontent.com/arecker/launcher/main/launcher',
+      mode: '0755',
+    },
+  },
 }
