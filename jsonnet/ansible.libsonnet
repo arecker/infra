@@ -163,6 +163,38 @@
       dest: path,
     },
   },
+  installPyenv():: [
+    self.packages(names=[
+      'build-essential',
+      'curl',
+      'libbz2-dev',
+      'libffi-dev',
+      'liblzma-dev',
+      'libncurses5-dev',
+      'libncursesw5-dev',
+      'libreadline-dev',
+      'libsqlite3-dev',
+      'libssl-dev',
+      'llvm',
+      'make',
+      'tk-dev',
+      'wget',
+      'xz-utils',
+      'zlib1g-dev',
+    ]),
+    self.git(url='https://github.com/pyenv/pyenv.git', dest='~/.pyenv')
+  ],
+  installPythonVersion(version_file=''):: (
+    local version = std.format('{{lookup("file", "%s") }}', version_file);
+
+    {
+      name: 'install python version in ' + version_file,
+      command: {
+        cmd: '~/.pyenv/bin/pyenv install ' + version,
+        creates: '~/.pyenv/versions/' + version
+      }
+    }
+  ),
   installLauncher(path='~/bin/launcher'):: {
     name: 'install launcher',
     get_url: {
