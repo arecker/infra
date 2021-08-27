@@ -1,12 +1,8 @@
-local Host() = {
-    ansible_become_pass: '{{ secrets.sudo }}',
-    ansible_python_interpreter: '/usr/bin/python3',
-    ansible_ssh_user: 'alex',
-};
-
+local Export = import 'lib/export.jsonnet';
+local Host = import 'lib/host.jsonnet';
 
 local hosts = {
-  ['console.local']: Host(),
+  'console.local': Host(),
 };
 
 local toAnsible(hosts) = {
@@ -18,9 +14,9 @@ local toAnsible(hosts) = {
   },
 };
 
-local export() = std.manifestYamlDoc(toAnsible(hosts));
-
 {
   hosts:: hosts,
-  export:: export
+  export():: (
+    Export.asYamlDoc(toAnsible(hosts))
+  ),
 }
