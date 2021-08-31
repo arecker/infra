@@ -1,2 +1,10 @@
-"name": "console"
-"tasks": []
+- "hosts":
+  - "console.local"
+  "name": "console"
+  "tasks":
+  - "become": true
+    "name": "set timezone"
+    "timezone":
+      "name": "America/Chicago"
+  "vars_files":
+  - "secrets/secrets.yml"
