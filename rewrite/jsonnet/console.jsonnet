@@ -1,18 +1,11 @@
 local Hosts = import 'hosts.jsonnet';
-local Export = import 'lib/export.jsonnet';
+local Package = import 'lib/package.jsonnet';
 local Playbook = import 'lib/playbook.jsonnet';
-local Tasks = import 'lib/tasks.jsonnet';
-
-local hosts = ['console.local'];
+local Template = import 'lib/template.jsonnet';
 
 local tasks = [
-  Tasks.setTimezone(),
+  Package(name='openssh-server'),
+  Template(name='sshd.conf.j2', dest='/etc/ssh/sshd_config', become=true, mode='644', owner='root', group='root'),
 ];
 
-local playbook = Playbook('console', hosts=hosts, tasks=tasks);
-
-{
-  export():: (
-    Export.asYamlDoc([playbook])
-  ),
-}
+Playbook('console', hosts=[Hosts.console.hostname], tasks=tasks)

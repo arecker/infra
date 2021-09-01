@@ -8,9 +8,7 @@ VAULT_ID = infra@scripts/pass-vault-client.py
 .PHONY: all
 all: $(JSONNET_TARGETS)
 
-inventory/hosts.yml: jsonnet/hosts.jsonnet $(JSONNET_LIBS)
-	jsonnet -S -e '(import "$<").export()' > $@ && touch $@
-playbooks/%.yml: jsonnet/%.jsonnet $(JSONNET_LIBS)
+playbooks/%.yml inventory/%.yml: jsonnet/%.jsonnet jsonnet/hosts.jsonnet $(JSONNET_LIBS)
 	jsonnet -S -e '(import "$<").export()' > $@ && touch $@
 
 .PHONY: $(PLAYBOOKS)
