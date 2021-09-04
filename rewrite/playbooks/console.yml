@@ -18,5 +18,13 @@
       "src": "../templates/sshd.conf.j2"
     "vars":
       "variables": {}
+  - "authorized_key":
+      "key": "{{ lookup(\"file\", \"../keys/\" + item + \".pub\") }}"
+      "state": "present"
+      "user": "alex"
+    "name": "authorized keys: personal, jenkins"
+    "with_items":
+    - "personal"
+    - "jenkins"
   "vars_files":
   - "secrets/secrets.yml"
