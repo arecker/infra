@@ -1,4 +1,5 @@
-PLAYBOOKS = console
+PLAYBOOKS = apt ssh
+
 PLAYBOOK_TARGETS = $(patsubst %, playbooks/%.yml, $(PLAYBOOKS))
 JSONNET_TARGETS = $(PLAYBOOK_TARGETS) inventory/hosts.yml
 JSONNET_LIBS = $(wildcard jsonnet/lib/*.jsonnet)

@@ -1,0 +1,55 @@
+# {{ ansible_managed }}
+
+Include work/config
+
+Host laptop
+  Hostname laptop.local
+  User alex
+  ForwardX11 yes
+  ForwardX11Trusted yes
+
+Host nas
+  Hostname nas.local
+  User alex
+
+Host work
+  Hostname 25732-arecker
+  User arecker
+
+Host seedbox
+  Hostname seedbox.local
+  User alex
+
+Host jenkins
+  Hostname jenkins.local
+  User alex
+
+Host minecraft
+  Hostname minecraft.local
+  User alex
+
+Host printer
+  Hostname printer.local
+  User alex
+
+Host diningroom
+  Hostname diningroom.local
+  User recker
+
+Host chores
+  Hostname chores.local
+  User alex
+
+Host wallpaper
+  Hostname wallpaper.local
+  User alex
+
+Host console
+  Hostname console.local
+  User alex
+  ForwardX11 yes
+  ForwardX11Trusted yes
+
+Host *
+  ForwardAgent yes
+  StrictHostKeyChecking no

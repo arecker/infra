@@ -13,7 +13,13 @@ local toAnsible(host) = {
 
 {
   console:: Host('console.local'),
-  hosts:: [self.console],
+  chores:: Host('chores.local'),
+  wallpaper:: Host('wallpaper.local'),
+  printer:: Host('printer.local'),
+  jenkins:: Host('jenkins.local'),
+  minecraft:: Host('minecraft.local'),
+  hosts:: [self.console, self.chores, self.wallpaper, self.jenkins, self.printer, self.minecraft],
+  all():: [host.hostname for host in self.hosts],
   export():: (
     local me = self;
     Export.asYamlDoc({

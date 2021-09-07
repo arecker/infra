@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+
+deb http://ftp.debian.org/debian bullseye main contrib
+deb-src http://ftp.debian.org/debian bullseye main contrib
+deb http://ftp.debian.org/debian bullseye-updates main contrib
+deb-src http://ftp.debian.org/debian bullseye-updates main contrib
+deb http://security.debian.org bullseye-security main contrib
+deb-src http://security.debian.org bullseye-security main contrib
+
+{% if variables.get('ansible', False) %}
+# ansible
+deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main
+{% endif %}
+
+{% if variables.get('jenkins', False) %}
+# jenkins
+deb https://pkg.jenkins.io/debian-stable binary/
+{% endif %}

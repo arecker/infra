@@ -1,6 +1,11 @@
 - "hosts":
   - "console.local"
-  "name": "console"
+  - "chores.local"
+  - "wallpaper.local"
+  - "jenkins.local"
+  - "printer.local"
+  - "minecraft.local"
+  "name": "ssh"
   "tasks":
   - "become": true
     "name": "install package: openssh-server"
@@ -16,6 +21,14 @@
       "mode": "644"
       "owner": "root"
       "src": "../templates/sshd.conf.j2"
+    "vars":
+      "variables": {}
+  - "become": false
+    "name": "render template: ssh.conf.j2"
+    "template":
+      "dest": "~/.ssh/config"
+      "mode": "644"
+      "src": "../templates/ssh.conf.j2"
     "vars":
       "variables": {}
   - "authorized_key":
