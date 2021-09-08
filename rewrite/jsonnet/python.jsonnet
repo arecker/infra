@@ -1,5 +1,6 @@
 local Hosts = import 'hosts.jsonnet';
 local AuthorizedKeys = import 'lib/authorized_keys.jsonnet';
+local Git = import 'lib/git.jsonnet';
 local Package = import 'lib/package.jsonnet';
 local Playbook = import 'lib/playbook.jsonnet';
 local Template = import 'lib/template.jsonnet';
@@ -25,6 +26,7 @@ local pyenvPackages = [
 
 local tasks = [Package(name=package) for package in pyenvPackages] + [
   Package(name='git'),
+  Git(url='https://github.com/pyenv/pyenv.git', dest='~/.pyenv'),
 ];
 
 Playbook('python', hosts=Hosts.python(), tasks=tasks)
