@@ -106,5 +106,11 @@
       "name": "git"
       "state": "present"
       "update_cache": false
+  - "become": false
+    "git":
+      "dest": "~/.pyenv"
+      "repo": "https://github.com/pyenv/pyenv.git"
+      "version": "master"
+    "name": "git: ~/.pyenv"
   "vars_files":
   - "secrets/secrets.yml"
