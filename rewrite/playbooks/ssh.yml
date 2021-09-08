@@ -1,10 +1,10 @@
 - "hosts":
-  - "console.local"
   - "chores.local"
-  - "wallpaper.local"
+  - "console.local"
   - "jenkins.local"
-  - "printer.local"
   - "minecraft.local"
+  - "printer.local"
+  - "wallpaper.local"
   "name": "ssh"
   "tasks":
   - "become": true
