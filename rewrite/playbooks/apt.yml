@@ -22,9 +22,7 @@
       "owner": "root"
       "src": "../templates/sources.list.j2"
     "vars":
-      "variables":
-        "ansible": true
-        "jenkins": true
+      "variables": {}
   - "apt_key":
       "state": "present"
       "url": "https://pkg.jenkins.io/debian/jenkins.io.key"

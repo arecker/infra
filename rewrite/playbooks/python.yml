@@ -1,0 +1,110 @@
+- "hosts":
+  - "chores.local"
+  - "console.local"
+  - "wallpaper.local"
+  "name": "python"
+  "tasks":
+  - "become": true
+    "name": "install package: build-essential"
+    "package":
+      "name": "build-essential"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: curl"
+    "package":
+      "name": "curl"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libbz2-dev"
+    "package":
+      "name": "libbz2-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libffi-dev"
+    "package":
+      "name": "libffi-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: liblzma-dev"
+    "package":
+      "name": "liblzma-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libncurses5-dev"
+    "package":
+      "name": "libncurses5-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libncursesw5-dev"
+    "package":
+      "name": "libncursesw5-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libreadline-dev"
+    "package":
+      "name": "libreadline-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libsqlite3-dev"
+    "package":
+      "name": "libsqlite3-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: libssl-dev"
+    "package":
+      "name": "libssl-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: llvm"
+    "package":
+      "name": "llvm"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: make"
+    "package":
+      "name": "make"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: tk-dev"
+    "package":
+      "name": "tk-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: wget"
+    "package":
+      "name": "wget"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: xz-utils"
+    "package":
+      "name": "xz-utils"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: zlib1g-dev"
+    "package":
+      "name": "zlib1g-dev"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: git"
+    "package":
+      "name": "git"
+      "state": "present"
+      "update_cache": false
+  "vars_files":
+  - "secrets/secrets.yml"

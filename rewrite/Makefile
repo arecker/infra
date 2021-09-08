@@ -1,4 +1,4 @@
-PLAYBOOKS = apt ssh
+PLAYBOOKS = apt ssh python
 
 PLAYBOOK_TARGETS = $(patsubst %, playbooks/%.yml, $(PLAYBOOKS))
 JSONNET_TARGETS = $(PLAYBOOK_TARGETS) inventory/hosts.yml
