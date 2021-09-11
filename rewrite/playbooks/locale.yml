@@ -1,0 +1,22 @@
+- "hosts":
+  - "chores.local"
+  - "console.local"
+  - "jenkins.local"
+  - "minecraft.local"
+  - "printer.local"
+  - "wallpaper.local"
+  "name": "locale"
+  "tasks":
+  - "become": true
+    "name": "install package: locales"
+    "package":
+      "name": "locales"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "locale_gen":
+      "name": "en_US.UTF-8"
+      "state": "present"
+    "name": "locale: en_US.UTF-8"
+  "vars_files":
+  - "secrets/secrets.yml"

@@ -1,5 +1,5 @@
-PLAYBOOKS = apt ssh python
-
+PLAYBOOK_SOURCES = $(shell find jsonnet ! -path 'jsonnet/lib/*' ! -name 'hosts.jsonnet' -path '*.jsonnet')
+PLAYBOOKS = $(basename $(notdir $(PLAYBOOK_SOURCES)))
 PLAYBOOK_TARGETS = $(patsubst %, playbooks/%.yml, $(PLAYBOOKS))
 JSONNET_TARGETS = $(PLAYBOOK_TARGETS) inventory/hosts.yml
 JSONNET_LIBS = $(wildcard jsonnet/lib/*.jsonnet)

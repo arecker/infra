@@ -39,5 +39,9 @@
       "repo": "https://github.com/pyenv/pyenv.git"
       "version": "master"
     "name": "git: ~/.pyenv"
+  - "command":
+      "cmd": "~/.pyenv/bin/pyenv install 3.9.7"
+      "creates": "~/.pyenv/versions/3.9.7"
+    "name": "command: ~/.pyenv/bin/pyenv install 3.9.7"
   "vars_files":
   - "secrets/secrets.yml"
