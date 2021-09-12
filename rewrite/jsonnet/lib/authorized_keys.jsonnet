@@ -1,11 +1,8 @@
-local AuthorizedKeys(user, keys=[]) = {
-  name: 'authorized keys: ' + std.join(', ', keys),
-  authorized_key: {
-    user: user,
-    state: 'present',
-    key: '{{ lookup("file", "../keys/" + item + ".pub") }}',
-  },
-  with_items: keys,
-};
+local Template = import 'template.jsonnet';
+
+
+local AuthorizedKeys(keys=[]) = (
+  Template(name='authorized_keys.j2', dest='~/.ssh/authorized_keys', variables={ public_keys: keys })
+);
 
 AuthorizedKeys

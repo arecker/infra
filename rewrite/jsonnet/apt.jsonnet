@@ -12,4 +12,4 @@ local tasks = [
   Package(name='ansible', update=true),
 ];
 
-Playbook('apt', hosts=Hosts.all(), tasks=tasks)
+Playbook('apt', hosts=Hosts.apt(), tasks=tasks)

@@ -1,6 +1,7 @@
 - "hosts":
   - "chores.local"
   - "console.local"
+  - "diningroom.local"
   - "jenkins.local"
   - "minecraft.local"
   - "printer.local"

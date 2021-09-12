@@ -1,0 +1,28 @@
+- "hosts":
+  - "printer.local"
+  "name": "cups"
+  "tasks":
+  - "become": true
+    "name": "install package: cups"
+    "package":
+      "name": "cups"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "install package: avahi-daemon"
+    "package":
+      "name": "avahi-daemon"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "render template: cupsd.conf.j2"
+    "template":
+      "dest": "/etc/cups/cupsd.conf"
+      "group": "root"
+      "mode": "0644"
+      "owner": "root"
+      "src": "../templates/cupsd.conf.j2"
+    "vars":
+      "variables": {}
+  "vars_files":
+  - "secrets/secrets.yml"
