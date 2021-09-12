@@ -5,7 +5,7 @@
   "name": "python"
   "tasks":
   - "become": true
-    "name": "install package: {{ item }}"
+    "name": "install packages: build-essential, curl, libbz2-dev, libffi-dev, liblzma-dev, libncurses5-dev, libncursesw5-dev, libreadline-dev, libsqlite3-dev, libssl-dev, llvm, make, tk-dev, wget, xz-utils, zlib1g-dev"
     "package":
       "name": "{{ item }}"
       "state": "present"
@@ -43,5 +43,22 @@
       "cmd": "~/.pyenv/bin/pyenv install 3.9.7"
       "creates": "~/.pyenv/versions/3.9.7"
     "name": "command: ~/.pyenv/bin/pyenv install 3.9.7"
+  - "file":
+      "dest": "~/bin/python"
+      "force": true
+      "src": "~/.pyenv/versions/3.9.7/bin/python"
+      "state": "link"
+    "name": "symlink ~/.pyenv/versions/3.9.7/bin/python -> ~/bin/python"
+  - "file":
+      "dest": "~/bin/pip"
+      "force": true
+      "src": "~/.pyenv/versions/3.9.7/bin/pip"
+      "state": "link"
+    "name": "symlink ~/.pyenv/versions/3.9.7/bin/pip -> ~/bin/pip"
+  - "become": true
+    "lineinfile":
+      "line": "export PATH=\"$HOME/bin:$PATH\""
+      "path": "/etc/environment"
+    "name": "line in file: /etc/environment"
   "vars_files":
   - "secrets/secrets.yml"
