@@ -15,6 +15,12 @@
       "state": "present"
       "update_cache": false
   - "become": true
+    "name": "install package: hplip"
+    "package":
+      "name": "hplip"
+      "state": "present"
+      "update_cache": false
+  - "become": true
     "name": "render template: cupsd.conf.j2"
     "template":
       "dest": "/etc/cups/cupsd.conf"

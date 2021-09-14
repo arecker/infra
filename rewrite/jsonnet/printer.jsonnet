@@ -5,6 +5,7 @@ local Template = import 'lib/template.jsonnet';
 local tasks = [
   Package(name='cups'),
   Package(name='avahi-daemon'),
+  Package(name='hplip'),
   Template(name='cupsd.conf.j2', dest='/etc/cups/cupsd.conf', become=true, owner='root', group='root', mode='0644'),
 ];
 
