@@ -1,7 +1,8 @@
 local Export = import 'lib/export.jsonnet';
 
-local Host(python=false, apt=true, ssh=true, user='alex', sudo='{{ secrets.sudo }}') = {
+local Host(python=false, patch=false, apt=true, ssh=true, user='alex', sudo='{{ secrets.sudo }}') = {
   apt:: apt,
+  patch:: patch,
   python:: python,
   ssh:: ssh,
   ansible_ssh_user: user,
@@ -10,8 +11,8 @@ local Host(python=false, apt=true, ssh=true, user='alex', sudo='{{ secrets.sudo 
 };
 
 local hosts = {
-  'chores.local': Host(python=true,),
-  'console.local': Host(python=true),
+  'chores.local': Host(python=true, patch=true),
+  'console.local': Host(python=true, patch=true),
   'diningroom.local': Host(user='recker', sudo='{{ secrets.diningroom.sudo }}'),
   'jenkins.local': Host(),
   'minecraft.local': Host(),
@@ -22,6 +23,9 @@ local hosts = {
   ),
   apt():: (
     [key for key in self.all() if self[key].apt == true]
+  ),
+  patch():: (
+    [key for key in self.all() if self[key].patch == true]
   ),
   python():: (
     [key for key in self.all() if self[key].python == true]

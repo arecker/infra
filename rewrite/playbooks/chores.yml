@@ -46,7 +46,7 @@
       "state": "link"
     "name": "symlink ~/.pyenv/versions/3.9.7/bin/gunicorn -> ~/bin/gunicorn"
   - "cron":
-      "job": "~/bin/launcher --config ~/src/chores/launcher.config"
+      "job": "PATH=\"$HOME/bin:$PATH\" launcher --config $HOME/src/chores/launcher.conf"
       "name": "chores site"
       "special_time": "reboot"
     "name": "cron: chores site"

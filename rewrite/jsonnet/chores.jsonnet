@@ -45,7 +45,7 @@ local gunicornSymlink = Symlink(
 
 local rebootCron = Cron(
   name='chores site',
-  command='~/bin/launcher --config ~/src/chores/launcher.config',
+  command='PATH="$HOME/bin:$PATH" launcher --config $HOME/src/chores/launcher.conf',
   specialTime='reboot'
 );
 
