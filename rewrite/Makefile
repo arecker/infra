@@ -39,6 +39,7 @@ $(PLAYBOOKS): $(JSONNET_TARGETS)
 
 .PHONY: clean
 clean:
+	@echo "==> cleaning project"
 	rm -rf $(JSONNET_TARGETS)
 	rm -rf $(BIN_TARGETS)
 	rm -rf tmp/*
