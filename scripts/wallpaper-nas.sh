@@ -6,6 +6,9 @@ log() {
 
 log "running wallpaper NAS sync from $(pwd)"
 
+log 'installing gphotos-sync'
+pip install gphotos-sync
+
 log 'validating that $WALLPAPER_SECRETS is set'
 if [[ -z "${WALLPAPER_SECRETS}" ]]; then
     log 'error!  $WALLPAPER_SECRETS" is not set!'
