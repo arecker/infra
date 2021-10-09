@@ -16,7 +16,7 @@ if [[ -z "${WALLPAPER_SECRETS}" ]]; then
 fi
 
 log "writing secret to secrets.json"
-echo "$WALLPAPER_SECRET" > secrets.json
+echo "$WALLPAPER_SECRETS" > secrets.json
 
 # FLASK_APP: 'app.py',
 # FLASK_ENV: 'production',
