@@ -18,6 +18,9 @@ fi
 log "writing secret to secrets.json"
 echo "$WALLPAPER_SECRETS" > secrets.json
 
+log "cleaning up secrets.json"
+rm secrets.json
+
 # FLASK_APP: 'app.py',
 # FLASK_ENV: 'production',
 # GPHOTOS_COMMAND_PATH: '$HOME/venvs/wallpaper/bin/gphotos-sync',
