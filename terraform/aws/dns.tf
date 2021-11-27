@@ -7,52 +7,6 @@ locals {
   ]
 }
 
-####################
-# reckerfamily.com #
-####################
-
-resource "aws_route53_zone" "reckerfamily_dot_com" {
-  name = "reckerfamily.com."
-}
-
-resource "aws_route53_record" "reckerfamily_dot_com_ns" {
-  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
-  name    = "reckerfamily.com"
-  type    = "NS"
-  ttl     = "172800"
-  records = [
-    "ns-215.awsdns-26.com.",
-    "ns-760.awsdns-31.net.",
-    "ns-1593.awsdns-07.co.uk.",
-    "ns-1173.awsdns-18.org."
-  ]
-}
-
-resource "aws_route53_record" "reckerfamily_dot_com_soa" {
-  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
-  name    = "reckerfamily.com"
-  type    = "SOA"
-  ttl     = "900"
-  records = [
-    "ns-215.awsdns-26.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-  ]
-}
-
-resource "aws_route53_record" "reckerfamily_dot_com_cookbook_cname" {
-  zone_id = "${aws_route53_zone.reckerfamily_dot_com.zone_id}"
-  name    = "cookbook.reckerfamily.com."
-  type    = "CNAME"
-  ttl     = "300"
-  records = [
-    "readthedocs.io."
-  ]
-}
-
-module "reckerfamily_dot_com_gmail" {
-  source    = "../modules/gmail"
-  zone_name = "reckerfamily.com."
-}
-
 ############################
 # tranquilitydesignsmn.com #
 ############################
