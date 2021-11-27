@@ -1,4 +1,4 @@
-PROJECTS := astuary aws blog bob tranquility wedding
+PROJECTS := aws bob tranquility wedding
 SECRETS := cloudflare digitalocean
 TERRAFORM := aws-personal.sh terraform
 
