@@ -1,4 +1,4 @@
-PROJECTS := $(shell find ./ -maxdepth 1 -type d -not -path ./ -not -path ./modules -not -path ./secrets)
+PROJECTS := astuary aws blog bob tranquility wedding
 SECRETS := cloudflare digitalocean
 TERRAFORM := aws-personal.sh terraform
 
