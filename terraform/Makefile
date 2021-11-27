@@ -1,4 +1,4 @@
-PROJECTS := aws bob tranquility wedding
+PROJECTS := aws tranquility wedding
 SECRETS := cloudflare digitalocean
 TERRAFORM := aws-personal.sh terraform
 
