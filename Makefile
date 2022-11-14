@@ -1,14 +1,30 @@
-JSONNET_FILES = $(wildcard jsonnet/*.jsonnet)
-JSONNET_TARGETS = $(patsubst jsonnet/%.jsonnet, %, $(JSONNET_FILES))
+.phony: all
+all: compile ansible
 
-# @echo JSONNET_FILES: $(JSONNET_FILES)
+.phony: compile
+compile:
+	@for source in $(wildcard jsonnet/*.jsonnet); do \
+		echo "==> compiling $$source" ;\
+		jsonnet -m . -S "$$source" ;\
+	done
 
-.PHONY: all clean $(JSONNET_TARGETS)
-all: $(JSONNET_TARGETS)
-
-$(JSONNET_TARGETS):
-	jsonnet -m $@ -S jsonnet/$@.jsonnet
-
+.phony: clean
 clean:
-	rm ansible/*.yml
-	rm ansible/hosts
+	@echo "==> cleaning jsonnet artifacts"
+	rm -f ./playbooks.yml
+	rm -f ./hosts.yml
+	@echo "==> cleaning python venv"
+	rm -rf ./venv
+
+venv/bin/ansible-playbook:
+	@echo "==> building python venv"
+	python -m venv ./venv
+	@echo "==> upgrading pip"
+	./venv/bin/pip install -q --upgrade pip
+	@echo "==> installing ansible"
+	./venv/bin/pip install -q --upgrade ansible
+
+.phony: ansible
+ansible: compile venv/bin/ansible-playbook
+	@echo "==> running ansible project"
+	ansible-playbook -i hosts.yml --vault-id infra@scripts/pass-vault-client.py playbooks.yml

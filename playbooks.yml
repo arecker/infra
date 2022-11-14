@@ -1,0 +1,93 @@
+---
+- "handlers":
+  - "become": true
+    "name": "restart ssh service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "ssh"
+      "scope": "system"
+      "state": "restarted"
+  - "become": true
+    "name": "restart fail2ban service"
+    "systemd":
+      "daemon_reload": true
+      "enabled": true
+      "name": "fail2ban"
+      "scope": "system"
+      "state": "restarted"
+  "hosts": "all"
+  "name": "base configuration"
+  "tasks":
+  - "become": true
+    "locale_gen":
+      "name": "en_US.UTF-8"
+      "state": "present"
+    "name": "install en_US.UTF-8 locale"
+  - "become": true
+    "name": "template: /etc/ssh/sshd_config"
+    "notify":
+    - "restart ssh service"
+    "template":
+      "dest": "/etc/ssh/sshd_config"
+      "group": "root"
+      "mode": "644"
+      "owner": "root"
+      "src": "sshd_config.j2"
+    "vars":
+      "variables": {}
+  - "become": false
+    "name": "template: ~/.ssh/authorized_keys"
+    "template":
+      "dest": "~/.ssh/authorized_keys"
+      "mode": "0700"
+      "src": "authorized_keys.j2"
+    "vars":
+      "variables":
+        "public_keys":
+        - "{{ secrets.public }}"
+        - "{{ secrets.jenkins.public }}"
+  - "become": true
+    "name": "package: fail2ban"
+    "package":
+      "name": "fail2ban"
+      "state": "present"
+      "update_cache": false
+  - "become": true
+    "name": "template: /etc/fail2ban/fail2ban.conf"
+    "notify":
+    - "restart fail2ban service"
+    "template":
+      "dest": "/etc/fail2ban/fail2ban.conf"
+      "group": "root"
+      "mode": "644"
+      "owner": "root"
+      "src": "fail2ban.conf.j2"
+    "vars":
+      "variables": {}
+  - "become": true
+    "name": "package: logwatch"
+    "package":
+      "name": "logwatch"
+      "state": "present"
+      "update_cache": false
+  - "become": false
+    "name": "template: ~/.profile"
+    "template":
+      "dest": "~/.profile"
+      "mode": "0700"
+      "src": "file.j2"
+    "vars":
+      "variables":
+        "content": ""
+  - "become": false
+    "name": "template: ~/.bashrc"
+    "template":
+      "dest": "~/.bashrc"
+      "mode": "0700"
+      "src": "bashrc.j2"
+    "vars":
+      "variables": {}
+  "vars_files": "secrets/secrets.yml"
+...
+

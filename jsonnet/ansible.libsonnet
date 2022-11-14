@@ -1,4 +1,12 @@
 {
+  locale(name=''):: {
+    name: 'install ' + name + ' locale',
+    become: true,
+    locale_gen: {
+      name: name,
+      state: 'present',
+    },
+  },
   package(name='', update=false):: {
     name: 'package: ' + name,
     become: true,
@@ -118,9 +126,9 @@
       name='service.j2',
       dest='~/.config/systemd/user/' + name + '.service',
       variables={
-        description: name + ' service',
-        command: command,
-        envFile: envFile,
+	description: name + ' service',
+	command: command,
+	envFile: envFile,
       }
     )
   ),
@@ -182,7 +190,7 @@
       'xz-utils',
       'zlib1g-dev',
     ]),
-    self.git(url='https://github.com/pyenv/pyenv.git', dest='~/.pyenv')
+    self.git(url='https://github.com/pyenv/pyenv.git', dest='~/.pyenv'),
   ],
   installPythonVersion(version_file=''):: (
     local version = std.format('{{lookup("file", "%s") }}', version_file);
@@ -190,9 +198,9 @@
     {
       name: 'install python version in ' + version_file,
       command: {
-        cmd: '~/.pyenv/bin/pyenv install ' + version,
-        creates: '~/.pyenv/versions/' + version
-      }
+	cmd: '~/.pyenv/bin/pyenv install ' + version,
+	creates: '~/.pyenv/versions/' + version,
+      },
     }
   ),
   installLauncher(path='~/bin/launcher'):: {

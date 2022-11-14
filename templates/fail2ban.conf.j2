@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+[DEFAULT]
+loglevel = INFO
+logtarget = STDERR
+syslogsocket = auto
+socket = /var/run/fail2ban/fail2ban.sock
+pidfile = /var/run/fail2ban/fail2ban.pid
+dbfile = /var/lib/fail2ban/fail2ban.sqlite3
+dbpurgeage = 1d
+dbmaxmatches = 10

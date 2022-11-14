@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-export $(cat $HOME/envs/chores.env | xargs) && $HOME/venvs/chores/bin/python $HOME/src/chores/chorebot.py

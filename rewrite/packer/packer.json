@@ -1,8 +1,0 @@
-{
-  "builders": [
-    {
-      "proxmox_url": "https://farm.local:8006/api2/json",
-      "type": "proxmox-clone"
-    }
-  ]
-}

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-MAX_RAM="2048M"
-MIN_RAM="1024M"
-
-COMMAND="cd $HOME/minecraft && java -Xmx${MAX_RAM} -Xms${MIN_RAM} -jar server.jar nogui"
-
-screen -S minecraft -dm bash -c "${COMMAND}"

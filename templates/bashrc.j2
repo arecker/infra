@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# Set prompt
+PS1="\u@\h:\w\$ "
