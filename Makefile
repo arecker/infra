@@ -27,4 +27,4 @@ venv/bin/ansible-playbook:
 .phony: ansible
 ansible: compile venv/bin/ansible-playbook
 	@echo "==> running ansible project"
-	ansible-playbook -i hosts.yml --vault-id infra@scripts/pass-vault-client.py playbooks.yml
+	venv/bin/ansible-playbook -i hosts.yml --vault-id infra@scripts/pass-vault-client.py playbooks.yml

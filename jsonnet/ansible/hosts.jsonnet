@@ -8,7 +8,7 @@ local Host = {
   all: {
     hosts: {
       'jenkins.local': Host,
-      ebonhawk: Host,
+      'minecraft.local': Host,
     },
   },
 }
