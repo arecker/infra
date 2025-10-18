@@ -1,0 +1,47 @@
+---
+"Parameters":
+  "BucketName":
+    "Type": "String"
+"Resources":
+  "Bucket":
+    "Properties":
+      "BucketName":
+        "Ref": "BucketName"
+    "Type": "AWS::S3::Bucket"
+  "User":
+    "Properties": {}
+    "Type": "AWS::IAM::User"
+  "UserPolicy":
+    "Properties":
+      "PolicyDocument":
+        "Statement":
+        - "Action":
+          - "s3:GetObject"
+          - "s3:PutObject"
+          - "s3:DeleteObject"
+          - "s3:ListBucket"
+          "Effect": "Allow"
+          "Resource":
+          - "Fn::Join":
+            - ""
+            -
+              - "arn:aws:s3:::"
+              - "Ref": "Bucket"
+          - "Fn::Join":
+            - ""
+            -
+              - "arn:aws:s3:::"
+              - "Ref": "Bucket"
+              - "/*"
+        "Version": "2012-10-17"
+      "PolicyName":
+        "Fn::Join":
+        - ""
+        -
+          - "Ref": "AWS::StackName"
+          - "-policy"
+      "UserName":
+        "Ref": "User"
+    "Type": "AWS::IAM::UserPolicy"
+...
+
