@@ -43,21 +43,33 @@ local PrivateKey(filename='', target='', user='') = (
   }
 );
 
+local Packages(names=[]) = (
+  {
+    become: true,
+    package: {
+      name: '{{ item }}',
+      state: 'present',
+    },
+    with_items: names,
+  }
+);
+
 {
   'config.yml': std.manifestYamlDoc([
-    PlayBook(
-      name='base',
-      hosts='*.local',
-      tasks=[
-        PublicKey(filename='personal.pub', user='alex'),
-        PublicKey(filename='personal.pub', user='jenkins'),
-      ],
-    ),
+    // PlayBook(
+    //   name='base',
+    //   hosts='*.local',
+    //   tasks=[
+    //     PublicKey(filename='personal.pub', user='alex'),
+    //     PublicKey(filename='personal.pub', user='jenkins'),
+    //   ],
+    // ),
     PlayBook(
       name='jenkins',
       hosts='jenkins.local',
       tasks=[
         PrivateKey(filename='jenkins.priv', target='/var/lib/jenkins/.ssh/id_rsa', user='jenkins'),
+        Packages(names=['curl', 'git', 'bash']),
       ],
     ),
   ]),
