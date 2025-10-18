@@ -13,3 +13,7 @@ venv/bin/python:
 .PHONY: clean
 clean:
 	rm -rf ./venv
+
+.PHONY: apply
+apply: install config
+	./venv/bin/ansible-playbook -i HOSTS --vault-id infra@scripts/pass-vault-client.py config.yml

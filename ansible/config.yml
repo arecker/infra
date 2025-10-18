@@ -1,0 +1,28 @@
+- "hosts": "*.local"
+  "tasks":
+  - "authorized_key":
+      "key": "{{ lookup('file', 'keys/personal.pub') }}"
+      "state": "present"
+      "user": "alex"
+    "become": true
+  - "authorized_key":
+      "key": "{{ lookup('file', 'keys/personal.pub') }}"
+      "state": "present"
+      "user": "jenkins"
+    "become": true
+  "vars":
+    "ansible_python_interpreter": "/usr/bin/python3"
+    "ansible_user": "jenkins"
+- "hosts": "jenkins.local"
+  "tasks":
+  - "become": true
+    "copy":
+      "dest": "/var/lib/jenkins/.ssh/id_rsa"
+      "group": "jenkins"
+      "mode": "0600"
+      "owner": "jenkins"
+      "src": "keys/jenkins.priv"
+      "state": "present"
+  "vars":
+    "ansible_python_interpreter": "/usr/bin/python3"
+    "ansible_user": "jenkins"
