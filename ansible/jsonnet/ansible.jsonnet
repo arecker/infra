@@ -54,6 +54,16 @@ local Packages(names=[]) = (
   }
 );
 
+local Git(url='', target='', version='') = (
+  {
+    git: {
+      repo: url,
+      dest: target,
+      version: version,
+    }
+  }
+);
+
 {
   'config.yml': std.manifestYamlDoc([
     // PlayBook(
@@ -70,6 +80,7 @@ local Packages(names=[]) = (
       tasks=[
         PrivateKey(filename='jenkins.priv', target='/var/lib/jenkins/.ssh/id_rsa', user='jenkins'),
         Packages(names=['curl', 'git', 'bash']),
+        Git(url='https://github.com/asdf-vm/asdf.git', target='~/.asdf', version='v0.18.0'),
       ],
     ),
   ]),

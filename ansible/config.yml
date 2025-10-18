@@ -16,6 +16,10 @@
     - "curl"
     - "git"
     - "bash"
+  - "git":
+      "dest": "~/.asdf"
+      "repo": "https://github.com/asdf-vm/asdf.git"
+      "version": "v0.18.0"
   "vars":
     "ansible_python_interpreter": "/usr/bin/python3"
     "ansible_user": "jenkins"
